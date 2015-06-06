@@ -1,0 +1,86 @@
+<WG_CityMod version="2">
+  <population>
+    <ResidentialLow_1 modifier="20" />
+    <ResidentialLow_2 modifier="25" />
+    <ResidentialLow_3 modifier="30" />
+    <ResidentialLow_4 modifier="35" />
+    <ResidentialLow_5 modifier="40" />
+    <ResidentialHigh_1 modifier="60" />
+    <ResidentialHigh_2 modifier="100" />
+    <ResidentialHigh_3 modifier="130" />
+    <ResidentialHigh_4 modifier="150" />
+    <ResidentialHigh_5 modifier="160" />
+    <CommercialLow_1 modifier="50" />
+    <CommercialLow_2 modifier="75" />
+    <CommercialLow_3 modifier="100" />
+    <CommercialHigh_1 modifier="75" />
+    <CommercialHigh_2 modifier="100" />
+    <CommercialHigh_3 modifier="125" />
+    <Office_1 modifier="50" />
+    <Office_2 modifier="110" />
+    <Office_3 modifier="170" />
+    <Industry_1 modifier="100" />
+    <Industry_2 modifier="150" />
+    <Industry_3 modifier="200" />
+    <IndustryFarming_1 modifier="100" />
+    <IndustryForestry_1 modifier="100" />
+    <IndustryOre_1 modifier="150" />
+    <IndustryOil_1 modifier="150" />
+  </population>
+  <consumption>
+    <ResidentialLow_1 power="60" water="120" sewage="120" garbage="100" wealth="120" />
+    <ResidentialLow_2 power="60" water="110" sewage="110" garbage="100" wealth="240" />
+    <ResidentialLow_3 power="60" water="100" sewage="100" garbage="60" wealth="360" />
+    <ResidentialLow_4 power="60" water="90" sewage="90" garbage="40" wealth="450" />
+    <ResidentialLow_5 power="60" water="80" sewage="80" garbage="20" wealth="560" />
+    <ResidentialHigh_1 power="30" water="60" sewage="60" garbage="70" wealth="70" />
+    <ResidentialHigh_2 power="28" water="55" sewage="55" garbage="70" wealth="100" />
+    <ResidentialHigh_3 power="26" water="50" sewage="50" garbage="40" wealth="130" />
+    <ResidentialHigh_4 power="24" water="45" sewage="45" garbage="30" wealth="160" />
+    <ResidentialHigh_5 power="22" water="40" sewage="40" garbage="20" wealth="200" />
+    <CommercialLow_1 power="50" water="60" sewage="60" garbage="100" wealth="520" />
+    <CommercialLow_2 power="60" water="80" sewage="80" garbage="50" wealth="800" />
+    <CommercialLow_3 power="70" water="100" sewage="100" garbage="25" wealth="1120" />
+    <CommercialHigh_1 power="30" water="70" sewage="70" garbage="50" wealth="280" />
+    <CommercialHigh_2 power="30" water="60" sewage="60" garbage="50" wealth="560" />
+    <CommercialHigh_3 power="30" water="50" sewage="50" garbage="25" wealth="800" />
+    <Office_1 power="80" water="90" sewage="90" garbage="100" wealth="140" />
+    <Office_2 power="100" water="100" sewage="100" garbage="50" wealth="200" />
+    <Office_3 power="120" water="110" sewage="110" garbage="25" wealth="300" />
+    <Industry_1 power="150" water="100" sewage="100" garbage="200" wealth="160" />
+    <Industry_2 power="200" water="130" sewage="130" garbage="150" wealth="200" />
+    <Industry_3 power="250" water="160" sewage="160" garbage="100" wealth="240" />
+    <IndustryFarming_1 power="110" water="350" sewage="350" garbage="150" wealth="180" />
+    <IndustryForestry_1 power="90" water="60" sewage="60" garbage="100" wealth="140" />
+    <IndustryOre_1 power="300" water="250" sewage="250" garbage="150" wealth="300" />
+    <IndustryOil_1 power="350" water="200" sewage="200" garbage="200" wealth="360" />
+  </consumption>
+  <pollution>
+    <ResidentialLow_1 ground="0" noise="0" />
+    <ResidentialLow_2 ground="0" noise="0" />
+    <ResidentialLow_3 ground="0" noise="0" />
+    <ResidentialLow_4 ground="0" noise="0" />
+    <ResidentialLow_5 ground="0" noise="0" />
+    <ResidentialHigh_1 ground="0" noise="0" />
+    <ResidentialHigh_2 ground="0" noise="0" />
+    <ResidentialHigh_3 ground="0" noise="0" />
+    <ResidentialHigh_4 ground="0" noise="0" />
+    <ResidentialHigh_5 ground="0" noise="0" />
+    <CommercialLow_1 ground="0" noise="140" />
+    <CommercialLow_2 ground="0" noise="120" />
+    <CommercialLow_3 ground="0" noise="100" />
+    <CommercialHigh_1 ground="0" noise="200" />
+    <CommercialHigh_2 ground="0" noise="175" />
+    <CommercialHigh_3 ground="0" noise="150" />
+    <Office_1 ground="0" noise="0" />
+    <Office_2 ground="0" noise="0" />
+    <Office_3 ground="0" noise="0" />
+    <Industry_1 ground="300" noise="300" />
+    <Industry_2 ground="200" noise="200" />
+    <Industry_3 ground="150" noise="150" />
+    <IndustryFarming_1 ground="0" noise="200" />
+    <IndustryForestry_1 ground="0" noise="200" />
+    <IndustryOre_1 ground="400" noise="500" />
+    <IndustryOil_1 ground="500" noise="400" />
+  </pollution>
+</WG_CityMod>
