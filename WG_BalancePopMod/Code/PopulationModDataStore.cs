@@ -4,23 +4,17 @@ namespace WG_BalancedPopMod
 {
     public class DataStore
     {
-        ~DataStore()
-        {
-
-        }
         public const int PEOPLE = 0;
-
-        public const int POWER = 1; // Rescaled, rest require secale as level 5 is right for perth
-        public const int WATER = 2; //
-        public const int SEWAGE = 3; //
-        public const int GARBAGE = 4; //
-        public const int INCOME = 5; //
-
+        public const int POWER = 1;
+        public const int WATER = 2;
+        public const int SEWAGE = 3;
+        public const int GARBAGE = 4;
+        public const int INCOME = 5;
         public const int GROUND_POLLUTION = 6;
         public const int NOISE_POLLUTION = 7;
 
 
-        // Water is consumed in the process
+        // Water is consumed in the process of watering the lawns
         public static int[][] residentialLow = { new int [] {9, 13, 35, 25, 16, 100, 0, 1},
                                                  new int [] {9, 16, 37, 27, 15, 120, 0, 1},
                                                  new int [] {9, 19, 40, 30, 14, 140, 0, 1},

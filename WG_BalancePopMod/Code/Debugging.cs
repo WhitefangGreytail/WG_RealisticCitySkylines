@@ -19,21 +19,21 @@ namespace WG_BalancedPopMod
         // Write a message to the panel
         public static void panelMessage(string text)
         {
-            DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, text);
+            DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "WG_RealisticCity: " + text);
         }
 
 
         // Write a warning to the panel
         public static void panelWarning(string text)
         {
-            DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, text);
+            DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, "WG_RealisticCity: " + text);
         }
 
 
         // Write an error to the panel
         public static void panelError(string text)
         {
-            DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, text);
+            DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, "WG_RealisticCity: " + text);
         }
 
     }

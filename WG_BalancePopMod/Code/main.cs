@@ -47,116 +47,16 @@ namespace WG_BalancedPopMod
                 readFromXML();
                 swapAI();
                 doubleCheckHousing();
-                
                 sw.Stop();
-                Debugging.panelMessage("Successfully Loaded WG_RealisticCity in " + sw.ElapsedMilliseconds + " ms.");
+
+                Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
             }
         }
 
 
         /// <summary>
-        /// This is here because the mods are only loaded in and activated once the city is loaded in. The loading sequence is too late to prevent citizenIndex units being allocated to the building
+        ///
         /// </summary>
-        public void doubleCheckHousing()
-        {
-            // Grab the list of residential buildings that are in the city
-
-            BuildingManager buildings = (BuildingManager)((object)UnityEngine.Object.FindObjectOfType(typeof(BuildingManager)));
-            // CitizenUnit is the data store for the family, citizen0-4 in a struct which can't be changed. No way to change family size beyond 5 :(
-            CitizenManager citizens = (CitizenManager)((object)UnityEngine.Object.FindObjectOfType(typeof(CitizenManager)));
-            Building[] buffer = buildings.m_buildings.m_buffer;
-
-            for (int i = 1; i < buffer.Length; i++)
-            {
-                checkResidentialHouseholds(buildings, citizens, i);
-            } // end for
-        }
-
-
-        /// <summary>
-        /// Check the household numbers
-        /// </summary>
-        /// <param name="buildings"></param>
-        /// <param name="citizens"></param>
-        /// <param name="i"></param>
-        private void checkResidentialHouseholds(BuildingManager buildings, CitizenManager citizens, int i)
-        {
-            Building building = buildings.m_buildings.m_buffer[i];
-            BuildingInfo info = building.Info;
-            int width = building.Width;
-            int length = building.Length;
-
-            if ((info != null) && (info.m_buildingAI is ResidentialBuildingAI))
-            {
-                try
-                {
-                    int modHomeCount = ((ResidentialBuildingAI)info.m_buildingAI).CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length);
-
-                    // If the modded home count is meant to be less than the original
-                    if (modHomeCount < Game_ResidentialAI.CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length, info.m_class.m_subService, info.m_class.m_level))
-                    {
-                        int houseHoldCount = 0;
-                        uint citizenIndex = building.m_citizenUnits;
-                        while (houseHoldCount < modHomeCount)  // Fast forward
-                        {
-                            citizenIndex = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)].m_nextUnit;
-                            houseHoldCount++;
-                        }
-
-                        // Disconnect the rest
-                        while (citizenIndex != 0u)
-                        {
-                            CitizenUnit c = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)];
-
-                            citizens.ReleaseUnits(citizenIndex);
-                            citizenIndex = c.m_nextUnit;
-
-                            // Reset the flags which could make the game think this group has connections to a home
-                            c.m_nextUnit = 0u;
-                            c.m_building = 0;
-                            c.m_flags = CitizenUnit.Flags.None;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debugging.panelWarning("Residential building at index " + i + " could not be successfully changed.");
-                }
-            }
-        }
-
-
-        private void swapAI()
-        {
-            Dictionary<Type, Type> componentRemap = new Dictionary<Type, Type>
-			{
-                {
-					typeof(IndustrialBuildingAI),
-					typeof(IndustrialBuildingAIMod)
-				},
-                {
-					typeof(ResidentialBuildingAI),
-					typeof(ResidentialBuildingAIMod)
-				},
-                {
-					typeof(OfficeBuildingAI),
-					typeof(OfficeBuildingAIMod)
-				},
-                {
-					typeof(CommercialBuildingAI),
-					typeof(CommercialBuildingAIMod)
-				},
-            };
-
-            uint buildingcount = (uint) PrefabCollection<BuildingInfo>.PrefabCount();
-            for( uint count = 0u; count < buildingcount; count++)
-            {
-                BuildingInfo prefab = PrefabCollection<BuildingInfo>.GetPrefab(count);
-                AdjustBuidingAI(prefab, componentRemap);
-            }
-        }
-
-
         private static void readFromXML()
         {
             string directory = System.Environment.CurrentDirectory + Path.DirectorySeparatorChar;
@@ -192,6 +92,45 @@ namespace WG_BalancedPopMod
         }
 
 
+        /// <summary>
+        /// Swap the AI for buildings
+        /// </summary>
+        private void swapAI()
+        {
+            Dictionary<Type, Type> componentRemap = new Dictionary<Type, Type>
+			{
+                {
+					typeof(IndustrialBuildingAI),
+					typeof(IndustrialBuildingAIMod)
+				},
+                {
+					typeof(ResidentialBuildingAI),
+					typeof(ResidentialBuildingAIMod)
+				},
+                {
+					typeof(OfficeBuildingAI),
+					typeof(OfficeBuildingAIMod)
+				},
+                {
+					typeof(CommercialBuildingAI),
+					typeof(CommercialBuildingAIMod)
+				},
+            };
+
+            uint buildingcount = (uint)PrefabCollection<BuildingInfo>.PrefabCount();
+            for (uint count = 0u; count < buildingcount; count++)
+            {
+                BuildingInfo prefab = PrefabCollection<BuildingInfo>.GetPrefab(count);
+                AdjustBuidingAI(prefab, componentRemap);
+            }
+        }
+
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="buildinginfo"></param>
+        /// <param name="componentRemap"></param>
         private void AdjustBuidingAI(BuildingInfo buildinginfo, Dictionary<Type, Type> componentRemap)
         {
             if (buildinginfo != null && buildinginfo.GetComponent<BuildingAI>() != null)
@@ -206,9 +145,84 @@ namespace WG_BalancedPopMod
                     buildinginfo.m_buildingAI = buildingAI;
                     buildingAI.InitializePrefab();
                 }
-                else
+            }
+        }
+
+
+        /// <summary>
+        /// This is here because the mods are only loaded in and activated once the city is loaded in. The loading sequence is too late to prevent citizenIndex units being allocated to the building
+        /// </summary>
+        public void doubleCheckHousing()
+        {
+            // Grab the list of residential buildings that are in the city
+            BuildingManager buildings = (BuildingManager)((object)UnityEngine.Object.FindObjectOfType(typeof(BuildingManager)));
+            // CitizenUnit is the data store for the family, citizen0-4 in a struct which can't be changed. No way to change family size beyond 5 :(
+            CitizenManager citizens = (CitizenManager)((object)UnityEngine.Object.FindObjectOfType(typeof(CitizenManager)));
+            Building[] buffer = buildings.m_buildings.m_buffer;
+            int failedCount = 0;
+
+            for (int i = 1; i < buffer.Length; i++)
+            {
+                try
                 {
-                    Debugging.writeDebugToFile("Could not getvalue for " + buildinginfo.name);
+                    checkResidentialHouseholds(buildings, citizens, i);
+                }
+#pragma warning disable
+                catch (Exception e)
+#pragma warning enable
+                {
+                    failedCount++;
+                }
+            } // end for
+
+            if (failedCount > 0)
+            {
+                Debugging.panelWarning("Number of failed residential changes : " + failedCount);
+            }
+        }
+
+
+        /// <summary>
+        /// Check the household numbers
+        /// </summary>
+        /// <param name="buildings"></param>
+        /// <param name="citizens"></param>
+        /// <param name="i"></param>
+        private void checkResidentialHouseholds(BuildingManager buildings, CitizenManager citizens, int i)
+        {
+            Building building = buildings.m_buildings.m_buffer[i];
+            BuildingInfo info = building.Info;
+            int width = building.Width;
+            int length = building.Length;
+
+            if ((info != null) && (info.m_buildingAI is ResidentialBuildingAI))
+            {
+                int modHomeCount = ((ResidentialBuildingAI)info.m_buildingAI).CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length);
+
+                // If the modded home count is meant to be less than the original
+                if (modHomeCount < Game_ResidentialAI.CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length, info.m_class.m_subService, info.m_class.m_level))
+                {
+                    int houseHoldCount = 0;
+                    uint citizenIndex = building.m_citizenUnits;
+                    while (houseHoldCount < modHomeCount)  // Fast forward
+                    {
+                        citizenIndex = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)].m_nextUnit;
+                        houseHoldCount++;
+                    }
+
+                    // Disconnect the rest
+                    while (citizenIndex != 0u)
+                    {
+                        CitizenUnit c = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)];
+
+                        citizens.ReleaseUnits(citizenIndex);
+                        citizenIndex = c.m_nextUnit;
+
+                        // Reset the flags which could make the game think this group has connections to a home
+                        c.m_nextUnit = 0u;
+                        c.m_building = 0;
+                        c.m_flags = CitizenUnit.Flags.None;
+                    }
                 }
             }
         }
