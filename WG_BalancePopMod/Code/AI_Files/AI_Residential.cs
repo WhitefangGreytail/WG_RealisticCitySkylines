@@ -24,7 +24,7 @@ namespace WG_BalancedPopMod
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
             int[] array;
-            int approxFloorCount = 1;
+//            int approxFloorCount = 1;
 
             if(@class.m_subService == ItemClass.SubService.ResidentialLow)
             {
@@ -37,7 +37,7 @@ namespace WG_BalancedPopMod
             int num = array[DataStore.PEOPLE];
             int householdCount = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
 
-            Debugging.writeDebugToFile("Height: " + this.m_info.m_size.z + ", household: " + householdCount);
+//            Debugging.writeDebugToFile("Height: " + this.m_info.m_size.z + ", household: " + householdCount);
             return householdCount;
         }
 

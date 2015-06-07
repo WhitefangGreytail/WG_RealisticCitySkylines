@@ -78,8 +78,7 @@ namespace WG_BalancedPopMod
             }
             catch (Exception e)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
-                throw new NotSupportedException();
+                Debugging.panelMessage(e.Message);
             }
             rootNode.AppendChild(popNode);
             rootNode.AppendChild(consumeNode);
@@ -98,7 +97,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
+                    Debugging.panelMessage(e.Message);
                 }
             }
 
@@ -108,7 +107,7 @@ namespace WG_BalancedPopMod
             }
             catch (Exception e)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
+                Debugging.panelMessage(e.Message);
                 return false;  // Only time when we say there's an error
             }
 
@@ -300,7 +299,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readPollutionNode: " + name + " " + e.Message);
+                    Debugging.panelMessage("readPollutionNode: " + name + " " + e.Message);
                 }
             }
         }
@@ -371,7 +370,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readConsumptionNode: " + e.Message);
+                    Debugging.panelMessage("readConsumptionNode: " + e.Message);
                 }
             }
         }
@@ -437,7 +436,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readPopulationNode: " + e.Message);
+                    Debugging.panelMessage("readPopulationNode: " + e.Message);
                 }
             }
         }

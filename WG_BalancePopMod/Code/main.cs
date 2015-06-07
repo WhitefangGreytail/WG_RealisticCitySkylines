@@ -16,7 +16,6 @@ namespace WG_BalancedPopMod
     public class LoadingExtension : LoadingExtensionBase
     {
         public const String XML_FILE = "WG_RealisticCity.xml";
-        public const String OLD_XML_FILE = "WG_BalancePopMod.xml";
 
 
         public override void OnLevelUnloading()
@@ -25,14 +24,8 @@ namespace WG_BalancedPopMod
             {
                 WG_XMLBaseVersion xml = new XML_VersionTwo();
                 xml.writeXML(System.Environment.CurrentDirectory + Path.DirectorySeparatorChar + XML_FILE);
-
-                string oldXmlFileName = System.Environment.CurrentDirectory + Path.DirectorySeparatorChar + OLD_XML_FILE;
-                if (File.Exists(oldXmlFileName))
-                {
-                    System.IO.File.Move(oldXmlFileName, oldXmlFileName + ".old");
-                }
             }
-            catch (NullReferenceException e)
+            catch (Exception e)
             {
                 Debugging.panelMessage(e.Message);
             }
@@ -70,11 +63,6 @@ namespace WG_BalancedPopMod
                 if (File.Exists(xmlFileName))
                 {
                     reader = new XML_VersionTwo();
-                }
-                else
-                {
-                    xmlFileName = directory + OLD_XML_FILE;
-                    reader = new XML_VersionOne();
                 }
 
                 if (reader != null)

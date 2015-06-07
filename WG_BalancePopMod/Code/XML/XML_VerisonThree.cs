@@ -12,6 +12,9 @@ using ColossalFramework.Plugins;
 
 namespace WG_BalancedPopMod
 {
+    /// <summary>
+    /// This is to be used to allow floating point for XML values
+    /// </summary>
     public class XML_VersionThree : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
