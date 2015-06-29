@@ -21,23 +21,31 @@ namespace WG_BalancedPopMod
         /// <returns></returns>
         public override int CalculateHomeCount(Randomizer r, int width, int length)
         {
-            ItemClass @class = this.m_info.m_class;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
+            ItemClass item = this.m_info.m_class;
+            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
             int[] array;
 //            int approxFloorCount = 1;
+//            bool aprint = false;
 
-            if(@class.m_subService == ItemClass.SubService.ResidentialLow)
+            if(item.m_subService == ItemClass.SubService.ResidentialLow)
             {
                 array = DataStore.residentialLow[level];
             }
             else
             {
                 array = DataStore.residentialHigh[level];
+//                approxFloorCount = ((int)this.m_info.m_size.y) / 3;
+//                aprint = true;
             }
             int num = array[DataStore.PEOPLE];
             int householdCount = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
-
-//            Debugging.writeDebugToFile("Height: " + this.m_info.m_size.z + ", household: " + householdCount);
+/*
+            if (aprint)
+            {
+                Vector3 v = this.m_info.m_size;
+                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount);
+            }
+*/
             return householdCount;
         }
 

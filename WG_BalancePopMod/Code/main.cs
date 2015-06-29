@@ -17,6 +17,10 @@ namespace WG_BalancedPopMod
     {
         public const String XML_FILE = "WG_RealisticCity.xml";
 
+        // This can be with the user directory, or the directory where the exe file exists.
+        // A bias is given to the root directory with the exe. The check will be for the user directory though
+        private string currentFileLocation = ""; 
+
 
         public override void OnLevelUnloading()
         {
@@ -50,32 +54,37 @@ namespace WG_BalancedPopMod
         /// <summary>
         ///
         /// </summary>
-        private static void readFromXML()
+        private void readFromXML()
         {
-            string directory = System.Environment.CurrentDirectory + Path.DirectorySeparatorChar;
-            string xmlFileName = directory + XML_FILE;
-            WG_XMLBaseVersion reader = null;
+            // Check the exe directory first
+            currentFileLocation = ColossalFramework.IO.DataLocation.executableDirectory + Path.DirectorySeparatorChar + XML_FILE;
+            bool fileAvailable = File.Exists(currentFileLocation);
 
-            // Load in from XML - Designed to be flat file for ease
-            XmlDocument doc = new XmlDocument();
-            try
+            if (!fileAvailable)
             {
-                if (File.Exists(xmlFileName))
-                {
-                    reader = new XML_VersionTwo();
-                }
+                // Switch to default which is the cities skylines in the application data area.
+                currentFileLocation = ColossalFramework.IO.DataLocation.localApplicationData + Path.DirectorySeparatorChar + XML_FILE;
+                fileAvailable = File.Exists(currentFileLocation);
+            }
 
-                if (reader != null)
+            if (fileAvailable)
+            {
+                // Load in from XML - Designed to be flat file for ease
+                WG_XMLBaseVersion reader = null;
+                XmlDocument doc = new XmlDocument();
+                try
                 {
-                    doc.Load(xmlFileName);
                     // TODO: Determine version before obtaining the reader
+                    doc.Load(currentFileLocation);
+
+                    reader = new XML_VersionTwo();
                     reader.readXML(doc);
                 }
-            }
-            catch (Exception e)
-            {
-                // Game will now use defaults
-                Debugging.panelMessage(e.Message);
+                catch (Exception e)
+                {
+                    // Game will now use defaults
+                    Debugging.panelMessage(e.Message);
+                }
             }
         }
 
@@ -91,6 +100,12 @@ namespace WG_BalancedPopMod
 					typeof(IndustrialBuildingAI),
 					typeof(IndustrialBuildingAIMod)
 				},
+/*
+                {
+					typeof(IndustrialExtractorAI),
+					typeof(IndustrialExtractorAIMod)
+				},
+*/
                 {
 					typeof(ResidentialBuildingAI),
 					typeof(ResidentialBuildingAIMod)
@@ -102,7 +117,7 @@ namespace WG_BalancedPopMod
                 {
 					typeof(CommercialBuildingAI),
 					typeof(CommercialBuildingAIMod)
-				},
+				}
             };
 
             uint buildingcount = (uint)PrefabCollection<BuildingInfo>.PrefabCount();
@@ -155,7 +170,7 @@ namespace WG_BalancedPopMod
                 {
                     checkResidentialHouseholds(buildings, citizens, i);
                 }
-#pragma warning disable
+#pragma warning disable  // Stop complaining compiler!
                 catch (Exception e)
 #pragma warning enable
                 {
