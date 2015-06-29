@@ -12,9 +12,6 @@ using ColossalFramework.Plugins;
 
 namespace WG_BalancedPopMod
 {
-    /// <summary>
-    /// This is to be used to allow floating point for XML values
-    /// </summary>
     public class XML_VersionThree : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
@@ -22,6 +19,10 @@ namespace WG_BalancedPopMod
         private const string pollutionNodeName = "pollution";
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="doc"></param>
         public override void readXML(XmlDocument doc)
         {
             foreach (XmlNode node in doc.DocumentElement.ChildNodes)
@@ -41,6 +42,12 @@ namespace WG_BalancedPopMod
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fullPathFileName"></param>
+        /// <returns></returns>
         public override bool writeXML(string fullPathFileName)
         {
             XmlDocument xmlDoc = new XmlDocument();
@@ -71,11 +78,13 @@ namespace WG_BalancedPopMod
             }
             catch (Exception e)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
-                throw new NotSupportedException();
+                Debugging.panelMessage(e.Message);
             }
+            
+            createPopulationNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(popNode);
             rootNode.AppendChild(consumeNode);
+            createPollutionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(pollutionNode);
 
             if (File.Exists(fullPathFileName))
@@ -91,7 +100,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
+                    Debugging.panelMessage(e.Message);
                 }
             }
 
@@ -101,14 +110,45 @@ namespace WG_BalancedPopMod
             }
             catch (Exception e)
             {
-                DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, e.Message);
+                Debugging.panelMessage(e.Message);
                 return false;  // Only time when we say there's an error
             }
 
             return true;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="rootNode"></param>
+        private void createPopulationNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
+        {
+            XmlComment comment = xmlDoc.CreateComment("Sample XML document");
+            rootNode.AppendChild(comment);
+        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="rootNode"></param>
+        private void createPollutionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
+        {
+            XmlComment comment = xmlDoc.CreateComment("Sample XML document");
+            rootNode.AppendChild(comment);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="array"></param>
+        /// <param name="rootPopNode"></param>
+        /// <param name="consumNode"></param>
+        /// <param name="pollutionNode"></param>
         public void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
@@ -118,6 +158,16 @@ namespace WG_BalancedPopMod
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="array"></param>
+        /// <param name="level"></param>
+        /// <param name="rootPopNode"></param>
+        /// <param name="consumNode"></param>
+        /// <param name="pollutionNode"></param>
         public void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
             rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array[DataStore.PEOPLE]));
@@ -127,9 +177,14 @@ namespace WG_BalancedPopMod
         }
 
 
-        /**
-         * 
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="level"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
         public XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int value)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
@@ -142,9 +197,18 @@ namespace WG_BalancedPopMod
         }
 
 
-        /**
-         * 
-         */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="level"></param>
+        /// <param name="power"></param>
+        /// <param name="water"></param>
+        /// <param name="sewage"></param>
+        /// <param name="garbage"></param>
+        /// <param name="wealth"></param>
+        /// <returns></returns>
         public XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
@@ -171,6 +235,16 @@ namespace WG_BalancedPopMod
             return node;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="level"></param>
+        /// <param name="ground"></param>
+        /// <param name="noise"></param>
+        /// <returns></returns>
         public XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
@@ -187,7 +261,10 @@ namespace WG_BalancedPopMod
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pollutionNode"></param>
         private void readPollutionNode(XmlNode pollutionNode)
         {
             string name = "";
@@ -247,12 +324,16 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readPollutionNode: " + name + " " + e.Message);
+                    Debugging.panelMessage("readPollutionNode: " + name + " " + e.Message);
                 }
             }
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="consumeNode"></param>
         private void readConsumptionNode(XmlNode consumeNode)
         {
             foreach (XmlNode node in consumeNode.ChildNodes)
@@ -314,12 +395,16 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readConsumptionNode: " + e.Message);
+                    Debugging.panelMessage("readConsumptionNode: " + e.Message);
                 }
             }
         }
 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="popNode"></param>
         private void readPopulationNode(XmlNode popNode)
         {
             foreach (XmlNode node in popNode.ChildNodes)
@@ -376,11 +461,21 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, "readPopulationNode: " + e.Message);
+                    Debugging.panelMessage("readPopulationNode: " + e.Message);
                 }
             }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="power"></param>
+        /// <param name="water"></param>
+        /// <param name="sewage"></param>
+        /// <param name="garbage"></param>
+        /// <param name="wealth"></param>
         private void setConsumptionRates(int[] p, int power, int water, int sewage, int garbage, int wealth)
         {
             p[DataStore.POWER] = power;
@@ -390,6 +485,13 @@ namespace WG_BalancedPopMod
             p[DataStore.INCOME] = wealth;
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <param name="ground"></param>
+        /// <param name="noise"></param>
         private void setPollutionRates(int[] p, int ground, int noise)
         {
             p[DataStore.GROUND_POLLUTION] = ground;

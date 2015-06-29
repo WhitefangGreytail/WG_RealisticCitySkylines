@@ -5,7 +5,7 @@ namespace WG_BalancedPopMod
     public class DataStore
     {
         // Array indexes
-        public const int PEOPLE = 0;
+        public const int PEOPLE = 0;  // This will store the dividor of floorspace per household
         public const int POWER = 1;
         public const int WATER = 2;
         public const int SEWAGE = 3;
@@ -46,9 +46,16 @@ namespace WG_BalancedPopMod
                                            new int [] {200, 200, 160, 180, 46, 200, 25, 50} };
 
         // Preparation for extraction vs refinement
-        public static int[][] industry_farm = { new int [] { 50, 100, 300, 400, 40, 180, 0, 200} };
-        public static int[][] industry_forest = { new int [] { 50, 100, 50, 65, 30, 140, 0, 200} };
-        public static int[][] industry_ore = { new int [] { 150, 200, 200, 230, 60, 250, 400, 500} };
-        public static int[][] industry_oil = { new int[] { 150, 250, 200, 270, 60, 325, 500, 400 } };
+        public static int[][] industry_farm = { //new int [] { 50, 100, 300, 400, 40, 180, 0, 200},
+                                                new int [] { 50, 100, 300, 400, 40, 180, 0, 200} };
+
+        public static int[][] industry_forest = { //new int [] { 50, 100, 50, 65, 30, 140, 0, 200},
+                                                  new int [] { 50, 100, 50, 65, 30, 140, 0, 200} };
+
+        public static int[][] industry_ore = { //new int [] { 150, 200, 200, 230, 60, 250, 400, 500},
+                                               new int [] { 150, 200, 200, 230, 60, 250, 400, 500} };
+
+        public static int[][] industry_oil = { //new int[] { 150, 250, 200, 270, 60, 325, 500, 400},
+                                               new int[] { 150, 250, 200, 270, 60, 325, 500, 400} };
     }
 }
