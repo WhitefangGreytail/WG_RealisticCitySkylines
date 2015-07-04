@@ -17,17 +17,16 @@ namespace WG_BalancedPopMod
     {
         public const String XML_FILE = "WG_RealisticCity.xml";
 
-        // This can be with the user directory, or the directory where the exe file exists.
-        // A bias is given to the root directory with the exe. The check will be for the user directory though
+        // This can be with the local application directory, or the directory where the exe file exists.
+        // Default location is the local application directory, however the exe directory is checked first
         private string currentFileLocation = ""; 
-
 
         public override void OnLevelUnloading()
         {
             try
             {
                 WG_XMLBaseVersion xml = new XML_VersionTwo();
-                xml.writeXML(System.Environment.CurrentDirectory + Path.DirectorySeparatorChar + XML_FILE);
+                xml.writeXML(currentFileLocation);
             }
             catch (Exception e)
             {
@@ -85,6 +84,10 @@ namespace WG_BalancedPopMod
                     // Game will now use defaults
                     Debugging.panelMessage(e.Message);
                 }
+            }
+            else
+            {
+                Debugging.panelMessage("Configuration file not found. Will output new file to : " + currentFileLocation);
             }
         }
 
