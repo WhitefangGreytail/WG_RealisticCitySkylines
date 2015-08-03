@@ -71,8 +71,8 @@ namespace WG_BalancedPopMod
                 makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode);
 
-                makeNodes(xmlDoc, "IndustryFarming", DataStore.industry_farm, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "IndustryForestry", DataStore.industry_forest, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, pollutionNode);
             }
