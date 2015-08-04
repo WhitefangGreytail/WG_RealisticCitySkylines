@@ -22,8 +22,8 @@
     <Industry_1 modifier="100" />
     <Industry_2 modifier="150" />
     <Industry_3 modifier="200" />
-    <IndustryFarming_1 modifier="100" />
-    <IndustryForestry_1 modifier="100" />
+    <IndustryFarm_1 modifier="100" />
+    <IndustryForest_1 modifier="100" />
     <IndustryOre_1 modifier="150" />
     <IndustryOil_1 modifier="150" />
   </population>
@@ -50,8 +50,8 @@
     <Industry_1 power="150" water="100" sewage="100" garbage="200" wealth="160" />
     <Industry_2 power="200" water="130" sewage="130" garbage="150" wealth="200" />
     <Industry_3 power="250" water="160" sewage="160" garbage="100" wealth="240" />
-    <IndustryFarming_1 power="110" water="350" sewage="350" garbage="150" wealth="180" />
-    <IndustryForestry_1 power="90" water="60" sewage="60" garbage="100" wealth="140" />
+    <IndustryFarm_1 power="110" water="350" sewage="350" garbage="150" wealth="180" />
+    <IndustryForest_1 power="90" water="60" sewage="60" garbage="100" wealth="140" />
     <IndustryOre_1 power="300" water="250" sewage="250" garbage="150" wealth="300" />
     <IndustryOil_1 power="350" water="200" sewage="200" garbage="200" wealth="360" />
   </consumption>
@@ -78,8 +78,8 @@
     <Industry_1 ground="300" noise="300" />
     <Industry_2 ground="200" noise="200" />
     <Industry_3 ground="150" noise="150" />
-    <IndustryFarming_1 ground="0" noise="200" />
-    <IndustryForestry_1 ground="0" noise="200" />
+    <IndustryFarm_1 ground="0" noise="200" />
+    <IndustryForest_1 ground="0" noise="200" />
     <IndustryOre_1 ground="400" noise="500" />
     <IndustryOil_1 ground="500" noise="400" />
   </pollution>
