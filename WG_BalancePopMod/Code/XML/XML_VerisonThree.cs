@@ -71,8 +71,8 @@ namespace WG_BalancedPopMod
                 makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode);
 
-                makeNodes(xmlDoc, "IndustryFarming", DataStore.industry_farm, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "IndustryForestry", DataStore.industry_forest, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, pollutionNode);
             }
@@ -149,7 +149,7 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        public void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
             {
@@ -168,7 +168,7 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        public void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
             rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array[DataStore.PEOPLE]));
             consumNode.AppendChild(makeConsumeNode(xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE],
@@ -185,7 +185,7 @@ namespace WG_BalancedPopMod
         /// <param name="level"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int value)
+        private XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int value)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -209,7 +209,7 @@ namespace WG_BalancedPopMod
         /// <param name="garbage"></param>
         /// <param name="wealth"></param>
         /// <returns></returns>
-        public XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
+        private XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -245,7 +245,7 @@ namespace WG_BalancedPopMod
         /// <param name="ground"></param>
         /// <param name="noise"></param>
         /// <returns></returns>
-        public XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
+        private XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 

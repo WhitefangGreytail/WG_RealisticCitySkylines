@@ -124,7 +124,7 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        public void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
             {
@@ -143,9 +143,9 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        public void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
-            rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array[DataStore.PEOPLE]));
+            rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array));
             consumNode.AppendChild(makeConsumeNode(xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE],
                                                     array[DataStore.GARBAGE], array[DataStore.INCOME]));
             pollutionNode.AppendChild(makePollutionNode(xmlDoc, buildingType, level, array[DataStore.GROUND_POLLUTION], array[DataStore.NOISE_POLLUTION]));
@@ -160,13 +160,24 @@ namespace WG_BalancedPopMod
         /// <param name="level"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int value)
+        private XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int[] array)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
             XmlAttribute attribute = xmlDoc.CreateAttribute("modifier");
-            attribute.Value = Convert.ToString(value);
+            attribute.Value = Convert.ToString(array[DataStore.PEOPLE]);
             node.Attributes.Append(attribute);
+
+            // TODO - Make this more strict?
+            if (array[DataStore.WORK_LVL0] >= 0)
+            {
+                for (int i = 0; i < 4; i++ )
+                {
+                    attribute = xmlDoc.CreateAttribute("lvl_" + i);
+                    attribute.Value = Convert.ToString(array[DataStore.WORK_LVL0 + i]);
+                    node.Attributes.Append(attribute);
+                }
+            }
 
             return node;
         }
@@ -184,7 +195,7 @@ namespace WG_BalancedPopMod
         /// <param name="garbage"></param>
         /// <param name="wealth"></param>
         /// <returns></returns>
-        public XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
+        private XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -220,7 +231,7 @@ namespace WG_BalancedPopMod
         /// <param name="ground"></param>
         /// <param name="noise"></param>
         /// <returns></returns>
-        public XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
+        private XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -384,61 +395,88 @@ namespace WG_BalancedPopMod
         {
             foreach (XmlNode node in popNode.ChildNodes)
             {
+                string[] attr = node.Name.Split(new char[] {'_'});
+                string name = attr[0];
+                int level = Convert.ToInt32(attr[1]) - 1;
+                int[] array = new int[11];  // If we don't have a right name, we discard
+
+                switch (name)
+                {
+                    case "ResidentialLow":
+                        array = DataStore.residentialLow[level];
+                        break;
+
+                    case "ResidentialHigh":
+                        array = DataStore.residentialHigh[level];
+                        break;
+
+                    case "CommercialLow":
+                        array = DataStore.commercialLow[level];
+                        break;
+
+                    case "CommercialHigh":
+                        array = DataStore.commercialHigh[level];
+                        break;
+
+                    case "Office":
+                        array = DataStore.office[level];
+                        break;
+
+                    case "Industry":
+                        array = DataStore.industry[level];
+                        break;
+
+                    case "IndustryOre":
+                        array = DataStore.industry_ore[level];
+                        break;
+
+                    case "IndustryOil":
+                        array =  DataStore.industry_oil[level];
+                        break;
+
+                    case "IndustryForest":
+                        array = DataStore.industry_forest[level];
+                        break;
+
+                    case "IndustryFarm":
+                        array = DataStore.industry_farm[level];
+                        break;
+
+                    default:
+                        Debugging.panelMessage("readPopulationNode. unknown element name: " + name);
+                        break;
+                }
+
                 try
                 {
-                    string[] attr = node.Name.Split(new char[] {'_'});
-                    string name = attr[0];
-                    int level = Convert.ToInt32(attr[1]) - 1;
-                    int modifier = Convert.ToInt32(node.Attributes["modifier"].InnerText);
-
-                    switch (name)
-                    {
-                        case "ResidentialLow":
-                            DataStore.residentialLow[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "ResidentialHigh":
-                            DataStore.residentialHigh[level][ DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "CommercialLow":
-                            DataStore.commercialLow[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "CommercialHigh":
-                            DataStore.commercialHigh[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "Office":
-                            DataStore.office[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "Industry":
-                            DataStore.industry[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryOre":
-                            DataStore.industry_ore[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryOil":
-                            DataStore.industry_oil[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryForest":
-                            DataStore.industry_forest[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryFarm":
-                            DataStore.industry_farm[level][DataStore.PEOPLE] = modifier;
-                            break;
-                    }
+                    array[DataStore.PEOPLE] = Convert.ToInt32(node.Attributes["modifier"].InnerText);
                 }
                 catch (Exception e)
                 {
                     Debugging.panelMessage("readPopulationNode: " + e.Message);
                 }
-            }
+
+                if (!name.Contains("Residential"))
+                {
+                    try
+                    {
+                        int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
+                        int level1 = Convert.ToInt32(node.Attributes["lvl_1"].InnerText);
+                        int level2 = Convert.ToInt32(node.Attributes["lvl_2"].InnerText);
+                        int level3 = Convert.ToInt32(node.Attributes["lvl_3"].InnerText);
+
+                        // Ensure all is there first
+                        array[DataStore.WORK_LVL0] = level0;
+                        array[DataStore.WORK_LVL1] = level1;
+                        array[DataStore.WORK_LVL2] = level2;
+                        array[DataStore.WORK_LVL3] = level3;
+                    }
+                    catch (Exception e)
+                    {
+                        Debugging.panelMessage("readPopulationNode: " + e.Message);
+                    }  
+                }
+            } // end foreach
         }
 
 

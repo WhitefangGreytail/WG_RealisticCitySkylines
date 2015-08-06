@@ -22,81 +22,27 @@ namespace WG_BalancedPopMod
         /// <param name="level3"></param>
         public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
-            ItemClass @class = this.m_info.m_class;
-            int num;
-            if (@class.m_subService == ItemClass.SubService.CommercialLow)
+            ItemClass item = this.m_info.m_class;
+            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            int num = array[DataStore.PEOPLE];
+            level0 = array[DataStore.WORK_LVL0];
+            level1 = array[DataStore.WORK_LVL1];
+            level2 = array[DataStore.WORK_LVL2];
+            level3 = array[DataStore.WORK_LVL3];
+            int num2 = level0 + level1 + level2 + level3;
+
+            if (num > 0 && num2 > 0)
             {
-                if (@class.m_level == ItemClass.Level.Level1)
-                {
-                    num = DataStore.commercialLow[0][DataStore.PEOPLE];
-                    level0 = 100;
-                    level1 = 0;
-                    level2 = 0;
-                    level3 = 0;
-                }
-                else if (@class.m_level == ItemClass.Level.Level2)
-                {
-                    num = DataStore.commercialLow[1][DataStore.PEOPLE];
-                    level0 = 20;
-                    level1 = 60;
-                    level2 = 20;
-                    level3 = 0;
-                }
-                else
-                {
-                    num = DataStore.commercialLow[2][DataStore.PEOPLE];
-                    level0 = 5;
-                    level1 = 15;
-                    level2 = 30;
-                    level3 = 50;
-                }
-            }
-            else if (@class.m_level == ItemClass.Level.Level1)
-            {
-                num = DataStore.commercialHigh[0][DataStore.PEOPLE];
-                level0 = 0;
-                level1 = 40;
-                level2 = 50;
-                level3 = 10;
-            }
-            else if (@class.m_level == ItemClass.Level.Level2)
-            {
-                num = DataStore.commercialHigh[1][DataStore.PEOPLE];
-                level0 = 0;
-                level1 = 20;
-                level2 = 50;
-                level3 = 30;
+                num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;  // Minimum of two
+                level3 = (num * level3 + r.Int32((uint)num2)) / num2;
+                level2 = (num * level2 + r.Int32((uint)num2)) / num2;
+                level1 = (num * level1 + r.Int32((uint)num2)) / num2;
+                level0 = (num * level0 + r.Int32((uint)num2)) / num2;
             }
             else
             {
-                num = DataStore.commercialHigh[2][DataStore.PEOPLE];
-                level0 = 0;
-                level1 = 0;
-                level2 = 40;
-                level3 = 60;
-            }
-            if (num != 0)
-            {
-                num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;
-                int num2 = level0 + level1 + level2 + level3;
-                if (num2 != 0)
-                {
-                    level0 = (num * level0 + r.Int32((uint)num2)) / num2;
-                    num -= level0;
-                }
-                num2 = level1 + level2 + level3;
-                if (num2 != 0)
-                {
-                    level1 = (num * level1 + r.Int32((uint)num2)) / num2;
-                    num -= level1;
-                }
-                num2 = level2 + level3;
-                if (num2 != 0)
-                {
-                    level2 = (num * level2 + r.Int32((uint)num2)) / num2;
-                    num -= level2;
-                }
-                level3 = num;
+                level0 = level1 = level2 = level3 = 0;
             }
         }
 
@@ -113,16 +59,10 @@ namespace WG_BalancedPopMod
         /// <param name="incomeAccumulation"></param>
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
-            ItemClass @class = this.m_info.m_class;
-            electricityConsumption = 0;
-            waterConsumption = 0;
-            sewageAccumulation = 0;
-            garbageAccumulation = 0;
-            incomeAccumulation = 0;
-
+            ItemClass item = this.m_info.m_class;
             int[] array;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            array = (@class.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+            array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -161,11 +101,9 @@ namespace WG_BalancedPopMod
         /// <param name="noisePollution"></param>
         public override void GetPollutionRates(int productionRate, out int groundPollution, out int noisePollution)
         {
-            ItemClass @class = this.m_info.m_class;
-
-            int[] array;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            array = (@class.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            ItemClass item = this.m_info.m_class;
+            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+            int[]  array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
