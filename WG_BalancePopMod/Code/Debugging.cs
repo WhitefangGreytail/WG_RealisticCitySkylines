@@ -6,14 +6,20 @@ namespace WG_BalancedPopMod
 {
     class Debugging
     {
-        // Write to WG log file
-        public static void writeDebugToFile(String text)
+        // Write to a file
+        public static void writeDebugToFile(String text, String fileName)
         {
-            using (FileStream fs = new FileStream(System.Environment.CurrentDirectory + Path.DirectorySeparatorChar + "WG_log.log", FileMode.Append, FileAccess.Write))
+            using (FileStream fs = new FileStream(ColossalFramework.IO.DataLocation.localApplicationData + Path.DirectorySeparatorChar + fileName, FileMode.Append, FileAccess.Write))
             using (StreamWriter sw = new StreamWriter(fs))
             {
                 sw.WriteLine(text);
             }
+        }
+
+        // Write to WG log file
+        public static void writeDebugToFile(String text)
+        {
+            writeDebugToFile(text, "WG_log.log");
         }
 
         // Write a message to the panel

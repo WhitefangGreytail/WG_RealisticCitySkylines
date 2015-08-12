@@ -100,15 +100,13 @@ namespace WG_BalancedPopMod
             Dictionary<Type, Type> componentRemap = new Dictionary<Type, Type>
 			{
                 {
-					typeof(IndustrialBuildingAI),
-					typeof(IndustrialBuildingAIMod)
-				},
-/*
-                {
 					typeof(IndustrialExtractorAI),
 					typeof(IndustrialExtractorAIMod)
 				},
-*/
+                {
+					typeof(IndustrialBuildingAI),
+					typeof(IndustrialBuildingAIMod)
+				},
                 {
 					typeof(ResidentialBuildingAI),
 					typeof(ResidentialBuildingAIMod)
@@ -144,6 +142,7 @@ namespace WG_BalancedPopMod
                 BuildingAI component = buildinginfo.GetComponent<BuildingAI>();
                 Type originalAiType = component.GetType();
                 Type newAIType;
+                // TODO ? - Somewhere in here we could grab the asset number to be able to set duplex houses with +1 household modifier?
                 if (componentRemap.TryGetValue(originalAiType, out newAIType))
                 {
                     BuildingAI buildingAI = buildinginfo.gameObject.AddComponent(newAIType) as BuildingAI;
@@ -225,8 +224,8 @@ namespace WG_BalancedPopMod
                         citizenIndex = c.m_nextUnit;
 
                         // Reset the flags which could make the game think this group has connections to a home
-                        c.m_nextUnit = 0u;
                         c.m_building = 0;
+                        c.m_nextUnit = 0u;
                         c.m_flags = CitizenUnit.Flags.None;
                     }
                 }

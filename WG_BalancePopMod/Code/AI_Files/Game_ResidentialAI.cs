@@ -20,7 +20,7 @@ namespace WG_BalancedPopMod
                                          new int [] { 60, 100, 130, 150, 160 } };
 
             int iLevel = (int)(level >= 0 ? level : 0);
-            int density = (subService == ItemClass.SubService.ResidentialLow) ? 0 : 1;
+            int density = (subService == ItemClass.SubService.ResidentialHigh) ? 1 : 0;
             int num = residentialArray[density][iLevel];
             return Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
         }

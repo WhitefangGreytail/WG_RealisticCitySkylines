@@ -24,26 +24,30 @@ namespace WG_BalancedPopMod
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
             int[] array;
-//            int approxFloorCount = 1;
-//            bool aprint = false;
+            //int approxFloorCount = 1;
+            //Boolean aprint = false;
 
-            if(item.m_subService == ItemClass.SubService.ResidentialLow)
+            if(item.m_subService == ItemClass.SubService.ResidentialHigh)
             {
-                array = DataStore.residentialLow[level];
+                array = DataStore.residentialHigh[level];
+                //   approxFloorCount = ((int)this.m_info.m_size.y) / 3;
+                //   aprint = true;
             }
             else
             {
-                array = DataStore.residentialHigh[level];
-//                approxFloorCount = ((int)this.m_info.m_size.y) / 3;
-//                aprint = true;
+                array = DataStore.residentialLow[level];
             }
             int num = array[DataStore.PEOPLE];
             int householdCount = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
 /*
+            Vector3 v = this.m_info.m_size;
             if (aprint)
             {
-                Vector3 v = this.m_info.m_size;
-                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount);
+                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount + ", floors: " + approxFloorCount  + ", newCalc: " + (v.x * v.y * v.z) / (3.333333 * 5 * 30), "LowDes.txt");
+            }
+            else
+            {
+                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount + ", floors: " + approxFloorCount + ", newCalc: " + (v.x * v.y * v.z) / (3.333333 * 5 * 30), "HighDes.txt");
             }
 */
             return householdCount;
@@ -63,15 +67,8 @@ namespace WG_BalancedPopMod
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
             ItemClass @class = this.m_info.m_class;
-            electricityConsumption = 0;
-            waterConsumption = 0;
-            sewageAccumulation = 0;
-            garbageAccumulation = 0;
-            incomeAccumulation = 0;
-
-            int[] array;
             int level = (int) (@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            array = (@class.m_subService == ItemClass.SubService.ResidentialLow) ? DataStore.residentialLow[level] : DataStore.residentialHigh[level];
+            int[] array = (@class.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
@@ -115,9 +112,8 @@ namespace WG_BalancedPopMod
         public override void GetPollutionRates(int productionRate, out int groundPollution, out int noisePollution)
         {
             ItemClass @class = this.m_info.m_class;
-            
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[]  array = (@class.m_subService == ItemClass.SubService.ResidentialLow) ? DataStore.residentialLow[level] : DataStore.residentialHigh[level];
+            int[] array = (@class.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = array[DataStore.NOISE_POLLUTION];
