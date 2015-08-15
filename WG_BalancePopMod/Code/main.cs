@@ -98,27 +98,27 @@ namespace WG_BalancedPopMod
         private void swapAI()
         {
             Dictionary<Type, Type> componentRemap = new Dictionary<Type, Type>
-			{
+            {
                 {
-					typeof(IndustrialExtractorAI),
-					typeof(IndustrialExtractorAIMod)
-				},
+                    typeof(IndustrialExtractorAI),
+                    typeof(IndustrialExtractorAIMod)
+                },
                 {
-					typeof(IndustrialBuildingAI),
-					typeof(IndustrialBuildingAIMod)
-				},
+                    typeof(IndustrialBuildingAI),
+                    typeof(IndustrialBuildingAIMod)
+                },
                 {
-					typeof(ResidentialBuildingAI),
-					typeof(ResidentialBuildingAIMod)
-				},
+                    typeof(ResidentialBuildingAI),
+                    typeof(ResidentialBuildingAIMod)
+                },
                 {
-					typeof(OfficeBuildingAI),
-					typeof(OfficeBuildingAIMod)
-				},
+                    typeof(OfficeBuildingAI),
+                    typeof(OfficeBuildingAIMod)
+                },
                 {
-					typeof(CommercialBuildingAI),
-					typeof(CommercialBuildingAIMod)
-				}
+                    typeof(CommercialBuildingAI),
+                    typeof(CommercialBuildingAIMod)
+                }
             };
 
             uint buildingcount = (uint)PrefabCollection<BuildingInfo>.PrefabCount();
