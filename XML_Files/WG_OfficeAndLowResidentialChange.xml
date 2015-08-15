@@ -24,12 +24,12 @@
     <Industry_3 modifier="200" lvl_0="10" lvl_1="20" lvl_2="40" lvl_3="30" />
     <IndustryFarm_1 modifier="100" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
     <IndustryFarm_2 modifier="100" lvl_0="45" lvl_1="50" lvl_2="5" lvl_3="0" />
-    <IndustryForest_1 modifier="100" lvl_0="85" lvl_1="15" lvl_2="0" lvl_3="0" />
+    <IndustryForest_1 modifier="100" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
     <IndustryForest_2 modifier="100" lvl_0="40" lvl_1="55" lvl_2="5" lvl_3="0" />
     <IndustryOre_1 modifier="150" lvl_0="18" lvl_1="60" lvl_2="20" lvl_3="2" />
-    <IndustryOre_2 modifier="150" lvl_0="15" lvl_1="45" lvl_2="30" lvl_3="10" />
+    <IndustryOre_2 modifier="150" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <IndustryOil_1 modifier="150" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
-    <IndustryOil_2 modifier="150" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
+    <IndustryOil_2 modifier="150" lvl_0="15" lvl_1="35" lvl_2="40" lvl_3="10" />
   </population>
   <consumption>
     <ResidentialLow_1 power="10" water="38" sewage="30" garbage="15" wealth="100" />
