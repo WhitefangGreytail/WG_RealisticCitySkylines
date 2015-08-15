@@ -39,11 +39,11 @@ namespace WG_BalancedPopMod
                 level3 = (num * level3 + r.Int32((uint)num2)) / num2;
                 level2 = (num * level2 + r.Int32((uint)num2)) / num2;
                 level1 = (num * level1 + r.Int32((uint)num2)) / num2;
-                level0 = (num * level0 + r.Int32((uint)num2)) / num2;
+                level0 = num - level3 - level2 - level1;  // Whatever is left
             }
             else
             {
-                level0 = level1 = level2 = level3 = 0;
+                level0 = level1 = level2 = level3 = 1;  // Allocate 1 for every level, to stop div by 0
             }
         }
 
