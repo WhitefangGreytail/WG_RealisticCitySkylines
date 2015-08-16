@@ -34,11 +34,11 @@ namespace WG_BalancedPopMod
 
             if (num > 0 && num2 > 0)
             {
-                num = Mathf.Max(200, width * length * num + r.Int32(100u)) / 100;  // Minimum of two
+                num = Mathf.Max(200, width * length * num + r.Int32((uint)num)) / 100;  // Minimum of two
                 level3 = (num * level3 + r.Int32((uint)num2)) / num2;
                 level2 = (num * level2 + r.Int32((uint)num2)) / num2;
                 level1 = (num * level1 + r.Int32((uint)num2)) / num2;
-                level0 = num - level3 - level2 - level1;  // Whatever is left
+                level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
             }
             else
             {
