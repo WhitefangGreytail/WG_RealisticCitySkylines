@@ -2,6 +2,7 @@
 *.csproj
 *.suo
 *.sln
+*.xls*
 *Help file.txt
 WG_BalancePopMod/bin/*
 WG_BalancePopMod/obj/*
