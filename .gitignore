@@ -4,5 +4,6 @@
 *.sln
 *.xls*
 *Help file.txt
+!TempLibraryStore/*.dll
 WG_BalancePopMod/bin/*
 WG_BalancePopMod/obj/*
