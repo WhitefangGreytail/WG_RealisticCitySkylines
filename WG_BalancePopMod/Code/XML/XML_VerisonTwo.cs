@@ -25,7 +25,17 @@ namespace WG_BalancedPopMod
         /// <param name="doc"></param>
         public override void readXML(XmlDocument doc)
         {
-            foreach (XmlNode node in doc.DocumentElement.ChildNodes)
+            XmlElement root = doc.DocumentElement;
+            try
+            {
+                DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
+            }
+            catch (System.FormatException)
+            {
+                DataStore.enableExperimental = true;
+            }
+
+            foreach (XmlNode node in root.ChildNodes)
             {
                 if (node.Name.Equals(popNodeName))
                 {
@@ -55,6 +65,9 @@ namespace WG_BalancedPopMod
             XmlNode rootNode = xmlDoc.CreateElement("WG_CityMod");
             XmlAttribute attribute = xmlDoc.CreateAttribute("version");
             attribute.Value = "2";
+            rootNode.Attributes.Append(attribute);
+            attribute = xmlDoc.CreateAttribute("experimental");
+            attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
             xmlDoc.AppendChild(rootNode);
 
