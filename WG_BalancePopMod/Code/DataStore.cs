@@ -18,6 +18,7 @@ namespace WG_BalancedPopMod
         public const int GROUND_POLLUTION = 10;
         public const int NOISE_POLLUTION = 11;
 
+        public static bool enableExperimental = true; // True for current users
 
         // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning
         public static int[][] residentialLow = { new int [] {9, -1, -1, -1, -1, 10, 38, 30, 15, 100, 0, 1},

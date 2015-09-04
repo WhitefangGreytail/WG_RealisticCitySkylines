@@ -42,7 +42,10 @@ namespace WG_BalancedPopMod
                 Stopwatch sw = Stopwatch.StartNew();
                 readFromXML();
                 swapAI();
-                doubleCheckHousing();
+                if (DataStore.enableExperimental)
+                {
+                    doubleCheckHousing();
+                }
                 sw.Stop();
 
                 Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
