@@ -30,7 +30,7 @@ namespace WG_BalancedPopMod
             {
                 DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
             }
-            catch (System.FormatException)
+            catch (Exception)
             {
                 DataStore.enableExperimental = true;
             }
