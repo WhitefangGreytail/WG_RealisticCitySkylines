@@ -32,7 +32,7 @@ namespace WG_BalancedPopMod
             }
             catch (Exception)
             {
-                DataStore.enableExperimental = true;
+                DataStore.enableExperimental = false;
             }
 
             foreach (XmlNode node in root.ChildNodes)
@@ -66,9 +66,11 @@ namespace WG_BalancedPopMod
             XmlAttribute attribute = xmlDoc.CreateAttribute("version");
             attribute.Value = "3";
             rootNode.Attributes.Append(attribute);
+            /*
             attribute = xmlDoc.CreateAttribute("experimental");
             attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
+            */
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
@@ -81,6 +83,8 @@ namespace WG_BalancedPopMod
                 makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode);
 
@@ -93,7 +97,7 @@ namespace WG_BalancedPopMod
             {
                 Debugging.panelMessage(e.Message);
             }
-            
+
             createPopulationNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(popNode);
             rootNode.AppendChild(consumeNode);
@@ -137,7 +141,11 @@ namespace WG_BalancedPopMod
         /// <param name="rootNode"></param>
         private void createPopulationNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
-            XmlComment comment = xmlDoc.CreateComment("Sample XML document");
+            XmlComment comment = xmlDoc.CreateComment("space_pp = Square metres per person");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("level_height = Height of a floor. This is recommended to be left alone for balance unless the height of chimneys is taken into account");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("lvl_0 ... lvl_3 = Proportional values between each of the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.");
             rootNode.AppendChild(comment);
         }
 
@@ -148,7 +156,9 @@ namespace WG_BalancedPopMod
         /// <param name="rootNode"></param>
         private void createPollutionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
-            XmlComment comment = xmlDoc.CreateComment("Sample XML document");
+            XmlComment comment = xmlDoc.CreateComment("Ground pollution is not used by residential, commercial and offices.");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("Noise pollution is not spread over the land by residential or offices.");
             rootNode.AppendChild(comment);
         }
 
@@ -183,7 +193,7 @@ namespace WG_BalancedPopMod
         /// <param name="pollutionNode"></param>
         private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
         {
-            rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array[DataStore.PEOPLE]));
+            rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array));
             consumNode.AppendChild(makeConsumeNode(xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE],
                                                     array[DataStore.GARBAGE], array[DataStore.INCOME]));
             pollutionNode.AppendChild(makePollutionNode(xmlDoc, buildingType, level, array[DataStore.GROUND_POLLUTION], array[DataStore.NOISE_POLLUTION]));
@@ -197,14 +207,29 @@ namespace WG_BalancedPopMod
         /// <param name="buildingType"></param>
         /// <param name="level"></param>
         /// <param name="value"></param>
+        /// <param name="array"></param>
         /// <returns></returns>
-        private XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int value)
+        private XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int[] array)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
-            XmlAttribute attribute = xmlDoc.CreateAttribute("modifier");
-            attribute.Value = Convert.ToString(value);
+            XmlAttribute attribute = xmlDoc.CreateAttribute("space_pp");
+            attribute.Value = Convert.ToString(transformPopulationModifier(buildingType, level, array[DataStore.PEOPLE], true));
             node.Attributes.Append(attribute);
+
+            attribute = xmlDoc.CreateAttribute("level_height");
+            attribute.Value = Convert.ToString(array[DataStore.LEVEL_HEIGHT]);
+            node.Attributes.Append(attribute);
+
+            if (array[DataStore.WORK_LVL0] >= 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    attribute = xmlDoc.CreateAttribute("lvl_" + i);
+                    attribute.Value = Convert.ToString(array[DataStore.WORK_LVL0 + i]);
+                    node.Attributes.Append(attribute);
+                }
+            }
 
             return node;
         }
@@ -310,6 +335,14 @@ namespace WG_BalancedPopMod
                             setPollutionRates(DataStore.commercialHigh[level], ground, noise);
                             break;
 
+                        case "CommercialTourist":
+                            setPollutionRates(DataStore.commercialTourist[level], ground, noise);
+                            break;
+
+                        case "CommercialLeisure":
+                            setPollutionRates(DataStore.commercialLeisure[level], ground, noise);
+                            break;
+
                         case "Office":
                             setPollutionRates(DataStore.office[level], ground, noise);
                             break;
@@ -362,49 +395,9 @@ namespace WG_BalancedPopMod
                     int sewage = Convert.ToInt32(node.Attributes["sewage"].InnerText);
                     int garbage = Convert.ToInt32(node.Attributes["garbage"].InnerText);
                     int wealth = Convert.ToInt32(node.Attributes["wealth"].InnerText);
+                    int[] array = getArray(name, level, "readConsumptionNode");
 
-                    switch (name)
-                    {
-                        case "ResidentialLow":
-                            setConsumptionRates(DataStore.residentialLow[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "ResidentialHigh":
-                            setConsumptionRates(DataStore.residentialHigh[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "CommercialLow":
-                            setConsumptionRates(DataStore.commercialLow[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "CommercialHigh":
-                            setConsumptionRates(DataStore.commercialHigh[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "Office":
-                            setConsumptionRates(DataStore.office[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "Industry":
-                            setConsumptionRates(DataStore.industry[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "IndustryOre":
-                            setConsumptionRates(DataStore.industry_ore[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "IndustryOil":
-                            setConsumptionRates(DataStore.industry_oil[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "IndustryForest":
-                            setConsumptionRates(DataStore.industry_forest[level], power, water, sewage, garbage, wealth);
-                            break;
-
-                        case "IndustryFarm":
-                            setConsumptionRates(DataStore.industry_farm[level], power, water, sewage, garbage, wealth);
-                            break;
-                    }
+                    setConsumptionRates(array, power, water, sewage, garbage, wealth);
                 }
                 catch (Exception e)
                 {
@@ -422,61 +415,150 @@ namespace WG_BalancedPopMod
         {
             foreach (XmlNode node in popNode.ChildNodes)
             {
+                string[] attr = node.Name.Split(new char[] { '_' });
+                string name = attr[0];
+                int level = Convert.ToInt32(attr[1]) - 1;
+                int[] array = new int[12];
+
                 try
                 {
-                    string[] attr = node.Name.Split(new char[] { '_' });
-                    string name = attr[0];
-                    int level = Convert.ToInt32(attr[1]) - 1;
-                    int modifier = Convert.ToInt32(node.Attributes["modifier"].InnerText);
+                    array = getArray(name, level, "readPopulationNode");
+                    int temp = Convert.ToInt32(node.Attributes["level_height"].InnerText);
+                    array[DataStore.LEVEL_HEIGHT] = temp > 0 ? temp : 10;
 
-                    switch (name)
+                    temp = Convert.ToInt32(node.Attributes["space_pp"].InnerText);
+                    if (temp <= 0)
                     {
-                        case "ResidentialLow":
-                            DataStore.residentialLow[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "ResidentialHigh":
-                            DataStore.residentialHigh[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "CommercialLow":
-                            DataStore.commercialLow[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "CommercialHigh":
-                            DataStore.commercialHigh[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "Office":
-                            DataStore.office[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "Industry":
-                            DataStore.industry[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryOre":
-                            DataStore.industry_ore[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryOil":
-                            DataStore.industry_oil[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryForest":
-                            DataStore.industry_forest[level][DataStore.PEOPLE] = modifier;
-                            break;
-
-                        case "IndustryFarm":
-                            DataStore.industry_farm[level][DataStore.PEOPLE] = modifier;
-                            break;
+                        temp = 100;  // Bad person trying to give negative or div0 error. 
                     }
+                    array[DataStore.PEOPLE] = transformPopulationModifier(name, level, temp, false);
                 }
                 catch (Exception e)
                 {
-                    Debugging.panelMessage("readPopulationNode: " + e.Message);
+                    Debugging.panelMessage("readPopulationNode, part a: " + e.Message);
                 }
+
+                if (!name.Contains("Residential"))
+                {
+                    try
+                    {
+                        int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
+                        int level1 = Convert.ToInt32(node.Attributes["lvl_1"].InnerText);
+                        int level2 = Convert.ToInt32(node.Attributes["lvl_2"].InnerText);
+                        int level3 = Convert.ToInt32(node.Attributes["lvl_3"].InnerText);
+
+                        // Ensure all is there first
+                        array[DataStore.WORK_LVL0] = level0;
+                        array[DataStore.WORK_LVL1] = level1;
+                        array[DataStore.WORK_LVL2] = level2;
+                        array[DataStore.WORK_LVL3] = level3;
+                    }
+                    catch (Exception e)
+                    {
+                        Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
+                    }
+                }
+            } // end foreach
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="level"></param>
+        /// <param name="value"></param>
+        /// <param name="toXML">Transformation into XML value</param>
+        /// <returns></returns>
+        private int transformPopulationModifier(string name, int level, int value, bool toXML)
+        {
+            int dividor = 1;
+
+            switch (name)
+            {
+                case "ResidentialLow":
+                case "ResidentialHigh":
+                    dividor = 5;   // 5 people
+                    break;
             }
+
+            if (toXML)
+            {
+                return (value / dividor);
+            }
+            else
+            {
+                return (value * dividor);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="level"></param>
+        /// <param name="callingFunction">For debug purposes</param>
+        /// <returns></returns>
+        private static int[] getArray(string name, int level, string callingFunction)
+        {
+            int[] array = new int[14];
+
+            switch (name)
+            {
+                case "ResidentialLow":
+                    array = DataStore.residentialLow[level];
+                    break;
+
+                case "ResidentialHigh":
+                    array = DataStore.residentialHigh[level];
+                    break;
+
+                case "CommercialLow":
+                    array = DataStore.commercialLow[level];
+                    break;
+
+                case "CommercialHigh":
+                    array = DataStore.commercialHigh[level];
+                    break;
+
+                case "CommercialTourist":
+                    array = DataStore.commercialTourist[level];
+                    break;
+
+                case "CommercialLeisure":
+                    array = DataStore.commercialLeisure[level];
+                    break;
+
+                case "Office":
+                    array = DataStore.office[level];
+                    break;
+
+                case "Industry":
+                    array = DataStore.industry[level];
+                    break;
+
+                case "IndustryOre":
+                    array = DataStore.industry_ore[level];
+                    break;
+
+                case "IndustryOil":
+                    array = DataStore.industry_oil[level];
+                    break;
+
+                case "IndustryForest":
+                    array = DataStore.industry_forest[level];
+                    break;
+
+                case "IndustryFarm":
+                    array = DataStore.industry_farm[level];
+                    break;
+
+                default:
+                    Debugging.panelMessage(callingFunction + ". unknown element name: " + name);
+                    break;
+            }
+            return array;
         }
 
 

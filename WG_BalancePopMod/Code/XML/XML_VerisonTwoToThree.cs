@@ -35,7 +35,7 @@ namespace WG_BalancedPopMod
             }
             catch (Exception)
             {
-                DataStore.enableExperimental = true;
+                DataStore.enableExperimental = false;
             }
 
             foreach (XmlNode node in root.ChildNodes)
@@ -79,7 +79,7 @@ namespace WG_BalancedPopMod
                 try
                 {
                     // Extract power, water, sewage, garbage and wealth
-                    string[] attr = node.Name.Split(new char[] {'_'});
+                    string[] attr = node.Name.Split(new char[] { '_' });
                     name = attr[0];
                     int level = Convert.ToInt32(attr[1]) - 1;
                     int ground = Convert.ToInt32(node.Attributes["ground"].InnerText);
@@ -101,6 +101,14 @@ namespace WG_BalancedPopMod
 
                         case "CommercialHigh":
                             setPollutionRates(DataStore.commercialHigh[level], ground, noise);
+                            break;
+
+                        case "CommercialTourist":
+                            setPollutionRates(DataStore.commercialTourist[level], ground, noise);
+                            break;
+
+                        case "CommercialLeisure":
+                            setPollutionRates(DataStore.commercialLeisure[level], ground, noise);
                             break;
 
                         case "Office":
@@ -147,7 +155,7 @@ namespace WG_BalancedPopMod
                 try
                 {
                     // Extract power, water, sewage, garbage and wealth
-                    string[] attr = node.Name.Split(new char[] {'_'});
+                    string[] attr = node.Name.Split(new char[] { '_' });
                     string name = attr[0];
                     int level = Convert.ToInt32(attr[1]) - 1;
                     int power = Convert.ToInt32(node.Attributes["power"].InnerText);
@@ -172,6 +180,14 @@ namespace WG_BalancedPopMod
 
                         case "CommercialHigh":
                             setConsumptionRates(DataStore.commercialHigh[level], power, water, sewage, garbage, wealth);
+                            break;
+
+                        case "CommercialTourist":
+                            setConsumptionRates(DataStore.commercialTourist[level], power, water, sewage, garbage, wealth);
+                            break;
+
+                        case "CommercialLeisure":
+                            setConsumptionRates(DataStore.commercialLeisure[level], power, water, sewage, garbage, wealth);
                             break;
 
                         case "Office":
@@ -215,10 +231,10 @@ namespace WG_BalancedPopMod
         {
             foreach (XmlNode node in popNode.ChildNodes)
             {
-                string[] attr = node.Name.Split(new char[] {'_'});
+                string[] attr = node.Name.Split(new char[] { '_' });
                 string name = attr[0];
                 int level = Convert.ToInt32(attr[1]) - 1;
-                int[] array = new int[11];  // If we don't have a right name, we discard
+                int[] array = new int[12];  // If we don't have a right name, we discard
 
                 switch (name)
                 {
@@ -238,6 +254,14 @@ namespace WG_BalancedPopMod
                         array = DataStore.commercialHigh[level];
                         break;
 
+                    case "CommercialTourist":
+                        array = DataStore.commercialTourist[level];
+                        break;
+
+                    case "CommercialLeisure":
+                        array = DataStore.commercialLeisure[level];
+                        break;
+
                     case "Office":
                         array = DataStore.office[level];
                         break;
@@ -251,7 +275,7 @@ namespace WG_BalancedPopMod
                         break;
 
                     case "IndustryOil":
-                        array =  DataStore.industry_oil[level];
+                        array = DataStore.industry_oil[level];
                         break;
 
                     case "IndustryForest":
@@ -267,6 +291,9 @@ namespace WG_BalancedPopMod
                         break;
                 }
 
+                /*  This is removed as there are new ways to calculate where
+                 *  automatic migration will give everyone headaches and I'd never be able to satisfy everyone.
+                 *  But I should 
                 try
                 {
                     array[DataStore.PEOPLE] = Convert.ToInt32(node.Attributes["modifier"].InnerText);
@@ -275,6 +302,8 @@ namespace WG_BalancedPopMod
                 {
                     Debugging.panelMessage("readPopulationNode: " + e.Message);
                 }
+                */ 
+                 
 
                 if (!name.Contains("Residential"))
                 {
@@ -294,7 +323,7 @@ namespace WG_BalancedPopMod
                     catch (Exception e)
                     {
                         Debugging.panelMessage("readPopulationNode: " + e.Message);
-                    }  
+                    }
                 }
             } // end foreach
         }

@@ -23,9 +23,10 @@ namespace WG_BalancedPopMod
         /// <param name="level3"></param>
         public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
-            ItemClass @class = this.m_info.m_class;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(@class, ref level);
+            BuildingInfo item = this.m_info;
+            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(item.m_class, level);
+
             int num = array[DataStore.PEOPLE];
             level0 = array[DataStore.WORK_LVL0];
             level1 = array[DataStore.WORK_LVL1];
@@ -35,10 +36,26 @@ namespace WG_BalancedPopMod
 
             if (num > 0 && num2 > 0)
             {
-                num = Mathf.Max(200, width * length * num + r.Int32((uint)num)) / 100;  // Minimum of two
-                level3 = (num * level3 + r.Int32((uint)num2)) / num2;
-                level2 = (num * level2 + r.Int32((uint)num2)) / num2;
-                level1 = (num * level1 + r.Int32((uint)num2)) / num2;
+                // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
+                Vector3 v = item.m_size;
+                int x = (int)v.x;
+                int z = (int)v.z;
+
+                if (x <= 0)
+                {
+                    x = width * 6;
+                }
+                if (z <= 0)
+                {
+                    z = length * 6;
+                }
+
+                int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
+                num = Mathf.Max(2, value);  // Minimum of two
+
+                level3 = (num * level3) / num2;
+                level2 = (num * level2) / num2;
+                level1 = (num * level1) / num2;
                 level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
             }
             else
@@ -62,7 +79,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(@class, ref level);
+            int[] array = getArray(@class, level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -111,7 +128,7 @@ namespace WG_BalancedPopMod
             groundPollution = 0;
             noisePollution = 0;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(@class, ref level);
+            int[] array = getArray(@class, level);
 
             groundPollution = (productionRate * array[DataStore.GROUND_POLLUTION]) / 100;
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -124,7 +141,8 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(ItemClass item, ref int level)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private int[] getArray(ItemClass item, int level)
         {
             switch (item.m_subService)
             {
