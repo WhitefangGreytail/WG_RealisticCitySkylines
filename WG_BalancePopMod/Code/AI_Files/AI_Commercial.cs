@@ -24,7 +24,8 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            int[] array = getArray(item, ref level);
+
             int num = array[DataStore.PEOPLE];
             level0 = array[DataStore.WORK_LVL0];
             level1 = array[DataStore.WORK_LVL1];
@@ -60,9 +61,8 @@ namespace WG_BalancedPopMod
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
             ItemClass item = this.m_info.m_class;
-            int[] array;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            int[] array = getArray(item, ref level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -104,10 +104,43 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[]  array = (item.m_subService == ItemClass.SubService.CommercialLow) ? DataStore.commercialLow[level] : DataStore.commercialHigh[level];
+            int[] array = getArray(item, ref level);
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
+            if (item.m_subService == ItemClass.SubService.CommercialLeisure)
+            {
+              if ((cityPlanningPolicies & DistrictPolicies.CityPlanning.NoLoudNoises) != DistrictPolicies.CityPlanning.None)
+              {
+                  noisePollution /= 2;
+              }
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        private int[] getArray(ItemClass item, ref int level)
+        {
+            switch (item.m_subService)
+            {
+                case ItemClass.SubService.CommercialLeisure:
+                    return DataStore.commercialLeisure[0];
+                
+                case ItemClass.SubService.CommercialTourist:
+                    return DataStore.commercialTourist[0];
+                
+                case ItemClass.SubService.CommercialHigh:
+                    return DataStore.commercialHigh[level];
+
+                case ItemClass.SubService.CommercialLow:
+                default:
+                    return DataStore.commercialLow[level];
+            }
         }
     }
 }

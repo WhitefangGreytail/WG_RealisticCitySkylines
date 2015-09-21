@@ -16,6 +16,8 @@
     <CommercialHigh_1 modifier="120" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
     <CommercialHigh_2 modifier="250" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
     <CommercialHigh_3 modifier="500" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
+    <CommercialLeisure_1 modifier="100" lvl_0="30" lvl_1="30" lvl_2="20" lvl_3="20" />
+    <CommercialTourist_1 modifier="100" lvl_0="20" lvl_1="20" lvl_2="30" lvl_3="30" />
     <Office_1 modifier="200" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
     <Office_2 modifier="550" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
     <Office_3 modifier="1200" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
@@ -48,6 +50,8 @@
     <CommercialHigh_1 power="30" water="50" sewage="50" garbage="50" wealth="500" />
     <CommercialHigh_2 power="40" water="60" sewage="60" garbage="62" wealth="650" />
     <CommercialHigh_3 power="50" water="70" sewage="70" garbage="75" wealth="800" />
+    <CommercialLeisure_1 power="50" water="60" sewage="60" garbage="50" wealth="1000" />
+    <CommercialTourist_1 power="30" water="80" sewage="80" garbage="60" wealth="600" />
     <Office_1 power="100" water="70" sewage="70" garbage="100" wealth="450" />
     <Office_2 power="150" water="80" sewage="80" garbage="90" wealth="600" />
     <Office_3 power="200" water="100" sewage="100" garbage="80" wealth="750" />
@@ -80,6 +84,8 @@
     <CommercialHigh_1 ground="0" noise="200" />
     <CommercialHigh_2 ground="0" noise="175" />
     <CommercialHigh_3 ground="0" noise="150" />
+    <CommercialLeisure_1 ground="0" noise="300" />
+    <CommercialTourist_1 ground="0" noise="150" />
     <Office_1 ground="0" noise="0" />
     <Office_2 ground="0" noise="0" />
     <Office_3 ground="0" noise="0" />
