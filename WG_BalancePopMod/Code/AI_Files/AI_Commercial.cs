@@ -97,9 +97,10 @@ namespace WG_BalancedPopMod
         /// 
         /// </summary>
         /// <param name="productionRate"></param>
+        /// <param name="cityPlanningPolicies"></param>
         /// <param name="groundPollution"></param>
         /// <param name="noisePollution"></param>
-        public override void GetPollutionRates(int productionRate, out int groundPollution, out int noisePollution)
+        public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None

@@ -102,9 +102,10 @@ namespace WG_BalancedPopMod
         /// 
         /// </summary>
         /// <param name="productionRate"></param>
+        /// <param name="cityPlanningPolicies"></param>
         /// <param name="groundPollution"></param>
         /// <param name="noisePollution"></param>
-        public override void GetPollutionRates(int productionRate, out int groundPollution, out int noisePollution)
+        public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
             ItemClass @class = this.m_info.m_class;
             groundPollution = 0;
