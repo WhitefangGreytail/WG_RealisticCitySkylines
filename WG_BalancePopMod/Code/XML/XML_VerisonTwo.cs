@@ -32,7 +32,7 @@ namespace WG_BalancedPopMod
             }
             catch (Exception)
             {
-                DataStore.enableExperimental = true;
+                DataStore.enableExperimental = false;
             }
 
             foreach (XmlNode node in root.ChildNodes)
