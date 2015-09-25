@@ -81,6 +81,8 @@ namespace WG_BalancedPopMod
                 makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode);
                 makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode);
 
@@ -296,6 +298,14 @@ namespace WG_BalancedPopMod
                             setPollutionRates(DataStore.commercialHigh[level], ground, noise);
                             break;
 
+                        case "CommercialTourist":
+                            setPollutionRates(DataStore.commercialTourist[level], ground, noise);
+                            break;
+
+                        case "CommercialLeisure":
+                            setPollutionRates(DataStore.commercialLeisure[level], ground, noise);
+                            break;
+
                         case "Office":
                             setPollutionRates(DataStore.office[level], ground, noise);
                             break;
@@ -367,6 +377,14 @@ namespace WG_BalancedPopMod
                             setConsumptionRates(DataStore.commercialHigh[level], power, water, sewage, garbage, wealth);
                             break;
 
+                        case "CommercialTourist":
+                            setConsumptionRates(DataStore.commercialTourist[level], power, water, sewage, garbage, wealth);
+                            break;
+
+                        case "CommercialLeisure":
+                            setConsumptionRates(DataStore.commercialLeisure[level], power, water, sewage, garbage, wealth);
+                            break;
+
                         case "Office":
                             setConsumptionRates(DataStore.office[level], power, water, sewage, garbage, wealth);
                             break;
@@ -429,6 +447,14 @@ namespace WG_BalancedPopMod
 
                     case "CommercialHigh":
                         array = DataStore.commercialHigh[level];
+                        break;
+
+                    case "CommercialTourist":
+                        array = DataStore.commercialTourist[level];
+                        break;
+
+                    case "CommercialLeisure":
+                        array = DataStore.commercialLeisure[level];
                         break;
 
                     case "Office":

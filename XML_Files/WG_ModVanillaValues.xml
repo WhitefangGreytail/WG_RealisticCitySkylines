@@ -1,4 +1,4 @@
-<WG_CityMod version="2">
+<WG_CityMod version="2" experimental="false">
   <population>
     <ResidentialLow_1 modifier="9" />
     <ResidentialLow_2 modifier="8" />
@@ -16,6 +16,8 @@
     <CommercialHigh_1 modifier="200" lvl_0="10" lvl_1="35" lvl_2="45" lvl_3="10" />
     <CommercialHigh_2 modifier="350" lvl_0="10" lvl_1="30" lvl_2="40" lvl_3="20" />
     <CommercialHigh_3 modifier="500" lvl_0="10" lvl_1="25" lvl_2="35" lvl_3="30" />
+    <CommercialLeisure_1 modifier="120" lvl_0="30" lvl_1="35" lvl_2="25" lvl_3="10" />
+    <CommercialTourist_1 modifier="140" lvl_0="20" lvl_1="20" lvl_2="35" lvl_3="25" />
     <Office_1 modifier="900" lvl_0="3" lvl_1="15" lvl_2="42" lvl_3="40" />
     <Office_2 modifier="1600" lvl_0="3" lvl_1="10" lvl_2="24" lvl_3="63" />
     <Office_3 modifier="2500" lvl_0="3" lvl_1="4" lvl_2="8" lvl_3="85" />
@@ -48,6 +50,8 @@
     <CommercialHigh_1 power="25" water="45" sewage="45" garbage="11" wealth="600" />
     <CommercialHigh_2 power="30" water="50" sewage="50" garbage="10" wealth="650" />
     <CommercialHigh_3 power="40" water="55" sewage="55" garbage="9" wealth="700" />
+    <CommercialLeisure_1 power="45" water="55" sewage="60" garbage="45" wealth="700" />
+    <CommercialTourist_1 power="30" water="70" sewage="80" garbage="50" wealth="500" />
     <Office_1 power="100" water="80" sewage="80" garbage="20" wealth="900" />
     <Office_2 power="150" water="100" sewage="100" garbage="20" wealth="1100" />
     <Office_3 power="200" water="120" sewage="120" garbage="18" wealth="1300" />
@@ -80,6 +84,8 @@
     <CommercialHigh_1 ground="0" noise="80" />
     <CommercialHigh_2 ground="0" noise="70" />
     <CommercialHigh_3 ground="0" noise="60" />
+    <CommercialLeisure_1 ground="0" noise="300" />
+    <CommercialTourist_1 ground="0" noise="150" />
     <Office_1 ground="0" noise="1" />
     <Office_2 ground="0" noise="1" />
     <Office_3 ground="0" noise="1" />

@@ -41,6 +41,10 @@ namespace WG_BalancedPopMod
                                                  new int [] {350, 10, 30, 40, 20, 30, 50, 50, 10, 650, 0, 70},
                                                  new int [] {500, 10, 25, 35, 30, 40, 55, 55,  9, 700, 0, 60} };
 
+        public static int[][] commercialTourist = { new int[] { 140, 20, 20, 35, 25, 30, 70, 80, 50, 500, 0, 150 } };
+
+        public static int[][] commercialLeisure = { new int[] { 120, 30, 35, 25, 10, 45, 55, 60, 45, 700, 0, 300 } };
+
         public static int[][] office = { new int [] { 900, 3, 15, 42, 40, 100,  80,  80, 20,  900, 0, 1},
                                          new int [] {1600, 3, 10, 24, 63, 150, 100, 100, 20, 1100, 0, 1},
                                          new int [] {2500, 3,  4,  8, 85, 200, 120, 120, 18, 1300, 0, 1} };
