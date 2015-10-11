@@ -19,13 +19,23 @@ namespace WG_BalancedPopMod
 
         // This can be with the local application directory, or the directory where the exe file exists.
         // Default location is the local application directory, however the exe directory is checked first
-        private string currentFileLocation = ""; 
+        private string currentFileLocation = "";
+
+        public override void OnCreated(ILoading loading)
+        {
+        }
+
+        public override void OnReleased()
+        {
+            // FIXME - This doesn't appear to work too well yet.... but wouldn't be required?
+//            RedirectionHelper.RestoreCalls(oldMethod, segmentToRestore);
+        }
 
         public override void OnLevelUnloading()
         {
             try
             {
-                WG_XMLBaseVersion xml = new XML_VersionTwo();
+                WG_XMLBaseVersion xml = new XML_VersionThree();
                 xml.writeXML(currentFileLocation);
             }
             catch (Exception e)
@@ -44,7 +54,7 @@ namespace WG_BalancedPopMod
                 swapAI();
                 if (DataStore.enableExperimental)
                 {
-                    doubleCheckHousing();
+                    // Nothing here for now
                 }
                 sw.Stop();
 
@@ -72,14 +82,26 @@ namespace WG_BalancedPopMod
             if (fileAvailable)
             {
                 // Load in from XML - Designed to be flat file for ease
-                WG_XMLBaseVersion reader = null;
+                WG_XMLBaseVersion reader = new XML_VersionThree();
                 XmlDocument doc = new XmlDocument();
                 try
                 {
-                    // TODO: Determine version before obtaining the reader
                     doc.Load(currentFileLocation);
+                    try
+                    {
+                        if (Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText) < 3)
+                        {
+                            reader = new XML_VersionTwoToThree();
 
-                    reader = new XML_VersionTwo();
+                            // Make a back up copy of the old system
+                            File.Copy(currentFileLocation, currentFileLocation + ".ver2", true);
+                        }
+                    }
+                    catch
+                    {
+                        // Default to new XML structure
+                    }
+
                     reader.readXML(doc);
                 }
                 catch (Exception e)
@@ -145,7 +167,7 @@ namespace WG_BalancedPopMod
                 BuildingAI component = buildinginfo.GetComponent<BuildingAI>();
                 Type originalAiType = component.GetType();
                 Type newAIType;
-                // TODO ? - Somewhere in here we could grab the asset number to be able to set duplex houses with +1 household modifier?
+
                 if (componentRemap.TryGetValue(originalAiType, out newAIType))
                 {
                     BuildingAI buildingAI = buildinginfo.gameObject.AddComponent(newAIType) as BuildingAI;
@@ -158,57 +180,26 @@ namespace WG_BalancedPopMod
 
 
         /// <summary>
-        /// This is here because the mods are only loaded in and activated once the city is loaded in. The loading sequence is too late to prevent citizenIndex units being allocated to the building
-        /// </summary>
-        public void doubleCheckHousing()
-        {
-            // Grab the list of residential buildings that are in the city
-            BuildingManager buildings = (BuildingManager)((object)UnityEngine.Object.FindObjectOfType(typeof(BuildingManager)));
-            // CitizenUnit is the data store for the family, citizen0-4 in a struct which can't be changed. No way to change family size beyond 5 :(
-            CitizenManager citizens = (CitizenManager)((object)UnityEngine.Object.FindObjectOfType(typeof(CitizenManager)));
-            Building[] buffer = buildings.m_buildings.m_buffer;
-            int failedCount = 0;
-
-            for (int i = 1; i < buffer.Length; i++)
-            {
-                try
-                {
-                    checkResidentialHouseholds(buildings, citizens, i);
-                }
-#pragma warning disable  // Stop complaining compiler!
-                catch (Exception e)
-#pragma warning enable
-                {
-                    failedCount++;
-                }
-            } // end for
-
-            if (failedCount > 0)
-            {
-                Debugging.panelWarning("Number of failed residential changes : " + failedCount);
-            }
-        }
-
-
-        /// <summary>
         /// Check the household numbers
         /// </summary>
         /// <param name="buildings"></param>
         /// <param name="citizens"></param>
         /// <param name="i"></param>
-        private void checkResidentialHouseholds(BuildingManager buildings, CitizenManager citizens, int i)
+        private void checkResidentialHouseholds(BuildingManager buildings, int i)
         {
+            CitizenManager citizens = ColossalFramework.Singleton<CitizenManager>.instance;
+
             Building building = buildings.m_buildings.m_buffer[i];
             BuildingInfo info = building.Info;
             int width = building.Width;
             int length = building.Length;
 
-            if ((info != null) && (info.m_buildingAI is ResidentialBuildingAI))
+            if ((info != null) && (info.m_buildingAI is ResidentialBuildingAI) && (info.m_class.m_subService == ItemClass.SubService.ResidentialLow))  // Only do something for low density
             {
                 int modHomeCount = ((ResidentialBuildingAI)info.m_buildingAI).CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length);
 
                 // If the modded home count is meant to be less than the original
-                if (modHomeCount < Game_ResidentialAI.CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length, info.m_class.m_subService, info.m_class.m_level))
+                if (modHomeCount < TrickResidentialAI.CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length, info.m_class.m_subService, info.m_class.m_level))
                 {
                     int houseHoldCount = 0;
                     uint citizenIndex = building.m_citizenUnits;
@@ -221,16 +212,26 @@ namespace WG_BalancedPopMod
                     // Disconnect the rest
                     while (citizenIndex != 0u)
                     {
-                        CitizenUnit c = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)];
+                        // TODO - Need to get the building to find the citizen AI
+                        // This is essentially the release building code after bulldoze. I don't see why it causes an issue.
+                        // Is this thread related? I hope not as it would be unsolvable :(
 
+                        CitizenUnit c = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)];
                         citizens.ReleaseUnits(citizenIndex);
                         citizenIndex = c.m_nextUnit;
 
                         // Reset the flags which could make the game think this group has connections to a home
-                        c.m_building = 0;
+                        c.m_citizen0 = 0u;
+                        c.m_citizen1 = 0u;
+                        c.m_citizen2 = 0u;
+                        c.m_citizen3 = 0u;
+                        c.m_citizen4 = 0u;
                         c.m_nextUnit = 0u;
+                        c.m_vehicle = (ushort)0;
+                        c.m_building = 0;
                         c.m_flags = CitizenUnit.Flags.None;
                     }
+                    
                 }
             }
         }

@@ -23,6 +23,7 @@ namespace WG_BalancedPopMod
         /// 
         /// </summary>
         /// <param name="doc"></param>
+        /// 
         public override void readXML(XmlDocument doc)
         {
             XmlElement root = doc.DocumentElement;
@@ -429,7 +430,7 @@ namespace WG_BalancedPopMod
                 string[] attr = node.Name.Split(new char[] {'_'});
                 string name = attr[0];
                 int level = Convert.ToInt32(attr[1]) - 1;
-                int[] array = new int[11];  // If we don't have a right name, we discard
+                int[] array = new int[12];  // If we don't have a right name, we discard
 
                 switch (name)
                 {

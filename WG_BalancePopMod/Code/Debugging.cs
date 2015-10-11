@@ -19,7 +19,7 @@ namespace WG_BalancedPopMod
         // Write to WG log file
         public static void writeDebugToFile(String text)
         {
-            writeDebugToFile(text, "WG_log.log");
+            writeDebugToFile(text, "WG_Pop.log");
         }
 
         // Write a message to the panel

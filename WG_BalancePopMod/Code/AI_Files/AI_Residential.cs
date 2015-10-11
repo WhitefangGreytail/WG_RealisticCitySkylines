@@ -12,6 +12,9 @@ namespace WG_BalancedPopMod
 {
     class ResidentialBuildingAIMod : ResidentialBuildingAI
     {
+        // Might be able to use the same one for all types
+        private static Dictionary<int, int>[] availableFloorSpace = { new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>() };
+
         /// <summary>
         /// 
         /// </summary>
@@ -21,36 +24,31 @@ namespace WG_BalancedPopMod
         /// <returns></returns>
         public override int CalculateHomeCount(Randomizer r, int width, int length)
         {
-            ItemClass item = this.m_info.m_class;
-            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array;
-            //int approxFloorCount = 1;
-            //Boolean aprint = false;
+            BuildingInfo item = this.m_info;
+            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            if(item.m_subService == ItemClass.SubService.ResidentialHigh)
+            int[] array = DataStore.residentialLow[level];
+            if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
             {
                 array = DataStore.residentialHigh[level];
-                //   approxFloorCount = ((int)this.m_info.m_size.y) / 3;
-                //   aprint = true;
             }
-            else
+
+            // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
+            Vector3 v = item.m_size;
+            int x = (int)v.x;
+            int z = (int)v.z;
+
+            if (x <= 0)
             {
-                array = DataStore.residentialLow[level];
+                x = width * 6;
             }
-            int num = array[DataStore.PEOPLE];
-            int householdCount = Mathf.Max(100, width * length * num + r.Int32(100u)) / 100;
-/*
-            Vector3 v = this.m_info.m_size;
-            if (aprint)
+            if (z <= 0) 
             {
-                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount + ", floors: " + approxFloorCount  + ", newCalc: " + (v.x * v.y * v.z) / (3.333333 * 5 * 30), "LowDes.txt");
+                z = length * 6;
             }
-            else
-            {
-                Debugging.writeDebugToFile("x/y/z: " + v.x + " * " + v.y + " * " + v.z + ", household: " + householdCount + ", floors: " + approxFloorCount + ", newCalc: " + (v.x * v.y * v.z) / (3.333333 * 5 * 30), "HighDes.txt");
-            }
-*/
-            return householdCount;
+
+            int returnValue = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
+            return Mathf.Max(1, returnValue);
         }
 
 
