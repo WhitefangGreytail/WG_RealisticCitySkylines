@@ -40,8 +40,8 @@ namespace WG_BalancedPopMod
                                                   new int [] {210, 5,   -1, -1, -1, -1,   16, 30, 26, 7, 144,   0, 5} };
 
         // High floor levels to help with maintaining a single story 
-        public static int[][] commercialLow = { new int [] {110, 5,   90, 10,  0,  0,   25, 45, 45, 12, 600,   0, 100},
-                                                new int [] {112, 5,   35, 40, 20,  5,   30, 50, 50, 11, 650,   0,  90},
+        public static int[][] commercialLow = { new int [] {110, 7,   90, 10,  0,  0,   25, 45, 45, 12, 600,   0, 100},
+                                                new int [] {112, 6,   35, 40, 20,  5,   30, 50, 50, 11, 650,   0,  90},
                                                 new int [] {115, 5,   15, 30, 40, 15,   40, 55, 55, 10, 700,   0,  75} };
 
         public static int[][] commercialHigh = { new int [] {100, 5,   20, 40, 30,  5,   25, 45, 45, 11, 650,   0, 80},
@@ -59,10 +59,10 @@ namespace WG_BalancedPopMod
                                          new int [] {37, 5,   3, 10, 24, 63,   150, 100, 100, 20, 1100,   0, 1},
                                          new int [] {40, 5,   3,  4,  8, 85,   200, 120, 120, 18, 1300,   0, 1} };
 
-        // High floor level because chimney stacks count to height level
-        public static int[][] industry = { new int [] {55, 25,   90, 10,  0,  0,   100, 100, 120, 50, 160,   300, 300},
-                                           new int [] {52, 25,   25, 40, 25, 10,   150, 130, 150, 48, 190,   150, 150},
-                                           new int [] {50, 25,   10, 20, 40, 30,   200, 160, 180, 46, 225,    25,  50} };
+        // Very high floor level because chimney stacks count to height level
+        public static int[][] industry = { new int [] {38, 50,   90, 10,  0,  0,   100, 100, 120, 50, 160,   300, 300},
+                                           new int [] {35, 50,   25, 40, 25, 10,   150, 130, 150, 48, 190,   150, 150},
+                                           new int [] {32, 50,   10, 20, 40, 30,   200, 160, 180, 46, 225,    25,  50} };
 
         public static int[][] industry_farm = { new int [] {150, 25,   90, 10, 0, 0,    75, 200, 225, 30, 170,   0, 175},
                                                 new int [] { 55, 25,   45, 50, 5, 0,   120, 400, 500, 50, 200,   0, 180} };
