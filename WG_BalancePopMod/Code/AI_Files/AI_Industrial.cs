@@ -51,7 +51,7 @@ namespace WG_BalancedPopMod
                 }
 
                 int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
-                num = Mathf.Max(2, value);  // Minimum of two
+                num = Mathf.Max(3, value);  // Minimum of three
 
                 level3 = (num * level3) / num2;
                 level2 = (num * level2) / num2;
