@@ -20,15 +20,33 @@ namespace WG_BalancedPopMod
         // This can be with the local application directory, or the directory where the exe file exists.
         // Default location is the local application directory, however the exe directory is checked first
         private string currentFileLocation = "";
+        private static byte[] segment;
+        private static bool isModEnabled = false;
 
         public override void OnCreated(ILoading loading)
         {
+            if (!isModEnabled)
+            {
+                // Replace the one method call which is called when the city is loaded and EnsureCitizenUnits is used
+                // ResidentialAI -> Game_ResidentialAI. This stops the buildings from going to game defaults on load.
+                // This has no further effects on buildings as the templates are replaced by ResidentialAIMod
+                var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
+                var newMethod = typeof(TrickResidentialAI).GetMethod("CalculateHomeCount");
+
+                // This is to disable all household checks. No need to load a thing
+                segment = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
+                isModEnabled = true;
+            }
         }
 
         public override void OnReleased()
         {
-            // FIXME - This doesn't appear to work too well yet.... but wouldn't be required?
-//            RedirectionHelper.RestoreCalls(oldMethod, segmentToRestore);
+            if (isModEnabled)
+            {
+                var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
+                RedirectionHelper.RestoreCalls(oldMethod, segment);
+                isModEnabled = false;
+            }
         }
 
         public override void OnLevelUnloading()

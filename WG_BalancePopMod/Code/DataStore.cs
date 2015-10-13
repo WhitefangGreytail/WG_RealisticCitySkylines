@@ -50,7 +50,7 @@ namespace WG_BalancedPopMod
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height
-        public static int[][] commercialTourist = { new int[] {30, 30,   20, 30, 35, 15,   30, 70, 80, 50, 600,   0, 150 } };
+        public static int[][] commercialTourist = { new int[] {32, 35,   20, 30, 35, 15,   30, 70, 80, 50, 600,   0, 150 } };
 
         // Seems to be short buildings all the time
         public static int[][] commercialLeisure = { new int[] {60, 10,   25, 40, 25, 10,   45, 55, 60, 45, 700,   0, 300 } };
@@ -67,9 +67,9 @@ namespace WG_BalancedPopMod
         public static int[][] industry_farm = { new int [] {150, 25,   90, 10, 0, 0,    75, 200, 225, 30, 170,   0, 175},
                                                 new int [] { 55, 25,   45, 50, 5, 0,   120, 400, 500, 50, 200,   0, 180} };
 
-        // The bounding box for a forest plantation is tiny!
-        public static int[][] industry_forest = { new int [] {15, 20,   90, 10, 0, 0,    90, 30, 40, 40, 170,   0, 210},
-                                                  new int [] {30, 20,   40, 55, 5, 0,   130, 75, 80, 50, 210,   0, 200} };
+        // The bounding box for a forest plantation is tiny. Why is this so?
+        public static int[][] industry_forest = { new int [] {150, 20,   90, 10, 0, 0,    90, 30, 40, 40, 170,   0, 210},
+                                                  new int [] {45, 20,   40, 55, 5, 0,   130, 75, 80, 50, 210,   0, 200} };
 
         public static int[][] industry_ore = { new int [] {80, 30,   18, 60, 20,  2,   180, 200, 200, 80, 220,   400, 500},
                                                new int [] {40, 30,   15, 40, 35, 10,   240, 210, 280, 60, 300,   300, 475} };
