@@ -43,14 +43,19 @@ namespace WG_BalancedPopMod // Renamed for myself
         /// </summary>
         /// <param name="from"></param>
         /// <param name="to"></param>
-        public static void RedirectCalls(MethodInfo from, MethodInfo to)
+        public static byte[] RedirectCalls(MethodInfo from, MethodInfo to)
         {
             // GetFunctionPointer enforces compilation of the method.
             var fptr1 = from.MethodHandle.GetFunctionPointer();
             var fptr2 = to.MethodHandle.GetFunctionPointer();
-            PatchJumpTo(fptr1, fptr2);
+            return PatchJumpTo(fptr1, fptr2);
             // We could also use:
             //RedirectCall(from, to);
+        }
+
+        public static void RestoreCalls(MethodInfo from, byte[] oldCode)
+        {
+            RestoreCallsImpl(from.MethodHandle.GetFunctionPointer(), oldCode);
         }
 
         /// <summary>
@@ -134,21 +139,50 @@ namespace WG_BalancedPopMod // Renamed for myself
         /// <summary>
         /// Primitive patching. Inserts a jump to 'target' at 'site'. Works even if both methods'
         /// callers have already been compiled.
+        /// 
+        /// Takes a copy of the segment we copied to replace it after we are done
         /// </summary>
         /// <param name="site"></param>
         /// <param name="target"></param>
-        private static void PatchJumpTo(IntPtr site, IntPtr target)
+        /// <returns></returns>
+        private static byte[] PatchJumpTo(IntPtr site, IntPtr target)
         {
+            byte[] returnVal = new byte[13];
+
             // R11 is volatile.
             unsafe
             {
                 byte* sitePtr = (byte*)site.ToPointer();
+                for (byte i = 0; i < 13; i++ )
+                {
+                    returnVal[i] = *(sitePtr + i);
+                }
+
                 *sitePtr = 0x49; // mov r11, target
                 *(sitePtr + 1) = 0xBB;
                 *((ulong*)(sitePtr + 2)) = (ulong)target.ToInt64();
                 *(sitePtr + 10) = 0x41; // jmp r11
                 *(sitePtr + 11) = 0xFF;
                 *(sitePtr + 12) = 0xE3;
+            }
+
+            return returnVal;
+        }
+
+        /// <summary>
+        /// Copy back everything that we took
+        /// </summary>
+        /// <param name="site"></param>
+        /// <param name="oldCode"></param>
+        private static void RestoreCallsImpl(IntPtr site, byte[] oldCode)
+        {
+            unsafe
+            {
+                byte* sitePtr = (byte*)site.ToPointer();
+                for (byte i = 0; i < 13; i++)
+                {
+                    *(sitePtr + i) = oldCode[i];
+                }
             }
         }
 
