@@ -12,8 +12,13 @@ namespace WG_BalancedPopMod
 {
     class ResidentialBuildingAIMod : ResidentialBuildingAI
     {
-        // Might be able to use the same one for all types
-        private static Dictionary<int, int>[] availableFloorSpace = { new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>(), new Dictionary<int, int>() };
+        // CalculateHomeCount is only called once in construction or upgrading. Only store consumption
+        private static Dictionary<int, consumeStruct> consumeCache = new Dictionary<int, consumeStruct>(DataStore.CACHE_SIZE);
+
+        public static void clearCache()
+        {
+            consumeCache.Clear();
+        }
 
         /// <summary>
         /// 
@@ -25,6 +30,7 @@ namespace WG_BalancedPopMod
         public override int CalculateHomeCount(Randomizer r, int width, int length)
         {
             BuildingInfo item = this.m_info;
+            consumeCache.Remove(item.GetInstanceID());  // Clean out the consumption cache on upgrade
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             int[] array = DataStore.residentialLow[level];
@@ -33,7 +39,7 @@ namespace WG_BalancedPopMod
                 array = DataStore.residentialHigh[level];
             }
 
-            // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
+            // Check x and z just incase they are 0. A few user created assets are. If they are, then base the calculation of 3/4 of the width and length given
             Vector3 v = item.m_size;
             int x = (int)v.x;
             int z = (int)v.z;
@@ -47,8 +53,25 @@ namespace WG_BalancedPopMod
                 z = length * 6;
             }
 
-            int returnValue = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
-            return Mathf.Max(1, returnValue);
+            int returnValue = Mathf.Max(1, ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]));
+
+            // TODO - If the new value is greater than the previous, disconnect, everyone moves out
+            //item.m_buildingAI.
+            //TransferManager.TransferReason.LeaveCity0;
+            // Grab anything after what we don't want, release the units
+            //Singleton<CitizenManager>.instance.ReleaseUnits(data.m_citizenUnits);  
+            //ResidentAI.tryMoveFamily(uint citizenID, ref Citizen data, int familySize);
+
+            // Or just make the citizens disappear
+
+            return returnValue;
+        }
+
+
+        public override void ReleaseBuilding(ushort buildingID, ref Building data)
+        {
+            consumeCache.Remove(this.m_info.GetInstanceID());
+            base.ReleaseBuilding(buildingID, ref data);
         }
 
 
@@ -64,39 +87,68 @@ namespace WG_BalancedPopMod
         /// <param name="incomeAccumulation"></param>
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
-            ItemClass @class = this.m_info.m_class;
-            int level = (int) (@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = (@class.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
-            electricityConsumption = array[DataStore.POWER];
-            waterConsumption = array[DataStore.WATER];
-            sewageAccumulation = array[DataStore.SEWAGE];
-            garbageAccumulation = array[DataStore.GARBAGE];
-            incomeAccumulation = array[DataStore.INCOME];
+            ItemClass item = this.m_info.m_class;
+            consumeStruct output;
+            bool needRefresh = true;
 
-            if (electricityConsumption != 0)
+            if (consumeCache.TryGetValue(item.GetInstanceID(), out output))
             {
-                electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption + r.Int32(100u)) / 100;
+                needRefresh = output.productionRate != productionRate;
             }
-            if (waterConsumption != 0)
+
+            if (needRefresh)
             {
-                int num = r.Int32(100u);
-                waterConsumption = Mathf.Max(100, productionRate * waterConsumption + num) / 100;
-                if (sewageAccumulation != 0)
+                consumeCache.Remove(item.GetInstanceID());
+                int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+                int[] array = (item.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
+                electricityConsumption = array[DataStore.POWER];
+                waterConsumption = array[DataStore.WATER];
+                sewageAccumulation = array[DataStore.SEWAGE];
+                garbageAccumulation = array[DataStore.GARBAGE];
+                incomeAccumulation = array[DataStore.INCOME];
+
+                if (electricityConsumption != 0)
                 {
-                    sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + num) / 100;
+                    electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption + r.Int32(100u)) / 100;
                 }
+                if (waterConsumption != 0)
+                {
+                    int num = r.Int32(100u);
+                    waterConsumption = Mathf.Max(100, productionRate * waterConsumption + num) / 100;
+                    if (sewageAccumulation != 0)
+                    {
+                        sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + num) / 100;
+                    }
+                }
+                else if (sewageAccumulation != 0)
+                {
+                    sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + r.Int32(100u)) / 100;
+                }
+                if (garbageAccumulation != 0)
+                {
+                    garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation + r.Int32(100u)) / 100;
+                }
+                if (incomeAccumulation != 0)
+                {
+                    incomeAccumulation = productionRate * incomeAccumulation;
+                }
+                output.productionRate = productionRate;
+                output.electricity = electricityConsumption;
+                output.water = waterConsumption;
+                output.sewage = sewageAccumulation;
+                output.garbage = garbageAccumulation;
+                output.income = incomeAccumulation;
+
+                consumeCache.Add(item.GetInstanceID(), output);
             }
-            else if (sewageAccumulation != 0)
+            else
             {
-                sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + r.Int32(100u)) / 100;
-            }
-            if (garbageAccumulation != 0)
-            {
-                garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation + r.Int32(100u)) / 100;
-            }
-            if (incomeAccumulation != 0)
-            {
-                incomeAccumulation = productionRate * incomeAccumulation;
+                productionRate = output.productionRate;
+                electricityConsumption = output.electricity;
+                waterConsumption = output.water;
+                sewageAccumulation = output.sewage;
+                garbageAccumulation = output.garbage;
+                incomeAccumulation = output.income;
             }
         }
 
