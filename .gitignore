@@ -3,7 +3,7 @@
 *.suo
 *.sln
 *.xls*
-*Help file.txt
+Help/*
 !TempLibraryStore/*.dll
 WG_BalancePopMod/bin/*
 WG_BalancePopMod/obj/*
