@@ -4,6 +4,8 @@ namespace WG_BalancedPopMod
 {
     public class DataStore
     {
+        public const int CACHE_SIZE = 65536;
+
         // Array indexes
         public const int PEOPLE = 0;  // sqm per person, also calculated value for internal use only
         public const int LEVEL_HEIGHT = 1;  // m per floor
@@ -22,7 +24,7 @@ namespace WG_BalancedPopMod
         public const int GROUND_POLLUTION = 11;
         public const int NOISE_POLLUTION = GROUND_POLLUTION + 1; // 12
 
-        public const int PRODUCTION = 12;
+        public const int PRODUCTION = 13;
 
         public static bool enableExperimental = false;
 
@@ -76,5 +78,32 @@ namespace WG_BalancedPopMod
 
         public static int[][] industry_oil = { new int [] {80, 30,   15, 60, 23,  2,   200, 200, 250, 60, 300,   450, 375},
                                                new int [] {38, 30,   15, 35, 40, 10,   280, 220, 300, 75, 350,   300, 400} };
+    }
+
+
+
+    /// <summary>
+    /// Struct for caching CalculateWorkplaceCount values
+    /// </summary>
+    public struct employStruct
+    {
+        public int level;
+        public int level0;
+        public int level1;
+        public int level2;
+        public int level3;
+    }
+
+    /// <summary>
+    /// Struct for caching GetConsumptionRates values
+    /// </summary>
+    public struct consumeStruct
+    {
+        public int productionRate;
+        public int electricity;
+        public int water;
+        public int sewage;
+        public int garbage;
+        public int income;
     }
 }

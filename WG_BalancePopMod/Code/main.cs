@@ -51,6 +51,13 @@ namespace WG_BalancedPopMod
 
         public override void OnLevelUnloading()
         {
+            // Clear all the caches
+            OfficeBuildingAIMod.clearCache();
+            CommercialBuildingAIMod.clearCache();
+            IndustrialBuildingAIMod.clearCache();
+            IndustrialExtractorAIMod.clearCache();
+            ResidentialBuildingAIMod.clearCache();
+
             try
             {
                 WG_XMLBaseVersion xml = new XML_VersionThree();

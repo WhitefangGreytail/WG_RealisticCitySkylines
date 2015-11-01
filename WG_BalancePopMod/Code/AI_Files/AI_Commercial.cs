@@ -11,6 +11,15 @@ namespace WG_BalancedPopMod
 {
     public class CommercialBuildingAIMod : CommercialBuildingAI
     {
+        private static Dictionary<int, employStruct> employCache = new Dictionary<int, employStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<int, consumeStruct> consumeCache = new Dictionary<int, consumeStruct>(DataStore.CACHE_SIZE);
+
+        public static void clearCache()
+        {
+            employCache.Clear();
+            consumeCache.Clear();
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -25,54 +34,90 @@ namespace WG_BalancedPopMod
         {
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(item.m_class, ref level);
 
-            int num = array[DataStore.PEOPLE];
-            level0 = array[DataStore.WORK_LVL0];
-            level1 = array[DataStore.WORK_LVL1];
-            level2 = array[DataStore.WORK_LVL2];
-            level3 = array[DataStore.WORK_LVL3];
-            int num2 = level0 + level1 + level2 + level3;
+            employStruct output;
+            bool needRefresh = true;
 
-            // TODO Sure could use a way to save the value so we don't do these calculations all the time
-            if (num > 0 && num2 > 0)
+            if (employCache.TryGetValue(item.GetInstanceID(), out output))
             {
-            // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
-                Vector3 v = item.m_size;
-                int x = (int)v.x;
-                int z = (int)v.z;
+                needRefresh = output.level != level;
+            }
 
-                if (x <= 0)
+            if (needRefresh)
+            {
+                employCache.Remove(item.GetInstanceID());
+                consumeCache.Remove(item.GetInstanceID());
+                int[] array = getArray(item.m_class, ref level);
+
+                int num = array[DataStore.PEOPLE];
+                level0 = array[DataStore.WORK_LVL0];
+                level1 = array[DataStore.WORK_LVL1];
+                level2 = array[DataStore.WORK_LVL2];
+                level3 = array[DataStore.WORK_LVL3];
+                int num2 = level0 + level1 + level2 + level3;
+
+                if (num > 0 && num2 > 0)
                 {
-                    x = width * 6;
+                    // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
+                    Vector3 v = item.m_size;
+                    int x = (int)v.x;
+                    int z = (int)v.z;
+
+                    if (x <= 0)
+                    {
+                        x = width * 6;
+                    }
+                    if (z <= 0)
+                    {
+                        z = length * 6;
+                    }
+
+                    int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
+
+    /*                string file = "ComLow.txt";
+                    if (item.m_class.m_subService == ItemClass.SubService.CommercialHigh)
+                        file = "ComHigh.txt";
+                    else if (item.m_class.m_subService == ItemClass.SubService.CommercialTourist)
+                        file = "ComTourist.txt";
+                    else if (item.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
+                        file = "ComLeisure.txt";
+                    Debugging.writeDebugToFile("level: " + level + ", w/l/h/f: " + (int)item.m_size.x + " * " + (int)item.m_size.z + " * " + (int)item.m_size.y + " / " + Mathf.CeilToInt(item.m_size.y / array[DataStore.LEVEL_HEIGHT]) + ", workers: " + value, file);
+     */
+                    num = Mathf.Max(3, value);  // Minimum of three
+
+                    level3 = (num * level3) / num2;
+                    level2 = (num * level2) / num2;
+                    level1 = (num * level1) / num2;
+                    level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
                 }
-                if (z <= 0)
+                else
                 {
-                    z = length * 6;
+                    level0 = level1 = level2 = level3 = 1;  // Allocate 1 for every level, to stop div by 0
                 }
+            
+                output.level = level;
+                output.level0 = level0;
+                output.level1 = level1;
+                output.level2 = level2;
+                output.level3 = level3;
 
-                int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
-
-/*                string file = "ComLow.txt";
-                if (item.m_class.m_subService == ItemClass.SubService.CommercialHigh)
-                    file = "ComHigh.txt";
-                else if (item.m_class.m_subService == ItemClass.SubService.CommercialTourist)
-                    file = "ComTourist.txt";
-                else if (item.m_class.m_subService == ItemClass.SubService.CommercialLeisure)
-                    file = "ComLeisure.txt";
-                Debugging.writeDebugToFile("level: " + level + ", w/l/h/f: " + (int)item.m_size.x + " * " + (int)item.m_size.z + " * " + (int)item.m_size.y + " / " + Mathf.CeilToInt(item.m_size.y / array[DataStore.LEVEL_HEIGHT]) + ", workers: " + value, file);
- */
-                num = Mathf.Max(3, value);  // Minimum of three
-
-                level3 = (num * level3) / num2;
-                level2 = (num * level2) / num2;
-                level1 = (num * level1) / num2;
-                level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
+                employCache.Add(item.GetInstanceID(), output);
             }
             else
             {
-                level0 = level1 = level2 = level3 = 1;  // Allocate 1 for every level, to stop div by 0
+                level0 = output.level0;
+                level1 = output.level1;
+                level2 = output.level2;
+                level3 = output.level3;
             }
+        }
+
+
+        public override void ReleaseBuilding(ushort buildingID, ref Building data)
+        {
+            employCache.Remove(this.m_info.GetInstanceID());
+            consumeCache.Remove(this.m_info.GetInstanceID());
+            base.ReleaseBuilding(buildingID, ref data);
         }
 
 
@@ -89,34 +134,65 @@ namespace WG_BalancedPopMod
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
             ItemClass item = this.m_info.m_class;
-            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(item, ref level);
+            consumeStruct output;
+            bool needRefresh = true;
 
-            electricityConsumption = array[DataStore.POWER];
-            waterConsumption = array[DataStore.WATER];
-            sewageAccumulation = array[DataStore.SEWAGE];
-            garbageAccumulation = array[DataStore.GARBAGE];
-            incomeAccumulation = array[DataStore.INCOME];
+            if (consumeCache.TryGetValue(item.GetInstanceID(), out output))
+            {
+                needRefresh = output.productionRate != productionRate;
+            }
 
-            if (electricityConsumption != 0)
+            if (needRefresh)
             {
-                electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption + r.Int32(100u)) / 100;
+                consumeCache.Remove(item.GetInstanceID());
+
+                int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+                int[] array = getArray(item, ref level);
+
+                electricityConsumption = array[DataStore.POWER];
+                waterConsumption = array[DataStore.WATER];
+                sewageAccumulation = array[DataStore.SEWAGE];
+                garbageAccumulation = array[DataStore.GARBAGE];
+                incomeAccumulation = array[DataStore.INCOME];
+
+                if (electricityConsumption != 0)
+                {
+                    electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption + r.Int32(100u)) / 100;
+                }
+                if (waterConsumption != 0)
+                {
+                    waterConsumption = Mathf.Max(100, productionRate * waterConsumption + r.Int32(100u)) / 100;
+                }
+                if (sewageAccumulation != 0)
+                {
+                    sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + r.Int32(100u)) / 100;
+                }
+                if (garbageAccumulation != 0)
+                {
+                    garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation + r.Int32(100u)) / 100;
+                }
+                if (incomeAccumulation != 0)
+                {
+                    incomeAccumulation = productionRate * incomeAccumulation;
+                }
+
+                output.productionRate = productionRate;
+                output.electricity = electricityConsumption;
+                output.water = waterConsumption;
+                output.sewage = sewageAccumulation;
+                output.garbage = garbageAccumulation;
+                output.income = incomeAccumulation;
+
+                consumeCache.Add(item.GetInstanceID(), output);
             }
-            if (waterConsumption != 0)
+            else
             {
-                waterConsumption = Mathf.Max(100, productionRate * waterConsumption + r.Int32(100u)) / 100;
-            }
-            if (sewageAccumulation != 0)
-            {
-                sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + r.Int32(100u)) / 100;
-            }
-            if (garbageAccumulation != 0)
-            {
-                garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation + r.Int32(100u)) / 100;
-            }
-            if (incomeAccumulation != 0)
-            {
-                incomeAccumulation = productionRate * incomeAccumulation;
+                productionRate = output.productionRate;
+                electricityConsumption = output.electricity;
+                waterConsumption = output.water;
+                sewageAccumulation = output.sewage;
+                garbageAccumulation = output.garbage;
+                incomeAccumulation = output.income;
             }
         }
 
