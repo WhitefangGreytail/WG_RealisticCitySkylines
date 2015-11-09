@@ -13,7 +13,7 @@ namespace WG_BalancedPopMod
     class ResidentialBuildingAIMod : ResidentialBuildingAI
     {
         // CalculateHomeCount is only called once in construction or upgrading. Only store consumption
-        private static Dictionary<int, consumeStruct> consumeCache = new Dictionary<int, consumeStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
         {
@@ -30,7 +30,7 @@ namespace WG_BalancedPopMod
         public override int CalculateHomeCount(Randomizer r, int width, int length)
         {
             BuildingInfo item = this.m_info;
-            consumeCache.Remove(item.GetInstanceID());  // Clean out the consumption cache on upgrade
+            consumeCache.Remove(r.seed);  // Clean out the consumption cache on upgrade
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             int[] array = DataStore.residentialLow[level];
@@ -70,7 +70,7 @@ namespace WG_BalancedPopMod
 
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
-            consumeCache.Remove(this.m_info.GetInstanceID());
+            consumeCache.Remove(new Randomizer((int)buildingID).seed);
             base.ReleaseBuilding(buildingID, ref data);
         }
 
@@ -87,18 +87,19 @@ namespace WG_BalancedPopMod
         /// <param name="incomeAccumulation"></param>
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
+            ulong seed = r.seed;
             ItemClass item = this.m_info.m_class;
             consumeStruct output;
             bool needRefresh = true;
 
-            if (consumeCache.TryGetValue(item.GetInstanceID(), out output))
+            if (consumeCache.TryGetValue(seed, out output))
             {
                 needRefresh = output.productionRate != productionRate;
             }
 
             if (needRefresh)
             {
-                consumeCache.Remove(item.GetInstanceID());
+                consumeCache.Remove(seed);
                 int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
                 int[] array = (item.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
                 electricityConsumption = array[DataStore.POWER];
@@ -139,7 +140,7 @@ namespace WG_BalancedPopMod
                 output.garbage = garbageAccumulation;
                 output.income = incomeAccumulation;
 
-                consumeCache.Add(item.GetInstanceID(), output);
+                consumeCache.Add(seed, output);
             }
             else
             {

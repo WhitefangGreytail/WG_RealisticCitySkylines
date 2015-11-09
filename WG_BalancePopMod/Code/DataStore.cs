@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 
 namespace WG_BalancedPopMod
 {
@@ -71,15 +73,14 @@ namespace WG_BalancedPopMod
 
         // The bounding box for a forest plantation is tiny. Why is this so?
         public static int[][] industry_forest = { new int [] {150, 20,   90, 10, 0, 0,    90, 30, 40, 40, 170,   0, 210},
-                                                  new int [] {45, 20,   40, 55, 5, 0,   130, 75, 80, 50, 210,   0, 200} };
+                                                  new int [] { 45, 20,   40, 55, 5, 0,   130, 75, 80, 50, 210,   0, 200} };
 
         public static int[][] industry_ore = { new int [] {80, 30,   18, 60, 20,  2,   180, 200, 200, 80, 220,   400, 500},
                                                new int [] {40, 30,   15, 40, 35, 10,   240, 210, 280, 60, 300,   300, 475} };
 
         public static int[][] industry_oil = { new int [] {80, 30,   15, 60, 23,  2,   200, 200, 250, 60, 300,   450, 375},
                                                new int [] {38, 30,   15, 35, 40, 10,   280, 220, 300, 75, 350,   300, 400} };
-    }
-
+    } // end DataStore
 
 
     /// <summary>
