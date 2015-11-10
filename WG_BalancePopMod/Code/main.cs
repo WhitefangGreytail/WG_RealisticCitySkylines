@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Xml;
 using ICities;
 using UnityEngine;
+using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using System.Diagnostics;
 
@@ -36,6 +37,23 @@ namespace WG_BalancedPopMod
                 // This is to disable all household checks. No need to load a thing
                 segment = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
                 isModEnabled = true;
+
+/*
+                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
+                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
+                {
+                    // This creates a unique number
+                    Randomizer number = new Randomizer((int)i);
+                    try
+                    {
+                        seedToId.Add(number.seed, i);
+                    }
+                    catch (System.ArgumentException)
+                    {
+                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
+                    }
+                }
+*/
             }
         }
 
@@ -48,6 +66,7 @@ namespace WG_BalancedPopMod
                 isModEnabled = false;
             }
         }
+
 
         public override void OnLevelUnloading()
         {
@@ -259,6 +278,6 @@ namespace WG_BalancedPopMod
                     
                 }
             }
-        }
+        } // end checkResidentialHouseholds
     }
 }

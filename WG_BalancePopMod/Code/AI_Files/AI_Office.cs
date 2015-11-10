@@ -10,8 +10,8 @@ namespace WG_BalancedPopMod
 {
     class OfficeBuildingAIMod : OfficeBuildingAI
     {
-        private static Dictionary<int, employStruct> employCache = new Dictionary<int, employStruct>(DataStore.CACHE_SIZE);
-        private static Dictionary<int, consumeStruct> consumeCache = new Dictionary<int, consumeStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, employStruct> employCache = new Dictionary<ulong, employStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
         {
@@ -31,21 +31,22 @@ namespace WG_BalancedPopMod
         /// <param name="level3"></param>
         public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
+            ulong seed = r.seed;
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             employStruct output;
             bool needRefresh = true;
 
-            if (employCache.TryGetValue(item.GetInstanceID(), out output))
+            if (employCache.TryGetValue(seed, out output))
             {
                 needRefresh = output.level != level;
             }
 
             if (needRefresh)
             {
-                employCache.Remove(item.GetInstanceID());
-                consumeCache.Remove(item.GetInstanceID());
+                employCache.Remove(seed);
+                consumeCache.Remove(seed);
                 int[] array = DataStore.office[level];
 
                 int num = array[DataStore.PEOPLE];
@@ -91,7 +92,7 @@ namespace WG_BalancedPopMod
                 output.level2 = level2;
                 output.level3 = level3;
 
-                employCache.Add(item.GetInstanceID(), output);
+                employCache.Add(seed, output);
             }
             else
             {
@@ -105,8 +106,8 @@ namespace WG_BalancedPopMod
 
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
-            employCache.Remove(this.m_info.GetInstanceID());
-            consumeCache.Remove(this.m_info.GetInstanceID());
+            employCache.Remove(new Randomizer((int)buildingID).seed);
+            consumeCache.Remove(new Randomizer((int)buildingID).seed);
             base.ReleaseBuilding(buildingID, ref data);
         }
 
@@ -123,18 +124,19 @@ namespace WG_BalancedPopMod
         /// <param name="incomeAccumulation"></param>
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
+            ulong seed = r.seed;
             ItemClass item = this.m_info.m_class;
             consumeStruct output;
             bool needRefresh = true;
 
-            if (consumeCache.TryGetValue(item.GetInstanceID(), out output))
+            if (consumeCache.TryGetValue(seed, out output))
             {
                 needRefresh = output.productionRate != productionRate;
             }
 
             if (needRefresh)
             {
-                consumeCache.Remove(item.GetInstanceID());
+                consumeCache.Remove(seed);
                 int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
 
                 electricityConsumption = DataStore.office[level][DataStore.POWER];
@@ -175,7 +177,7 @@ namespace WG_BalancedPopMod
                 output.garbage = garbageAccumulation;
                 output.income = incomeAccumulation;
 
-                consumeCache.Add(item.GetInstanceID(), output);
+                consumeCache.Add(seed, output);
             }
             else
             {
