@@ -13,28 +13,28 @@
     <ResidentialHigh_3 space_pp="35" level_height="10" />
     <ResidentialHigh_4 space_pp="38" level_height="10" />
     <ResidentialHigh_5 space_pp="42" level_height="10" />
-    <CommercialLow_1 space_pp="110" level_height="7" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
-    <CommercialLow_2 space_pp="112" level_height="6" lvl_0="35" lvl_1="40" lvl_2="20" lvl_3="5" />
-    <CommercialLow_3 space_pp="115" level_height="5" lvl_0="15" lvl_1="30" lvl_2="40" lvl_3="15" />
-    <CommercialHigh_1 space_pp="100" level_height="10" lvl_0="20" lvl_1="40" lvl_2="30" lvl_3="5" />
-    <CommercialHigh_2 space_pp="110" level_height="10" lvl_0="15" lvl_1="35" lvl_2="35" lvl_3="15" />
-    <CommercialHigh_3 space_pp="120" level_height="10" lvl_0="10" lvl_1="25" lvl_2="40" lvl_3="25" />
-    <CommercialLeisure_1 space_pp="50" level_height="30" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
-    <CommercialTourist_1 space_pp="50" level_height="40" lvl_0="20" lvl_1="30" lvl_2="35" lvl_3="15" />
-    <Office_1 space_pp="35" level_height="10" lvl_0="3" lvl_1="17" lvl_2="40" lvl_3="40" />
-    <Office_2 space_pp="37" level_height="10" lvl_0="3" lvl_1="10" lvl_2="24" lvl_3="63" />
-    <Office_3 space_pp="40" level_height="10" lvl_0="3" lvl_1="4" lvl_2="8" lvl_3="85" />
-    <Industry_1 space_pp="40" level_height="50" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
-    <Industry_2 space_pp="37" level_height="50" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
-    <Industry_3 space_pp="34" level_height="50" lvl_0="10" lvl_1="20" lvl_2="40" lvl_3="30" />
-    <IndustryFarm_1 space_pp="150" level_height="25" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
-    <IndustryFarm_2 space_pp="55" level_height="25" lvl_0="45" lvl_1="50" lvl_2="5" lvl_3="0" />
-    <IndustryForest_1 space_pp="150" level_height="20" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
-    <IndustryForest_2 space_pp="45" level_height="20" lvl_0="40" lvl_1="55" lvl_2="5" lvl_3="0" />
-    <IndustryOre_1 space_pp="80" level_height="30" lvl_0="18" lvl_1="60" lvl_2="20" lvl_3="2" />
-    <IndustryOre_2 space_pp="40" level_height="30" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
-    <IndustryOil_1 space_pp="80" level_height="30" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
-    <IndustryOil_2 space_pp="38" level_height="30" lvl_0="15" lvl_1="35" lvl_2="40" lvl_3="10" />
+    <CommercialLow_1 space_pp="110" level_height="7" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
+    <CommercialLow_2 space_pp="112" level_height="6" ground_mult="0" lvl_0="35" lvl_1="40" lvl_2="20" lvl_3="5" />
+    <CommercialLow_3 space_pp="115" level_height="5" ground_mult="0" lvl_0="15" lvl_1="30" lvl_2="40" lvl_3="15" />
+    <CommercialHigh_1 space_pp="100" level_height="10" ground_mult="0" lvl_0="20" lvl_1="40" lvl_2="30" lvl_3="5" />
+    <CommercialHigh_2 space_pp="110" level_height="10" ground_mult="0" lvl_0="15" lvl_1="35" lvl_2="35" lvl_3="15" />
+    <CommercialHigh_3 space_pp="120" level_height="10" ground_mult="0" lvl_0="10" lvl_1="25" lvl_2="40" lvl_3="25" />
+    <CommercialLeisure_1 space_pp="50" level_height="30" ground_mult="0" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
+    <CommercialTourist_1 space_pp="50" level_height="40" ground_mult="0"  lvl_0="20" lvl_1="30" lvl_2="35" lvl_3="15" />
+    <Office_1 space_pp="35" level_height="10" lvl_0="3" ground_mult="0" lvl_1="17" lvl_2="40" lvl_3="40" />
+    <Office_2 space_pp="37" level_height="10" lvl_0="3" ground_mult="0" lvl_1="10" lvl_2="24" lvl_3="63" />
+    <Office_3 space_pp="40" level_height="10" lvl_0="3" ground_mult="0" lvl_1="4" lvl_2="8" lvl_3="85" />
+    <Industry_1 space_pp="40" level_height="50" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
+    <Industry_2 space_pp="37" level_height="50" ground_mult="0" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
+    <Industry_3 space_pp="34" level_height="50" ground_mult="0" lvl_0="10" lvl_1="20" lvl_2="40" lvl_3="30" />
+    <IndustryFarm_1 space_pp="150" level_height="25" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
+    <IndustryFarm_2 space_pp="55" level_height="25" ground_mult="0" lvl_0="45" lvl_1="50" lvl_2="5" lvl_3="0" />
+    <IndustryForest_1 space_pp="150" level_height="20" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
+    <IndustryForest_2 space_pp="45" level_height="20" ground_mult="0" lvl_0="40" lvl_1="55" lvl_2="5" lvl_3="0" />
+    <IndustryOre_1 space_pp="80" level_height="30" ground_mult="0" lvl_0="18" lvl_1="60" lvl_2="20" lvl_3="2" />
+    <IndustryOre_2 space_pp="40" level_height="30" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
+    <IndustryOil_1 space_pp="80" level_height="30" ground_mult="0" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
+    <IndustryOil_2 space_pp="38" level_height="30" ground_mult="0" lvl_0="15" lvl_1="35" lvl_2="40" lvl_3="10" />
   </population>
   <consumption>
     <ResidentialLow_1 power="10" water="28" sewage="20" garbage="15" wealth="100" />
@@ -70,6 +70,22 @@
     <IndustryOil_1 power="200" water="200" sewage="250" garbage="60" wealth="300" />
     <IndustryOil_2 power="280" water="220" sewage="300" garbage="75" wealth="350" />
   </consumption>
+  <production>
+    <Office_1 production="20" />
+    <Office_2 production="20" />
+    <Office_3 production="20" />
+    <Industry_1 production="100" />
+    <Industry_2 production="140" />
+    <Industry_3 production="160" />
+    <IndustryFarm_1 production="25" />
+    <IndustryFarm_2 production="100" />
+    <IndustryForest_1 production="25" />
+    <IndustryForest_2 production="100" />
+    <IndustryOre_1 production="75" />
+    <IndustryOre_2 production="100" />
+    <IndustryOil_1 production="75" />
+    <IndustryOil_2 production="100" />
+  </production>
   <!--Ground pollution is not used by residential, commercial and offices.-->
   <!--Noise pollution is not spread over the land by residential or offices.-->
   <pollution>
