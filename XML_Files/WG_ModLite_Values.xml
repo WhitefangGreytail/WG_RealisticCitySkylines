@@ -71,19 +71,19 @@
     <IndustryOil_2 power="280" water="220" sewage="300" garbage="75" wealth="350" />
   </consumption>
   <production>
-    <Office_1 production="50" />
-    <Office_2 production="70" />
-    <Office_3 production="80" />
+    <Office_1 production="20" />
+    <Office_2 production="20" />
+    <Office_3 production="20" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />
-    <IndustryFarm_1 production="100" />
+    <IndustryFarm_1 production="25" />
     <IndustryFarm_2 production="100" />
-    <IndustryForest_1 production="100" />
+    <IndustryForest_1 production="25" />
     <IndustryForest_2 production="100" />
-    <IndustryOre_1 production="100" />
+    <IndustryOre_1 production="75" />
     <IndustryOre_2 production="100" />
-    <IndustryOil_1 production="100" />
+    <IndustryOil_1 production="75" />
     <IndustryOil_2 production="100" />
   </production>
   <!--Ground pollution is not used by residential, commercial and offices.-->
