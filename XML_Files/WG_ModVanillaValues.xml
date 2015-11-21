@@ -20,7 +20,7 @@
     <CommercialHigh_2 space_pp="120" level_height="5" ground_mult="1" lvl_0="15" lvl_1="35" lvl_2="35" lvl_3="15" />
     <CommercialHigh_3 space_pp="130" level_height="5" ground_mult="1" lvl_0="10" lvl_1="25" lvl_2="40" lvl_3="25" />
     <CommercialLeisure_1 space_pp="60" level_height="10" ground_mult="0" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
-    <CommercialTourist_1 space_pp="1400" level_height="10" ground_mult="50" lvl_0="20" lvl_1="30" lvl_2="35" lvl_3="15" />
+    <CommercialTourist_1 space_pp="1200" level_height="10" ground_mult="50" lvl_0="20" lvl_1="30" lvl_2="35" lvl_3="15" />
     <Office_1 space_pp="35" level_height="5" ground_mult="0" lvl_0="3" lvl_1="17" lvl_2="40" lvl_3="40" />
     <Office_2 space_pp="37" level_height="5" ground_mult="0" lvl_0="3" lvl_1="10" lvl_2="24" lvl_3="63" />
     <Office_3 space_pp="40" level_height="5" ground_mult="0" lvl_0="3" lvl_1="4" lvl_2="8" lvl_3="85" />

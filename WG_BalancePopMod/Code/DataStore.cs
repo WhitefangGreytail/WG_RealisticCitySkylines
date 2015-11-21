@@ -55,7 +55,7 @@ namespace WG_BalancedPopMod
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height
-        public static int[][] commercialTourist = { new int[] {1400, 10, 50,   20, 30, 35, 15,   40, 60, 65, 40, 650,   0, 150,   -1 } };
+        public static int[][] commercialTourist = { new int[] {1200, 10, 50,   20, 30, 35, 15,   40, 60, 65, 40, 650,   0, 150,   -1 } };
 
         // Seems to be short buildings all the time
         public static int[][] commercialLeisure = { new int[] {60, 10, 0,   25, 40, 25, 10,   40, 40, 44, 35, 700,   0, 300,   -1 } };
