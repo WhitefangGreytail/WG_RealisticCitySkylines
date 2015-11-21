@@ -71,6 +71,22 @@
     <IndustryOil_1 power="350" water="200" sewage="200" garbage="200" wealth="360" />
     <IndustryOil_2 power="350" water="200" sewage="200" garbage="200" wealth="360" />
   </consumption>
+  <production>
+    <Office_1 production="50" />
+    <Office_2 production="70" />
+    <Office_3 production="80" />
+    <Industry_1 production="100" />
+    <Industry_2 production="140" />
+    <Industry_3 production="160" />
+    <IndustryFarm_1 production="100" />
+    <IndustryFarm_2 production="100" />
+    <IndustryForest_1 production="100" />
+    <IndustryForest_2 production="100" />
+    <IndustryOre_1 production="100" />
+    <IndustryOre_2 production="100" />
+    <IndustryOil_1 production="100" />
+    <IndustryOil_2 production="100" />
+  </production>
   <!--Ground pollution is not used by residential, commercial and offices.-->
   <!--Noise pollution is not spread over the land by residential or offices.-->
   <pollution>

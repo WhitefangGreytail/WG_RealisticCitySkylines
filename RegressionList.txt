@@ -8,8 +8,9 @@ SingleHouseTest
 4.  Mod on  - (1 - 1 households)
 
 
-6.  Mod on  - Can change values, play and exit to main menu. XML is updated
-7.  Mod on  - Remove contents of XML. Play and exit to main menu. XML is filled in
-8.  Mod on  - Delete XML. Play and exit to main menu. XML is created
-9.  Mod on  - Use version 2 XML file. Play and exit to main menu. XML is converted to version 3
-10. Mod on  - Level up any employment building so that it requires fewer employees, the employees slowly leave.
+5.  Mod on  - Can change values, play and exit to main menu. XML is updated
+6.  Mod on  - Remove contents of XML. Play and exit to main menu. XML is filled in
+7.  Mod on  - Delete XML. Play and exit to main menu. XML is created
+8.  Mod on  - Use version 2 XML file. Play and exit to main menu. XML is converted to version 3
+9.  Mod on  - Level up any employment building so that it requires fewer employees, the employees slowly leave.
+10.

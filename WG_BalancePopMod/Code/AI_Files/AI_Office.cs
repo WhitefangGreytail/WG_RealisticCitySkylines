@@ -12,11 +12,13 @@ namespace WG_BalancedPopMod
     {
         private static Dictionary<ulong, employStruct> employCache = new Dictionary<ulong, employStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, int> produceCache = new Dictionary<ulong, int>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
         {
             employCache.Clear();
             consumeCache.Clear();
+            produceCache.Clear();
         }
 
         /// <summary>
@@ -47,6 +49,7 @@ namespace WG_BalancedPopMod
             {
                 employCache.Remove(seed);
                 consumeCache.Remove(seed);
+                produceCache.Remove(seed);
                 int[] array = DataStore.office[level];
 
                 int num = array[DataStore.PEOPLE];
@@ -205,6 +208,42 @@ namespace WG_BalancedPopMod
 
             groundPollution = DataStore.office[level][DataStore.GROUND_POLLUTION];
             noisePollution = DataStore.office[level][DataStore.NOISE_POLLUTION];
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="width"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        {
+            ulong seed = r.seed;
+            ItemClass item = this.m_info.m_class;
+            int output;
+
+            if (!produceCache.TryGetValue(seed, out output))
+            {
+                employStruct worker;
+                if (employCache.TryGetValue(seed, out worker))
+                {
+                    // Employment is available
+                    int workers = worker.level0 + worker.level1 + worker.level2 + worker.level3;
+
+                    int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+                    output = Mathf.Max(1, workers / DataStore.office[level][DataStore.PRODUCTION]);
+                    produceCache.Add(seed, output);
+                }
+                else
+                {
+                    // Return minimum to be safe
+                    return 1;
+                }
+            }
+
+            return output;
         }
     }
 }

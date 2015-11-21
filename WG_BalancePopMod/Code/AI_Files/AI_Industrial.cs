@@ -216,6 +216,22 @@ namespace WG_BalancedPopMod
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="r"></param>
+        /// <param name="width"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        {
+            ItemClass @class = this.m_info.m_class;
+            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(@class, level);
+            return Mathf.Max(100, width * length * array[DataStore.PRODUCTION] + r.Int32(100u)) / 100;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>

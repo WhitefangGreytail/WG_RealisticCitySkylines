@@ -17,6 +17,7 @@ namespace WG_BalancedPopMod
         private const string popNodeName = "population";
         private const string consumeNodeName = "consumption";
         private const string pollutionNodeName = "pollution";
+        private const string productionNodeName = "production";
 
 
         /// <summary>
@@ -49,6 +50,10 @@ namespace WG_BalancedPopMod
                 {
                     readPollutionNode(node);
                 }
+                else if (node.Name.Equals(productionNodeName))
+                {
+                    readProductionNode(node);
+                }
             }
         }
 
@@ -76,22 +81,23 @@ namespace WG_BalancedPopMod
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
             XmlNode consumeNode = xmlDoc.CreateElement(consumeNodeName);
             XmlNode pollutionNode = xmlDoc.CreateElement(pollutionNodeName);
+            XmlNode productionNode = xmlDoc.CreateElement(productionNodeName);
 
             try
             {
-                makeNodes(xmlDoc, "ResidentialLow", DataStore.residentialLow, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "ResidentialLow", DataStore.residentialLow, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode, productionNode);
 
-                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, pollutionNode);
-                makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, pollutionNode);
+                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, pollutionNode, productionNode);
             }
             catch (Exception e)
             {
@@ -100,7 +106,10 @@ namespace WG_BalancedPopMod
 
             createPopulationNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(popNode);
+            createConsumptionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(consumeNode);
+            createProductionNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(productionNode);
             createPollutionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(pollutionNode);
 
@@ -149,6 +158,19 @@ namespace WG_BalancedPopMod
             rootNode.AppendChild(comment);
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
+        /// <param name="rootNode"></param>
+        private void createConsumptionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
+        {
+            XmlComment comment = xmlDoc.CreateComment("Consumption values are per household, or per production unit");
+            rootNode.AppendChild(comment);
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -167,16 +189,30 @@ namespace WG_BalancedPopMod
         /// 
         /// </summary>
         /// <param name="xmlDoc"></param>
+        /// <param name="rootNode"></param>
+        private void createProductionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
+        {
+            XmlComment comment = xmlDoc.CreateComment("Production for offices is number of employees per production unit.");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("For industry, it used as hundredths of a unit per cell block.");
+            rootNode.AppendChild(comment);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="array"></param>
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
             {
-                makeNodes(xmlDoc, buildingType, array[i], i, rootPopNode, consumNode, pollutionNode);
+                makeNodes(xmlDoc, buildingType, array[i], i, rootPopNode, consumNode, pollutionNode, productionNode);
             }
         }
 
@@ -191,25 +227,24 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode, XmlNode productionNode)
         {
-            rootPopNode.AppendChild(makePopNode(xmlDoc, buildingType, level, array));
-            consumNode.AppendChild(makeConsumeNode(xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE],
-                                                    array[DataStore.GARBAGE], array[DataStore.INCOME]));
-            pollutionNode.AppendChild(makePollutionNode(xmlDoc, buildingType, level, array[DataStore.GROUND_POLLUTION], array[DataStore.NOISE_POLLUTION]));
+            makePopNode(rootPopNode, xmlDoc, buildingType, level, array);
+            makeConsumeNode(consumNode, xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE], array[DataStore.GARBAGE], array[DataStore.INCOME]);
+            makePollutionNode(pollutionNode, xmlDoc, buildingType, level, array[DataStore.GROUND_POLLUTION], array[DataStore.NOISE_POLLUTION]);
+            makeProductionNode(productionNode, xmlDoc, buildingType, level, array[DataStore.PRODUCTION]);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="level"></param>
-        /// <param name="value"></param>
         /// <param name="array"></param>
-        /// <returns></returns>
-        private XmlNode makePopNode(XmlDocument xmlDoc, String buildingType, int level, int[] array)
+        private void makePopNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int[] array)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -223,6 +258,10 @@ namespace WG_BalancedPopMod
 
             if (array[DataStore.WORK_LVL0] >= 0)
             {
+                attribute = xmlDoc.CreateAttribute("ground_mult");
+                attribute.Value = Convert.ToString(array[DataStore.DENSIFICATION]);
+                node.Attributes.Append(attribute);
+
                 for (int i = 0; i < 4; i++)
                 {
                     attribute = xmlDoc.CreateAttribute("lvl_" + i);
@@ -231,13 +270,14 @@ namespace WG_BalancedPopMod
                 }
             }
 
-            return node;
+            root.AppendChild(node);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="level"></param>
@@ -246,8 +286,7 @@ namespace WG_BalancedPopMod
         /// <param name="sewage"></param>
         /// <param name="garbage"></param>
         /// <param name="wealth"></param>
-        /// <returns></returns>
-        private XmlNode makeConsumeNode(XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
+        private void makeConsumeNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int power, int water, int sewage, int garbage, int wealth)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -270,20 +309,22 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("wealth");
             attribute.Value = Convert.ToString(wealth);
             node.Attributes.Append(attribute);
-            return node;
+
+            root.AppendChild(node);
         }
 
 
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="root"></param>
+        /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="level"></param>
         /// <param name="ground"></param>
         /// <param name="noise"></param>
-        /// <returns></returns>
-        private XmlNode makePollutionNode(XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
+        private void makePollutionNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int ground, int noise)
         {
             XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
 
@@ -295,7 +336,30 @@ namespace WG_BalancedPopMod
             attribute.Value = Convert.ToString(noise);
             node.Attributes.Append(attribute);
 
-            return node;
+            root.AppendChild(node);
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="root"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="level"></param>
+        /// <param name="production"></param>
+        private void makeProductionNode(XmlNode root, XmlDocument xmlDoc, string buildingType, int level, int production)
+        {
+            if (production >= 0)
+            {
+                XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
+
+                XmlAttribute attribute = xmlDoc.CreateAttribute("production");
+                attribute.Value = Convert.ToString(production);
+                node.Attributes.Append(attribute);
+
+                root.AppendChild(node);
+            }
         }
 
 
@@ -432,6 +496,7 @@ namespace WG_BalancedPopMod
                         temp = 100;  // Bad person trying to give negative or div0 error. 
                     }
                     array[DataStore.PEOPLE] = transformPopulationModifier(name, level, temp, false);
+
                 }
                 catch (Exception e)
                 {
@@ -442,6 +507,9 @@ namespace WG_BalancedPopMod
                 {
                     try
                     {
+                        int dense  = Convert.ToInt32(node.Attributes["ground_mult"].InnerText);
+                        array[DataStore.DENSIFICATION] = dense >= 0 ? dense : 0;  // Force to be greater than 0
+
                         int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
                         int level1 = Convert.ToInt32(node.Attributes["lvl_1"].InnerText);
                         int level2 = Convert.ToInt32(node.Attributes["lvl_2"].InnerText);
@@ -489,6 +557,36 @@ namespace WG_BalancedPopMod
             else
             {
                 return (value * dividor);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="produceNode"></param>
+        private void readProductionNode(XmlNode produceNode)
+        {
+            foreach (XmlNode node in produceNode.ChildNodes)
+            {
+                try
+                {
+                    // Extract power, water, sewage, garbage and wealth
+                    string[] attr = node.Name.Split(new char[] { '_' });
+                    string name = attr[0];
+                    int level = Convert.ToInt32(attr[1]) - 1;
+                    int[] array = getArray(name, level, "readProductionNode");
+
+                    array[DataStore.PRODUCTION] = Convert.ToInt32(node.Attributes["production"].InnerText);
+                    if (array[DataStore.PRODUCTION] <= 0)
+                    {
+                        array[DataStore.PRODUCTION] = 1;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debugging.panelMessage("readProductionNode: " + e.Message);
+                }
             }
         }
 

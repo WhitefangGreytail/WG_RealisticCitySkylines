@@ -222,6 +222,9 @@ namespace WG_BalancedPopMod
             }
         }
 
+//---------------------------------------------------------
+//        Spare code
+//---------------------------------------------------------
 
         /// <summary>
         /// Check the household numbers
