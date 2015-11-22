@@ -27,7 +27,7 @@
     <Industry_1 space_pp="38" level_height="50" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
     <Industry_2 space_pp="35" level_height="50" ground_mult="0" lvl_0="25" lvl_1="40" lvl_2="25" lvl_3="10" />
     <Industry_3 space_pp="32" level_height="50" ground_mult="0" lvl_0="10" lvl_1="20" lvl_2="40" lvl_3="30" />
-    <IndustryFarm_1 space_pp="150" level_height="25" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
+    <IndustryFarm_1 space_pp="250" level_height="25" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
     <IndustryFarm_2 space_pp="55" level_height="25" ground_mult="0" lvl_0="45" lvl_1="50" lvl_2="5" lvl_3="0" />
     <IndustryForest_1 space_pp="150" level_height="20" ground_mult="0" lvl_0="90" lvl_1="10" lvl_2="0" lvl_3="0" />
     <IndustryForest_2 space_pp="45" level_height="20" ground_mult="0" lvl_0="40" lvl_1="55" lvl_2="5" lvl_3="0" />

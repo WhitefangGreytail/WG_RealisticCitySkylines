@@ -79,7 +79,7 @@ namespace WG_BalancedPopMod
 
             try
             {
-                WG_XMLBaseVersion xml = new XML_VersionThree();
+                WG_XMLBaseVersion xml = new XML_VersionFour();
                 xml.writeXML(currentFileLocation);
             }
             catch (Exception e)
@@ -126,16 +126,16 @@ namespace WG_BalancedPopMod
             if (fileAvailable)
             {
                 // Load in from XML - Designed to be flat file for ease
-                WG_XMLBaseVersion reader = new XML_VersionThree();
+                WG_XMLBaseVersion reader = new XML_VersionFour();
                 XmlDocument doc = new XmlDocument();
                 try
                 {
                     doc.Load(currentFileLocation);
                     try
                     {
-                        if (Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText) < 3)
+                        if (Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText) < 4)
                         {
-                            reader = new XML_VersionTwoToThree();
+                            reader = new XML_VersionThreeToFour();
 
                             // Make a back up copy of the old system
                             File.Copy(currentFileLocation, currentFileLocation + ".ver2", true);
