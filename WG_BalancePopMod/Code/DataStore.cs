@@ -69,7 +69,7 @@ namespace WG_BalancedPopMod
                                            new int [] {35, 50, 0,   25, 40, 25, 10,   150, 130, 150, 48, 200,   150, 150,   140},
                                            new int [] {32, 50, 0,   10, 20, 40, 30,   200, 160, 180, 46, 240,    25,  50,   160} };
 
-        public static int[][] industry_farm = { new int [] {150, 25, 0,   90, 10, 0, 0,    70, 200, 225, 30, 180,   0, 175,    25},
+        public static int[][] industry_farm = { new int [] {250, 25, 0,   90, 10, 0, 0,    70, 200, 225, 30, 180,   0, 175,    25},
                                                 new int [] { 55, 25, 0,   45, 50, 5, 0,   120, 400, 500, 50, 210,   0, 180,   100} };
 
         // The bounding box for a forest plantation is small
