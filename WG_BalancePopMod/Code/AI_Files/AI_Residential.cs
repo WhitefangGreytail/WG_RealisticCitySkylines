@@ -54,7 +54,9 @@ namespace WG_BalancedPopMod
             }
 
             int returnValue = Mathf.Max(1, ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]));
-
+/*
+ * TODO - Maybe push to ensure units, etc
+ * 
             // TODO - If the new value is greater than the previous, disconnect, everyone moves out
             //item.m_buildingAI.
             //TransferManager.TransferReason.LeaveCity0;
@@ -63,6 +65,29 @@ namespace WG_BalancedPopMod
             //ResidentAI.tryMoveFamily(uint citizenID, ref Citizen data, int familySize);
 
             // Or just make the citizens disappear
+            CitizenManager instance = Singleton<CitizenManager>.instance;
+            uint num = data.m_citizenUnits; // This is from the building
+            int num2 = 0;
+            while (num != 0u)
+            {
+                for (int i = 0; i < 5; i++)
+                {
+                    uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizen(i);
+                    if (citizen != 0u)
+                    {
+                        ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
+                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = false;
+
+                        if (instance2 != 0)
+                        {
+                            instance.ReleaseCitizenInstance(instance2);
+                        }
+                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVisitplace(citizen, 0, 0u);
+                    }
+                }
+                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
+            }
+*/
 
             return returnValue;
         }

@@ -30,6 +30,7 @@ namespace WG_BalancedPopMod
             try
             {
                 DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
+                //DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
             }
             catch (Exception)
             {
@@ -71,11 +72,15 @@ namespace WG_BalancedPopMod
             XmlAttribute attribute = xmlDoc.CreateAttribute("version");
             attribute.Value = "4";
             rootNode.Attributes.Append(attribute);
-            /*
+
             attribute = xmlDoc.CreateAttribute("experimental");
             attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
-            */
+/*
+            attribute = xmlDoc.CreateAttribute("enableTimeVariation");
+            attribute.Value = DataStore.timeBasedRealism ? "true" : "false";
+            rootNode.Attributes.Append(attribute);
+*/
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
