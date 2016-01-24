@@ -18,10 +18,11 @@ namespace WG_BalancedPopMod
     {
         public const String XML_FILE = "WG_RealisticCity.xml";
 
+
         // This can be with the local application directory, or the directory where the exe file exists.
         // Default location is the local application directory, however the exe directory is checked first
         private string currentFileLocation = "";
-        private static byte[] segment;
+        private static byte[][] segments = new byte[2][];
         private static bool isModEnabled = false;
 
         public override void OnCreated(ILoading loading)
@@ -35,9 +36,11 @@ namespace WG_BalancedPopMod
                 var newMethod = typeof(TrickResidentialAI).GetMethod("CalculateHomeCount");
 
                 // This is to disable all household checks. No need to load a thing
-                segment = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
-                isModEnabled = true;
+                segments[0] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
 
+                oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                newMethod = typeof(AI_Building).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                segments[1] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
 /*
                 Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
                 for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
@@ -54,6 +57,7 @@ namespace WG_BalancedPopMod
                     }
                 }
 */
+                isModEnabled = true;
             }
         }
 
@@ -62,7 +66,11 @@ namespace WG_BalancedPopMod
             if (isModEnabled)
             {
                 var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
-                RedirectionHelper.RestoreCalls(oldMethod, segment);
+                RedirectionHelper.RestoreCalls(oldMethod, segments[0]);
+
+                oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+                RedirectionHelper.RestoreCalls(oldMethod, segments[1]);
+
                 isModEnabled = false;
             }
         }
@@ -70,6 +78,7 @@ namespace WG_BalancedPopMod
 
         public override void OnLevelUnloading()
         {
+            DataStore.allowRemovalOfCitizens = false;
             // Clear all the caches
             OfficeBuildingAIMod.clearCache();
             CommercialBuildingAIMod.clearCache();
@@ -100,8 +109,9 @@ namespace WG_BalancedPopMod
                 {
                     // Nothing here for now
                 }
-                sw.Stop();
+                DataStore.allowRemovalOfCitizens = true;
 
+                sw.Stop();
                 Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
             }
         }
