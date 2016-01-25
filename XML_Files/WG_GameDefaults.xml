@@ -1,19 +1,18 @@
-
-<WG_CityMod version="3">
+<WG_CityMod version="4">
   <!--space_pp = Square metres per person-->
   <!--level_height = Height of a floor. This is recommended to be left alone for balance unless the height of chimneys is taken into account-->
   <!--lvl_0 ... lvl_3 = Proportional values between each of the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.-->
   <population>
-    <ResidentialLow_1 space_pp="64" level_height="100" />
-    <ResidentialLow_2 space_pp="51" level_height="100" />
-    <ResidentialLow_3 space_pp="42" level_height="100" />
-    <ResidentialLow_4 space_pp="36" level_height="100" />
-    <ResidentialLow_5 space_pp="32" level_height="100" />
-    <ResidentialHigh_1 space_pp="21" level_height="100" />
-    <ResidentialHigh_2 space_pp="13" level_height="100" />
-    <ResidentialHigh_3 space_pp="10" level_height="100" />
-    <ResidentialHigh_4 space_pp="9" level_height="100" />
-    <ResidentialHigh_5 space_pp="8" level_height="100" />
+    <ResidentialLow_1 space_pp="64" level_height="100" bonus_houseHold="0" />
+    <ResidentialLow_2 space_pp="51" level_height="100" bonus_houseHold="0" />
+    <ResidentialLow_3 space_pp="42" level_height="100" bonus_houseHold="0" />
+    <ResidentialLow_4 space_pp="36" level_height="100" bonus_houseHold="0" />
+    <ResidentialLow_5 space_pp="32" level_height="100" bonus_houseHold="0" />
+    <ResidentialHigh_1 space_pp="21" level_height="100" bonus_houseHold="0" />
+    <ResidentialHigh_2 space_pp="13" level_height="100" bonus_houseHold="0" />
+    <ResidentialHigh_3 space_pp="10" level_height="100" bonus_houseHold="0" />
+    <ResidentialHigh_4 space_pp="9" level_height="100" bonus_houseHold="0" />
+    <ResidentialHigh_5 space_pp="8" level_height="100" bonus_houseHold="0" />
     <CommercialLow_1 space_pp="128" level_height="100" ground_mult="0" lvl_0="100" lvl_1="0" lvl_2="0" lvl_3="0" />
     <CommercialLow_2 space_pp="85" level_height="100" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <CommercialLow_3 space_pp="64" level_height="100" ground_mult="0" lvl_0="5" lvl_1="15" lvl_2="30" lvl_3="50" />
@@ -36,7 +35,11 @@
     <IndustryOre_2 space_pp="43" level_height="100" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <IndustryOil_1 space_pp="43" level_height="100" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <IndustryOil_2 space_pp="43" level_height="100" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
+    <!--Default: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
+    <!--Possible two households, but left out: L1 2x2 Detached03,L3 2x3 Detached11-->
+    <bonusHouseMeshName />
   </population>
+  <!--Consumption values are per household, or per production unit-->
   <consumption>
     <ResidentialLow_1 power="60" water="120" sewage="120" garbage="100" wealth="120" />
     <ResidentialLow_2 power="60" water="110" sewage="110" garbage="100" wealth="240" />
@@ -71,10 +74,12 @@
     <IndustryOil_1 power="350" water="200" sewage="200" garbage="200" wealth="360" />
     <IndustryOil_2 power="350" water="200" sewage="200" garbage="200" wealth="360" />
   </consumption>
+  <!--Production for offices is number of employees per production unit.-->
+  <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
-    <Office_1 production="50" />
-    <Office_2 production="70" />
-    <Office_3 production="80" />
+    <Office_1 production="20" />
+    <Office_2 production="20" />
+    <Office_3 production="20" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />

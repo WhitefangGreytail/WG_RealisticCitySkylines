@@ -15,6 +15,9 @@ namespace WG_BalancedPopMod
         // CalculateHomeCount is only called once in construction or upgrading. Only store consumption
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
+        // Stores the number of households for a prefab
+        private static Dictionary<int, int> prefabHouseHolds = new Dictionary<int, int>(256);  // Shouldn't need huge amounts
+
         public static void clearCache()
         {
             consumeCache.Clear();
@@ -31,64 +34,52 @@ namespace WG_BalancedPopMod
         {
             BuildingInfo item = this.m_info;
             consumeCache.Remove(r.seed);  // Clean out the consumption cache on upgrade
-            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
+            int returnValue = 1;
 
-            int[] array = DataStore.residentialLow[level];
-            if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
+            if (!prefabHouseHolds.TryGetValue(item.gameObject.GetHashCode(), out returnValue))
             {
-                array = DataStore.residentialHigh[level];
-            }
+                int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            // Check x and z just incase they are 0. A few user created assets are. If they are, then base the calculation of 3/4 of the width and length given
-            Vector3 v = item.m_size;
-            int x = (int)v.x;
-            int z = (int)v.z;
-
-            if (x <= 0)
-            {
-                x = width * 6;
-            }
-            if (z <= 0) 
-            {
-                z = length * 6;
-            }
-
-            int returnValue = Mathf.Max(1, ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]));
-/*
- * TODO - Maybe push to ensure units, etc
- * 
-            // TODO - If the new value is greater than the previous, disconnect, everyone moves out
-            //item.m_buildingAI.
-            //TransferManager.TransferReason.LeaveCity0;
-            // Grab anything after what we don't want, release the units
-            //Singleton<CitizenManager>.instance.ReleaseUnits(data.m_citizenUnits);  
-            //ResidentAI.tryMoveFamily(uint citizenID, ref Citizen data, int familySize);
-
-            // Or just make the citizens disappear
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            uint num = data.m_citizenUnits; // This is from the building
-            int num2 = 0;
-            while (num != 0u)
-            {
-                for (int i = 0; i < 5; i++)
+                int[] array = DataStore.residentialLow[level];
+                if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
                 {
-                    uint citizen = instance.m_units.m_buffer[(int)((UIntPtr)num)].GetCitizen(i);
-                    if (citizen != 0u)
-                    {
-                        ushort instance2 = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_instance;
-                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].Arrested = false;
-
-                        if (instance2 != 0)
-                        {
-                            instance.ReleaseCitizenInstance(instance2);
-                        }
-                        instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].SetVisitplace(citizen, 0, 0u);
-                    }
+                    array = DataStore.residentialHigh[level];
                 }
-                num = instance.m_units.m_buffer[(int)((UIntPtr)num)].m_nextUnit;
-            }
-*/
 
+                // Check x and z just incase they are 0. A few user created assets are. If they are, then base the calculation of 3/4 of the width and length given
+                Vector3 v = item.m_size;
+                int x = (int)v.x;
+                int z = (int)v.z;
+
+                if (x <= 1)
+                {
+                    x = width * 6;
+                }
+                if (z <= 1) 
+                {
+                    z = length * 6;
+                }
+
+                int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
+                returnValue = (x * z * floorCount) / array[DataStore.PEOPLE];
+
+                if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
+                {
+                    // Minimum of 2, or ceiling of 90% number of floors, which ever is greater. This helps the 1x1 high density
+                    returnValue = Mathf.Max(Mathf.Max(2, Mathf.CeilToInt(0.9f * floorCount)), returnValue);
+                }
+                else
+                {
+                    returnValue = Mathf.Max(1, returnValue);
+                }
+
+                if (DataStore.bonusHousehold.ContainsKey(item.gameObject.name))
+                {
+                    returnValue = returnValue + array[DataStore.BONUS_HOUSEHOLD];
+                }
+
+                prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
+            }
             return returnValue;
         }
 

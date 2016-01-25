@@ -74,8 +74,8 @@ namespace WG_BalancedPopMod
                     {
                         z = length * 6;
                     }
-
-                    int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
+                    int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
+                    int value = ((x * z * floorCount) / array[DataStore.PEOPLE]);
 //                Debugging.writeDebugToFile("level: " + level + ", w/l/f: " + (int)item.m_size.x + " * " + (int)item.m_size.z + " * " + Mathf.CeilToInt(item.m_size.y / array[DataStore.LEVEL_HEIGHT]) + ", workers: " + num, "Office.txt");
                     num = Mathf.Max(10, value);  // Minimum of ten
 

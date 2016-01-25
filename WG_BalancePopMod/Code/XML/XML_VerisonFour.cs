@@ -15,10 +15,11 @@ namespace WG_BalancedPopMod
     public class XML_VersionFour : WG_XMLBaseVersion
     {
         private const string popNodeName = "population";
+        private const string bonusHouseName = "bonusHouseMeshName";
         private const string consumeNodeName = "consumption";
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
-
+        private const char STRING_DELIMITER = ',';
 
         /// <summary>
         /// 
@@ -29,7 +30,7 @@ namespace WG_BalancedPopMod
             XmlElement root = doc.DocumentElement;
             try
             {
-                DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
+                //DataStore.enableExperimental = Convert.ToBoolean(root.Attributes["experimental"].InnerText);
                 //DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["enableTimeVariation"].InnerText);
             }
             catch (Exception)
@@ -42,6 +43,10 @@ namespace WG_BalancedPopMod
                 if (node.Name.Equals(popNodeName))
                 {
                     readPopulationNode(node);
+                }
+                else if (node.Name.Equals(bonusHouseName))
+                {
+                    readBonusHouseNode(node);
                 }
                 else if (node.Name.Equals(consumeNodeName))
                 {
@@ -73,10 +78,11 @@ namespace WG_BalancedPopMod
             attribute.Value = "4";
             rootNode.Attributes.Append(attribute);
 
+/*
             attribute = xmlDoc.CreateAttribute("experimental");
             attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
-/*
+
             attribute = xmlDoc.CreateAttribute("enableTimeVariation");
             attribute.Value = DataStore.timeBasedRealism ? "true" : "false";
             rootNode.Attributes.Append(attribute);
@@ -110,7 +116,26 @@ namespace WG_BalancedPopMod
             }
 
             createPopulationNodeComment(xmlDoc, rootNode);
+
+            // Add mesh names to dictionary
+            StringBuilder output = new StringBuilder();
+            foreach (string data in DataStore.bonusHousehold.Keys)
+            {
+                if (output.Length > 0)
+                {
+                    output.Append(STRING_DELIMITER);
+                }
+                output.Append(data);
+            }
+            XmlNode bonusHouseholdNode = xmlDoc.CreateElement(bonusHouseName);
+            bonusHouseholdNode.InnerXml = output.ToString();
+            XmlComment comment = xmlDoc.CreateComment("Default: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a");
+            popNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("Possible two households, but left out: L1 2x2 Detached03,L3 2x3 Detached11");
+            popNode.AppendChild(comment);
+            popNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to population
             rootNode.AppendChild(popNode);
+
             createConsumptionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(consumeNode);
             createProductionNodeComment(xmlDoc, rootNode);
@@ -260,6 +285,13 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("level_height");
             attribute.Value = Convert.ToString(array[DataStore.LEVEL_HEIGHT]);
             node.Attributes.Append(attribute);
+
+            if (array[DataStore.BONUS_HOUSEHOLD] >= 0)
+            {
+                attribute = xmlDoc.CreateAttribute("bonus_houseHold");
+                attribute.Value = Convert.ToString(array[DataStore.BONUS_HOUSEHOLD]);
+                node.Attributes.Append(attribute);
+            }
 
             if (array[DataStore.WORK_LVL0] >= 0)
             {
@@ -484,51 +516,76 @@ namespace WG_BalancedPopMod
         {
             foreach (XmlNode node in popNode.ChildNodes)
             {
-                string[] attr = node.Name.Split(new char[] { '_' });
-                string name = attr[0];
-                int level = Convert.ToInt32(attr[1]) - 1;
-                int[] array = new int[12];
-
-                try
+                if (node.Name.Equals(bonusHouseName))
                 {
-                    array = getArray(name, level, "readPopulationNode");
-                    int temp = Convert.ToInt32(node.Attributes["level_height"].InnerText);
-                    array[DataStore.LEVEL_HEIGHT] = temp > 0 ? temp : 10;
+                    string[] values = node.InnerText.Split(new char[] { STRING_DELIMITER });
 
-                    temp = Convert.ToInt32(node.Attributes["space_pp"].InnerText);
-                    if (temp <= 0)
+                    DataStore.xmlMeshNames.Clear(); // Okay to clear now that we have seen the meshname node
+                    foreach (string name in values)
                     {
-                        temp = 100;  // Bad person trying to give negative or div0 error. 
+                        DataStore.xmlMeshNames.Add(name);
                     }
-                    array[DataStore.PEOPLE] = transformPopulationModifier(name, level, temp, false);
-
                 }
-                catch (Exception e)
+                else 
                 {
-                    Debugging.panelMessage("readPopulationNode, part a: " + e.Message);
-                }
+                    string[] attr = node.Name.Split(new char[] { '_' });
+                    string name = attr[0];
+                    int level = Convert.ToInt32(attr[1]) - 1;
+                    int[] array = new int[12];
 
-                if (!name.Contains("Residential"))
-                {
                     try
                     {
-                        int dense  = Convert.ToInt32(node.Attributes["ground_mult"].InnerText);
-                        array[DataStore.DENSIFICATION] = dense >= 0 ? dense : 0;  // Force to be greater than 0
+                        array = getArray(name, level, "readPopulationNode");
+                        int temp = Convert.ToInt32(node.Attributes["level_height"].InnerText);
+                        array[DataStore.LEVEL_HEIGHT] = temp > 0 ? temp : 10;
 
-                        int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
-                        int level1 = Convert.ToInt32(node.Attributes["lvl_1"].InnerText);
-                        int level2 = Convert.ToInt32(node.Attributes["lvl_2"].InnerText);
-                        int level3 = Convert.ToInt32(node.Attributes["lvl_3"].InnerText);
+                        temp = Convert.ToInt32(node.Attributes["space_pp"].InnerText);
+                        if (temp <= 0)
+                        {
+                            temp = 100;  // Bad person trying to give negative or div0 error. 
+                        }
+                        array[DataStore.PEOPLE] = transformPopulationModifier(name, level, temp, false);
 
-                        // Ensure all is there first
-                        array[DataStore.WORK_LVL0] = level0;
-                        array[DataStore.WORK_LVL1] = level1;
-                        array[DataStore.WORK_LVL2] = level2;
-                        array[DataStore.WORK_LVL3] = level3;
                     }
                     catch (Exception e)
                     {
-                        Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
+                        Debugging.panelMessage("readPopulationNode, part a: " + e.Message);
+                    }
+
+                    if (!name.Contains("Residential"))
+                    {
+                        try
+                        {
+                            int dense  = Convert.ToInt32(node.Attributes["ground_mult"].InnerText);
+                            array[DataStore.DENSIFICATION] = dense >= 0 ? dense : 0;  // Force to be greater than 0
+
+                            int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
+                            int level1 = Convert.ToInt32(node.Attributes["lvl_1"].InnerText);
+                            int level2 = Convert.ToInt32(node.Attributes["lvl_2"].InnerText);
+                            int level3 = Convert.ToInt32(node.Attributes["lvl_3"].InnerText);
+
+                            // Ensure all is there first
+                            array[DataStore.WORK_LVL0] = level0;
+                            array[DataStore.WORK_LVL1] = level1;
+                            array[DataStore.WORK_LVL2] = level2;
+                            array[DataStore.WORK_LVL3] = level3;
+                        }
+                        catch (Exception e)
+                        {
+                            Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
+                        }
+                    }
+                    else
+                    {
+                        try
+                        {
+                            int bonus = Convert.ToInt32(node.Attributes["bonus_houseHold"].InnerText);
+                            array[DataStore.BONUS_HOUSEHOLD] = bonus >= 0 ? bonus : 0;  // Force to be greater than 0
+                        }
+                        catch (Exception e)
+                        {
+                            Debugging.panelMessage("readPopulationNode, part c: " + e.Message);
+                        }
                     }
                 }
             } // end foreach
@@ -562,6 +619,27 @@ namespace WG_BalancedPopMod
             else
             {
                 return (value * dividor);
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="node"></param>
+        private void readBonusHouseNode(XmlNode node)
+        {
+            try
+            {
+                string[] values = node.InnerText.Split(new char[] { STRING_DELIMITER });
+                foreach(string value in values)
+                {
+                    // Marge into the list or dictionary
+                }
+            }
+            catch (Exception e)
+            {
+                Debugging.panelMessage("readBonusHouseNode: " + e.Message);
             }
         }
 

@@ -78,14 +78,6 @@ namespace WG_BalancedPopMod
 
         public override void OnLevelUnloading()
         {
-            DataStore.allowRemovalOfCitizens = false;
-            // Clear all the caches
-            OfficeBuildingAIMod.clearCache();
-            CommercialBuildingAIMod.clearCache();
-            IndustrialBuildingAIMod.clearCache();
-            IndustrialExtractorAIMod.clearCache();
-            ResidentialBuildingAIMod.clearCache();
-
             try
             {
                 WG_XMLBaseVersion xml = new XML_VersionFour();
@@ -95,6 +87,16 @@ namespace WG_BalancedPopMod
             {
                 Debugging.panelMessage(e.Message);
             }
+
+            // Clear all the caches
+            OfficeBuildingAIMod.clearCache();
+            CommercialBuildingAIMod.clearCache();
+            IndustrialBuildingAIMod.clearCache();
+            IndustrialExtractorAIMod.clearCache();
+            ResidentialBuildingAIMod.clearCache();
+
+            DataStore.bonusHousehold.Clear();
+            DataStore.allowRemovalOfCitizens = false;
         }
 
 
@@ -104,6 +106,16 @@ namespace WG_BalancedPopMod
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 readFromXML();
+
+                // Add mesh names to dictionary, ensuring uniqueness
+                foreach (string data in DataStore.xmlMeshNames)
+                {
+                    if (!DataStore.bonusHousehold.ContainsKey(data))
+                    {
+                        DataStore.bonusHousehold.Add(data, data);
+                    }
+                }
+
                 swapAI();
                 if (DataStore.enableExperimental)
                 {

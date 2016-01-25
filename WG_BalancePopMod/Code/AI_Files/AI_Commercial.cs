@@ -73,7 +73,9 @@ namespace WG_BalancedPopMod
                         z = length * 6;
                     }
 
-                    int value = ((x * z * (array[DataStore.DENSIFICATION] + Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT]))) / array[DataStore.PEOPLE]);
+                    int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
+                    int floorSpace = x * z * floorCount;
+                    int value = floorSpace / array[DataStore.PEOPLE];
 
     /*                string file = "ComLow.txt";
                     if (item.m_class.m_subService == ItemClass.SubService.CommercialHigh)

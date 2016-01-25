@@ -11,6 +11,10 @@ namespace WG_BalancedPopMod
 {
     public class AI_Building : BuildingAI
     {
+        private static CitizenManager instance = Singleton<CitizenManager>.instance;
+        private static CitizenUnit[] citizenUnitArray = Singleton<CitizenManager>.instance.m_units.m_buffer;
+        private static Citizen[] citizenArray = Singleton<CitizenManager>.instance.m_citizens.m_buffer;
+
         /// <summary>
         /// BuildingAI replacement
         /// </summary>
@@ -28,8 +32,7 @@ namespace WG_BalancedPopMod
             int unitHomeCount = 0;
             int unitVisitCount = 0;
             int unitCount = 0;
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            CitizenUnit[] citizenUnitArray = instance.m_units.m_buffer;
+            int[] workersRequired = new int[] { 0, 0, 0, 0 };
 
             if ((data.m_flags & (Building.Flags.Abandoned | Building.Flags.BurnedDown)) == Building.Flags.None)
             {
@@ -50,6 +53,15 @@ namespace WG_BalancedPopMod
                     {
                         workCount -= 5;
                         unitWorkCount++;
+                        for (int i = 0; i < 5; i++)
+                        {
+                            uint citizen = citizenUnitArray[(int)((UIntPtr)num2)].GetCitizen(i);
+                            if (citizen != 0u)
+                            {
+                                // Tick off education to see what is there
+                                workersRequired[(int)citizenArray[(int)((UIntPtr)citizen)].EducationLevel]--;
+                            }
+                        }
                     }
                     if ((ushort)(flags & CitizenUnit.Flags.Visit) != 0)
                     {
@@ -92,20 +104,44 @@ namespace WG_BalancedPopMod
                     }
                 }
 
-                // This is done to have the count in numbers of citizen units
-// TODO - Remove experimental flag later
-                if (DataStore.enableExperimental && DataStore.allowRemovalOfCitizens)
+                // This is done to have the count in numbers of citizen units and only if the building is of a privateBuilding (Res, Com, Ind, Office)
+                if (DataStore.allowRemovalOfCitizens && (data.Info.GetAI() is PrivateBuildingAI))
                 {
+                    // Stop incoming offers to get HandleWorkers() to start fresh
+                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                    offer.Building = buildingID;
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker0, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker1, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
+                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
+
+                    {
+                        int worker0 = 0;
+                        int worker1 = 0;
+                        int worker2 = 0;
+                        int worker3 = 0;
+                        ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
+                                                                                       out worker0, out worker1, out worker2, out worker3);
+
+                        // Update the workers required once figuring out how many are needed by the new building
+                        workersRequired[0] += worker0;
+                        workersRequired[1] += worker1;
+                        workersRequired[2] += worker2;
+                        workersRequired[3] += worker3;
+                    } // end code block
+
                     if (workCount < 0)
                     {
-                        RemoveWorkerBuilding(buildingID, ref data, totalWorkCount);
+                        RemoveWorkerBuilding(buildingID, ref data, totalWorkCount, ref workersRequired);
                     }
                     else if (homeCount < 0)
                     {
                         RemoveHouseHold(buildingID, ref data, totalHomeCount);
                     }
                     // Do nothing for visit only or students
-                } // end if
+
+                    PromoteWorkers(buildingID, ref data, ref workersRequired);
+                } // end if PrivateBuildingAI
             } // end if good building
         } // end EnsureCitizenUnits
 
@@ -116,18 +152,12 @@ namespace WG_BalancedPopMod
         /// <param name="buildingID"></param>
         /// <param name="data"></param>
         /// <param name="citizenNumber"></param>
-        private void RemoveWorkerBuilding(ushort buildingID, ref Building data, int workerUnits)
+        private void RemoveWorkerBuilding(ushort buildingID, ref Building data, int workerUnits, ref int[] workersRequired)
         {
-            CitizenManager instance = Singleton<CitizenManager>.instance;
-            CitizenUnit[] citizenUnitArray = instance.m_units.m_buffer;
-            Citizen[] citizenArray = instance.m_citizens.m_buffer;
-
             int loopCounter = 0;
             uint previousUnit = data.m_citizenUnits;
             uint currentUnit = data.m_citizenUnits;
-            int[] workersRequired = new int[] { 0, 0, 0, 0 };
-            ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
-                out workersRequired[0], out workersRequired[1], out workersRequired[2], out workersRequired[3]);
+
 
             while (currentUnit != 0u)
             {
@@ -142,16 +172,6 @@ namespace WG_BalancedPopMod
                     {
                         // Don't remove the unit, we'll remove excess afterwards
                         workerUnits--;
-
-                        for (int i = 0; i < 5; i++)
-                        {
-                            uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
-                            if (citizen != 0u)
-                            {
-                                // Tick off education
-                                workersRequired[(int)citizenArray[(int)((UIntPtr)citizen)].EducationLevel]--;
-                            }
-                        }
                     }
                     else
                     {
@@ -165,7 +185,7 @@ namespace WG_BalancedPopMod
                                 int citizenIndex = (int)((UIntPtr)citizen);
                                 ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
                                 CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
-                                FireAndTeleportHome(buildingID, citizenArray, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
                             }  // end citizen
                         } // end for
                         removeCurrentUnit = true;
@@ -194,14 +214,30 @@ namespace WG_BalancedPopMod
                     currentUnit = 0u; // Bail out loop
                 }
             } // end while
-            
+        } // end RemoveWorkerBuilding
+
+
+        /// <summary>
+        /// Promote the workers to fit the education bill better.
+        /// </summary>
+        /// <param name="buildingID"></param>
+        /// <param name="data"></param>
+        /// <param name="workersRequired"></param>
+        /// <param name="instance"></param>
+        /// <param name="citizenUnitArray"></param>
+        /// <param name="citizenArray"></param>
+        private static void PromoteWorkers(ushort buildingID, ref Building data, ref int[] workersRequired)
+        {
+            if (workersRequired[0] == 0 && workersRequired[1] == 0 && workersRequired[2] == 0 && workersRequired[3] == 0)
+            {
+                // We are okay with employees, or it's residential. Return
+                return;
+            }
 //Debugging.writeDebugToFile(buildingID + ". Workers needed: " + workersRequired[0] + ", " + workersRequired[1] + ", " + workersRequired[2] + ", " + workersRequired[3]);
-            // Now, see if we can update the workers to fit the education bill better.
-            // Remove excess 0, 1, 2. However, give 20 - 50 % change to go up an education level. Don't touch lvl 3 educated (they'll disappear fast if possible)
-            // Turn off transfer offer
-            loopCounter = 0;
-            previousUnit = data.m_citizenUnits;
-            currentUnit = data.m_citizenUnits;
+
+            int loopCounter = 0;
+            uint previousUnit = data.m_citizenUnits;
+            uint currentUnit = data.m_citizenUnits;
             while (currentUnit != 0u)
             {
                 // If this unit matches what we one, send the citizens away or remove citzens
@@ -216,17 +252,19 @@ namespace WG_BalancedPopMod
                         uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
                         if (citizen != 0u)
                         {
-                            // Do not shift back where possible. There's enough staff turnover that the spaces aren't worth the intensive checking
+                            // Do not shift back where possible. There should be enough staff turnover that the spaces aren't worth the intensive checking
                             int citizenIndex = (int)((UIntPtr)citizen);
                             ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
                             CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
 
                             // Get education level. Perform checks
-                            Citizen  cit = citizenArray[(int)((UIntPtr)citizen)];
+                            Citizen cit = citizenArray[(int)((UIntPtr)citizen)];
                             int education = (int)cit.EducationLevel;
+
                             // -ve workersRequired means excess workers. Ignoring three schools
                             // Checks if the citizen should be promoted or fire
-                            if ((cit.EducationLevel != Citizen.Education.ThreeSchools) && workersRequired[education] < 0 && workersRequired[education + 1] > 0)
+                            // Remove excess 0, 1, 2. However, give 20 - 50 % change to go up an education level. Don't touch lvl 3 educated (they'll disappear fast given the chance)
+                            if ((cit.EducationLevel != Citizen.Education.ThreeSchools) && (workersRequired[education] < 0 && workersRequired[education + 1] > 0))
                             {
                                 // Need to be above 50 to be promoted. However, each level is harder to get to, effectively (50, 65, 80)
                                 int number = Singleton<SimulationManager>.instance.m_randomizer.Int32(0, 100) - (education * 15);
@@ -254,15 +292,15 @@ namespace WG_BalancedPopMod
                                 else
                                 {
                                     workersRequired[education]++;
-                                    FireAndTeleportHome(buildingID, citizenArray, citizen, citizenIndex, citizenInstanceIndex, ref citData);
-                                    RemoveFromCitizenUnit(citizenUnitArray, currentUnit, i);
+                                    FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                    RemoveFromCitizenUnit(currentUnit, i);
                                 }
                             }
                             else if (workersRequired[education] < 0)
                             {
                                 workersRequired[education]++;
-                                FireAndTeleportHome(buildingID, citizenArray, citizen, citizenIndex, citizenInstanceIndex, ref citData);
-                                RemoveFromCitizenUnit(citizenUnitArray, currentUnit, i);
+                                FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                RemoveFromCitizenUnit(currentUnit, i);
                             } // end if
                         }  // end citizen
                     } // end for
@@ -277,15 +315,7 @@ namespace WG_BalancedPopMod
                     currentUnit = 0u; // Bail out loop
                 }
             } // end while
-
-            // Force reset incoming offers to get HandleWorkers() to start fresh
-            TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-            offer.Building = buildingID;
-            Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker0, offer);
-            Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker1, offer);
-            Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
-            Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
-        } // end CheckWorkerBuilding
+        } // end PromoteWorkers
 
 
         /// <summary>
@@ -294,7 +324,7 @@ namespace WG_BalancedPopMod
         /// <param name="citizenUnitArray"></param>
         /// <param name="currentUnit"></param>
         /// <param name="i"></param>
-        private static void RemoveFromCitizenUnit(CitizenUnit[] citizenUnitArray, uint currentUnit, int i)
+        private static void RemoveFromCitizenUnit(uint currentUnit, int i)
         {
             switch (i)
             {
@@ -325,7 +355,7 @@ namespace WG_BalancedPopMod
         /// <param name="citizenIndex"></param>
         /// <param name="citizenInstanceIndex"></param>
         /// <param name="citData"></param>
-        private static void FireAndTeleportHome(ushort buildingID, Citizen[] citizenArray, uint citizen, int citizenIndex, ushort citizenInstanceIndex, ref CitizenInstance citData)
+        private static void FireAndTeleportHome(ushort buildingID, uint citizen, int citizenIndex, ushort citizenInstanceIndex, ref CitizenInstance citData)
         {
             if (citizenArray[citizenIndex].GetBuildingByLocation() == buildingID ||
                 (citizenInstanceIndex != 0 && citData.m_targetBuilding == buildingID))
