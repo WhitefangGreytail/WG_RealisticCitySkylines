@@ -73,7 +73,8 @@ namespace WG_BalancedPopMod
                         z = length * 6;
                     }
 
-                    int value = ((x * z * Mathf.CeilToInt(v.y / array[DataStore.LEVEL_HEIGHT])) / array[DataStore.PEOPLE]);
+                    int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
+                    int value = ((x * z * floorCount) / array[DataStore.PEOPLE]);
                     num = Mathf.Max(3, value);  // Minimum of three
 
                     level3 = (num * level3) / num2;

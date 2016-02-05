@@ -25,7 +25,16 @@ namespace WG_BalancedPopMod
             int density = (subService == ItemClass.SubService.ResidentialHigh) ? 1 : 0;
             return Mathf.Max(100, width * length * residentialArray[density][iLevel] + r.Int32(100u)) / 100;
             */
-            return 1; // Changes to allow anything
+
+            // min of 2 for high density, 1 for low density
+            if (subService == ItemClass.SubService.ResidentialHigh)
+            {
+                return 2;
+            }
+            else
+            {
+                return 1;
+            }
         }
     }
 }
