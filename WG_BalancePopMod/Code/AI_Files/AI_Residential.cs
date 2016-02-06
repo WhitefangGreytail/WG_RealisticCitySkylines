@@ -21,6 +21,7 @@ namespace WG_BalancedPopMod
         public static void clearCache()
         {
             consumeCache.Clear();
+            prefabHouseHolds.Clear();
         }
 
         /// <summary>
