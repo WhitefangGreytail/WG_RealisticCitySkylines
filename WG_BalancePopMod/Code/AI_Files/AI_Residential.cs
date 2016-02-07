@@ -79,6 +79,11 @@ namespace WG_BalancedPopMod
                     returnValue = returnValue + array[DataStore.BONUS_HOUSEHOLD];
                 }
 
+                if (DataStore.printResidentialNames)
+                {
+                    Debugging.writeDebugToFile("Requested asset name->" + item.gameObject.name);
+                }
+
                 prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
             }
             return returnValue;

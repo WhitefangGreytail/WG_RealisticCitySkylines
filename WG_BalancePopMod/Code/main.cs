@@ -41,22 +41,22 @@ namespace WG_BalancedPopMod
                 oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 newMethod = typeof(AI_Building).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 segments[1] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
-/*
-                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
-                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
-                {
-                    // This creates a unique number
-                    Randomizer number = new Randomizer((int)i);
-                    try
-                    {
-                        seedToId.Add(number.seed, i);
-                    }
-                    catch (System.ArgumentException)
-                    {
-                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
-                    }
-                }
-*/
+                /*
+                                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
+                                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
+                                {
+                                    // This creates a unique number
+                                    Randomizer number = new Randomizer((int)i);
+                                    try
+                                    {
+                                        seedToId.Add(number.seed, i);
+                                    }
+                                    catch (System.ArgumentException)
+                                    {
+                                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
+                                    }
+                                }
+                */
                 isModEnabled = true;
             }
         }
@@ -80,7 +80,7 @@ namespace WG_BalancedPopMod
         {
             try
             {
-                WG_XMLBaseVersion xml = new XML_VersionFour();
+                WG_XMLBaseVersion xml = new XML_VersionFive();
                 xml.writeXML(currentFileLocation);
             }
             catch (Exception e)
@@ -148,19 +148,25 @@ namespace WG_BalancedPopMod
             if (fileAvailable)
             {
                 // Load in from XML - Designed to be flat file for ease
-                WG_XMLBaseVersion reader = new XML_VersionFour();
+                WG_XMLBaseVersion reader = new XML_VersionFive();
                 XmlDocument doc = new XmlDocument();
                 try
                 {
                     doc.Load(currentFileLocation);
                     try
                     {
-                        if (Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText) < 4)
+                        int version = Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText);
+                        if (version == 4)
                         {
-                            reader = new XML_VersionThreeToFour();
+                            reader = new XML_VersionFour();
 
-                            // Make a back up copy of the old system
-                            File.Copy(currentFileLocation, currentFileLocation + ".ver2", true);
+                            // Make a back up copy of the old system to be safe
+                            File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
+                        }
+                        else if (version <= 3) // Uh oh... version 3 was a while back..
+                        {
+                            Debugging.panelWarning("Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3");
+                            File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
                         }
                     }
                     catch
@@ -243,66 +249,5 @@ namespace WG_BalancedPopMod
                 }
             }
         }
-
-//---------------------------------------------------------
-//        Spare code
-//---------------------------------------------------------
-
-        /// <summary>
-        /// Check the household numbers
-        /// </summary>
-        /// <param name="buildings"></param>
-        /// <param name="citizens"></param>
-        /// <param name="i"></param>
-        private void checkResidentialHouseholds(BuildingManager buildings, int i)
-        {
-            CitizenManager citizens = ColossalFramework.Singleton<CitizenManager>.instance;
-
-            Building building = buildings.m_buildings.m_buffer[i];
-            BuildingInfo info = building.Info;
-            int width = building.Width;
-            int length = building.Length;
-
-            if ((info != null) && (info.m_buildingAI is ResidentialBuildingAI) && (info.m_class.m_subService == ItemClass.SubService.ResidentialLow))  // Only do something for low density
-            {
-                int modHomeCount = ((ResidentialBuildingAI)info.m_buildingAI).CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length);
-
-                // If the modded home count is meant to be less than the original
-                if (modHomeCount < TrickResidentialAI.CalculateHomeCount(new ColossalFramework.Math.Randomizer(i), width, length, info.m_class.m_subService, info.m_class.m_level))
-                {
-                    int houseHoldCount = 0;
-                    uint citizenIndex = building.m_citizenUnits;
-                    while (houseHoldCount < modHomeCount)  // Fast forward
-                    {
-                        citizenIndex = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)].m_nextUnit;
-                        houseHoldCount++;
-                    }
-
-                    // Disconnect the rest
-                    while (citizenIndex != 0u)
-                    {
-                        // TODO - Need to get the building to find the citizen AI
-                        // This is essentially the release building code after bulldoze. I don't see why it causes an issue.
-                        // Is this thread related? I hope not as it would be unsolvable :(
-
-                        CitizenUnit c = citizens.m_units.m_buffer[(int)((UIntPtr)citizenIndex)];
-                        citizens.ReleaseUnits(citizenIndex);
-                        citizenIndex = c.m_nextUnit;
-
-                        // Reset the flags which could make the game think this group has connections to a home
-                        c.m_citizen0 = 0u;
-                        c.m_citizen1 = 0u;
-                        c.m_citizen2 = 0u;
-                        c.m_citizen3 = 0u;
-                        c.m_citizen4 = 0u;
-                        c.m_nextUnit = 0u;
-                        c.m_vehicle = (ushort)0;
-                        c.m_building = 0;
-                        c.m_flags = CitizenUnit.Flags.None;
-                    }
-                    
-                }
-            }
-        } // end checkResidentialHouseholds
     }
 }

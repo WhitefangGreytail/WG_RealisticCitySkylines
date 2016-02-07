@@ -33,9 +33,11 @@ namespace WG_BalancedPopMod
         // Flags in XML
         public static bool enableExperimental = false;
         public static bool timeBasedRealism = false;
+        public static bool printResidentialNames = false;
 
         // Static as required for functionality in EnsureCitizenUnits, but after loading the city
         public static bool allowRemovalOfCitizens = false;
+
 
         // Close to O(1) searching
         public static Dictionary<string, string> bonusHousehold = new Dictionary<string, string>();
