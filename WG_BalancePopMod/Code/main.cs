@@ -94,8 +94,6 @@ namespace WG_BalancedPopMod
             IndustrialBuildingAIMod.clearCache();
             IndustrialExtractorAIMod.clearCache();
             ResidentialBuildingAIMod.clearCache();
-
-            DataStore.bonusHousehold.Clear();
             DataStore.allowRemovalOfCitizens = false;
         }
 
@@ -106,21 +104,9 @@ namespace WG_BalancedPopMod
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 readFromXML();
-
-                // Add mesh names to dictionary, ensuring uniqueness
-                foreach (string data in DataStore.xmlMeshNames)
-                {
-                    if (!DataStore.bonusHousehold.ContainsKey(data))
-                    {
-                        DataStore.bonusHousehold.Add(data, data);
-                    }
-                }
-
                 swapAI();
-                if (DataStore.enableExperimental)
-                {
-                    // Nothing here for now
-                }
+
+                // Now we can remove people
                 DataStore.allowRemovalOfCitizens = true;
 
                 sw.Stop();

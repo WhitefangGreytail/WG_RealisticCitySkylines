@@ -21,9 +21,7 @@ namespace WG_BalancedPopMod
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
 
-        /// <summary>
-        /// 
-        /// </summary>
+
         /// <param name="doc"></param>
         public override void readXML(XmlDocument doc)
         {
@@ -36,15 +34,6 @@ namespace WG_BalancedPopMod
             catch (Exception)
             {
                 DataStore.enableExperimental = false;
-            }
-
-            try
-            {
-                DataStore.printResidentialNames = DataStore.timeBasedRealism = Convert.ToBoolean(root.Attributes["printResNames"].InnerText);
-            }
-            catch (Exception)
-            {
-                // Do nothing
             }
 
             foreach (XmlNode node in root.ChildNodes)
@@ -70,12 +59,9 @@ namespace WG_BalancedPopMod
                     readProductionNode(node);
                 }
             }
-        }
+        } // end readXML
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="fullPathFileName"></param>
         /// <returns></returns>
         public override bool writeXML(string fullPathFileName)
@@ -87,10 +73,7 @@ namespace WG_BalancedPopMod
             attribute.Value = "5";
             rootNode.Attributes.Append(attribute);
 
-            attribute = xmlDoc.CreateAttribute("printResNames");
-            attribute.Value = DataStore.printResidentialNames ? "true" : "false";
-            rootNode.Attributes.Append(attribute);
-/*
+            /*
             attribute = xmlDoc.CreateAttribute("experimental");
             attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
@@ -98,7 +81,7 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("enableTimeVariation");
             attribute.Value = DataStore.timeBasedRealism ? "true" : "false";
             rootNode.Attributes.Append(attribute);
-*/
+            */
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
@@ -131,14 +114,25 @@ namespace WG_BalancedPopMod
 
             // Add mesh names to dictionary
             XmlNode bonusHouseholdNode = xmlDoc.CreateElement(bonusHouseName);
-            XmlComment comment = xmlDoc.CreateComment("Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a");
+            attribute = xmlDoc.CreateAttribute("printResNames");
+            attribute.Value = DataStore.printResidentialNames ? "true" : "false";
+            bonusHouseholdNode.Attributes.Append(attribute);
+
+            XmlComment comment = xmlDoc.CreateComment("Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,");
             bonusHouseholdNode.AppendChild(comment);
-            comment = xmlDoc.CreateComment("Possible two households, but left out: L1 2x2 Detached03,L3 2x3 Detached11");
+            comment = xmlDoc.CreateComment("L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,");
             bonusHouseholdNode.AppendChild(comment);
-            foreach (string data in DataStore.bonusHousehold.Keys)
+            comment = xmlDoc.CreateComment("L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a");
+            bonusHouseholdNode.AppendChild(comment);
+            foreach (string data in DataStore.bonusHouseholdCache.Keys)
             {
                 XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
                 meshNameNode.InnerXml = data;
+                attribute = xmlDoc.CreateAttribute("bonus");
+                int value = 1;
+                DataStore.bonusHouseholdCache.TryGetValue(data, out value);
+                attribute.Value = Convert.ToString(value);
+                meshNameNode.Attributes.Append(attribute);
                 bonusHouseholdNode.AppendChild(meshNameNode);
             }
             popNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to population
@@ -179,11 +173,9 @@ namespace WG_BalancedPopMod
             }
 
             return true;
-        }
+        } // end writeXML
 
-        /// <summary>
-        /// 
-        /// </summary>
+
         /// <param name="xmlDoc"></param>
         /// <param name="rootNode"></param>
         private void createPopulationNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
@@ -197,9 +189,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="rootNode"></param>
         private void createConsumptionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
@@ -209,9 +198,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="rootNode"></param>
         private void createPollutionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
@@ -223,9 +209,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="rootNode"></param>
         private void createProductionNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
@@ -237,9 +220,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="array"></param>
@@ -255,9 +235,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
         /// <param name="array"></param>
@@ -274,9 +251,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
@@ -293,13 +267,6 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("level_height");
             attribute.Value = Convert.ToString(array[DataStore.LEVEL_HEIGHT]);
             node.Attributes.Append(attribute);
-
-            if (array[DataStore.BONUS_HOUSEHOLD] >= 0)
-            {
-                attribute = xmlDoc.CreateAttribute("bonus_houseHold");
-                attribute.Value = Convert.ToString(array[DataStore.BONUS_HOUSEHOLD]);
-                node.Attributes.Append(attribute);
-            }
 
             if (array[DataStore.WORK_LVL0] >= 0)
             {
@@ -319,9 +286,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
@@ -359,9 +323,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="root"></param>
         /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
@@ -385,9 +346,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="root"></param>
         /// <param name="xmlDoc"></param>
         /// <param name="buildingType"></param>
@@ -408,9 +366,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="pollutionNode"></param>
         private void readPollutionNode(XmlNode pollutionNode)
         {
@@ -485,9 +440,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="consumeNode"></param>
         private void readConsumptionNode(XmlNode consumeNode)
         {
@@ -516,9 +468,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="popNode"></param>
         private void readPopulationNode(XmlNode popNode)
         {
@@ -528,7 +477,7 @@ namespace WG_BalancedPopMod
                 {
                     readBonusHouseNode(node);
                 }
-                else 
+                else
                 {
                     string[] attr = node.Name.Split(new char[] { '_' });
                     string name = attr[0];
@@ -558,7 +507,7 @@ namespace WG_BalancedPopMod
                     {
                         try
                         {
-                            int dense  = Convert.ToInt32(node.Attributes["ground_mult"].InnerText);
+                            int dense = Convert.ToInt32(node.Attributes["ground_mult"].InnerText);
                             array[DataStore.DENSIFICATION] = dense >= 0 ? dense : 0;  // Force to be greater than 0
 
                             int level0 = Convert.ToInt32(node.Attributes["lvl_0"].InnerText);
@@ -577,26 +526,11 @@ namespace WG_BalancedPopMod
                             Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
                         }
                     }
-                    else
-                    {
-                        try
-                        {
-                            int bonus = Convert.ToInt32(node.Attributes["bonus_houseHold"].InnerText);
-                            array[DataStore.BONUS_HOUSEHOLD] = bonus >= 0 ? bonus : 0;  // Force to be greater than 0
-                        }
-                        catch (Exception e)
-                        {
-                            Debugging.panelMessage("readPopulationNode, part c: " + e.Message);
-                        }
-                    }
                 }
             } // end foreach
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="name"></param>
         /// <param name="level"></param>
         /// <param name="value"></param>
@@ -625,27 +559,44 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="node"></param>
         private void readBonusHouseNode(XmlNode parent)
         {
-            DataStore.xmlMeshNames.Clear(); // Okay to clear now that we have seen the meshname node
+            try
+            {
+                DataStore.printResidentialNames = Convert.ToBoolean(parent.Attributes["printResNames"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
+            DataStore.bonusHouseholdCache.Clear(); // Okay to clear now that we have seen the meshname node
             foreach (XmlNode node in parent.ChildNodes)
             {
                 if (node.Name.Equals(meshName))
                 {
                     string name = node.InnerText;
-                    DataStore.xmlMeshNames.Add(name);
+                    int bonus = 1;
+                    try
+                    {
+                        bonus = Convert.ToInt32(node.Attributes["bonus"].InnerText);
+                    }
+                    catch (Exception e)
+                    {
+                        Debugging.panelMessage("readBonusHouseNode: " + e.Message + ". Setting to 1");
+                    }
+
+                    if (name.Length > 0)
+                    {
+                        // Needs a value to be valid
+                        DataStore.bonusHouseholdCache.Add(name, bonus);
+                    }
                 }
             }
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="produceNode"></param>
         private void readProductionNode(XmlNode produceNode)
         {
@@ -673,9 +624,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="name"></param>
         /// <param name="level"></param>
         /// <param name="callingFunction">For debug purposes</param>
@@ -739,12 +687,9 @@ namespace WG_BalancedPopMod
                     break;
             }
             return array;
-        }
+        } // end getArray
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="p"></param>
         /// <param name="power"></param>
         /// <param name="water"></param>
@@ -761,9 +706,6 @@ namespace WG_BalancedPopMod
         }
 
 
-        /// <summary>
-        /// 
-        /// </summary>
         /// <param name="p"></param>
         /// <param name="ground"></param>
         /// <param name="noise"></param>

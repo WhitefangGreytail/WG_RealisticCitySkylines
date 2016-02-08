@@ -12,11 +12,11 @@ namespace WG_BalancedPopMod
     {
         public string Name
         {
-            get { return "WG Realistic Population v6.1"; }
+            get { return "WG Realistic Population v6.2"; }
         }
         public string Description
         {
-            get { return "Related population to volume and utility needs are changed to be more realistic. Income is reduced for difficulty."; }
+            get { return "Related population to volume and utility needs are changed to be more realistic."; }
         }
     }
 }

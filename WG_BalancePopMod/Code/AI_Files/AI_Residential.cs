@@ -74,14 +74,15 @@ namespace WG_BalancedPopMod
                     returnValue = Mathf.Max(1, returnValue);
                 }
 
-                if (DataStore.bonusHousehold.ContainsKey(item.gameObject.name))
+                int bonus = 0;
+                if (DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus))
                 {
-                    returnValue = returnValue + array[DataStore.BONUS_HOUSEHOLD];
+                    returnValue = returnValue + bonus;
                 }
 
                 if (DataStore.printResidentialNames)
                 {
-                    Debugging.writeDebugToFile("Requested asset name->" + item.gameObject.name);
+                    Debugging.writeDebugToFile("Requested asset name -->" + item.gameObject.name + "<--, level: " + (level + 1));
                 }
 
                 prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
