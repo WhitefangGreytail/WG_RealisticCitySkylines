@@ -1,18 +1,18 @@
-<WG_CityMod version="5" printResNames="false">
+<WG_CityMod version="5">
   <!--space_pp = Square metres per person-->
   <!--level_height = Height of a floor. This is recommended to be left alone for balance unless the height of chimneys is taken into account-->
   <!--lvl_0 ... lvl_3 = Proportional values between each of the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.-->
   <population>
-    <ResidentialLow_1 space_pp="400" level_height="50" bonus_houseHold="1" />
-    <ResidentialLow_2 space_pp="400" level_height="50" bonus_houseHold="1" />
-    <ResidentialLow_3 space_pp="400" level_height="50" bonus_houseHold="1" />
-    <ResidentialLow_4 space_pp="400" level_height="50" bonus_houseHold="1" />
-    <ResidentialLow_5 space_pp="400" level_height="50" bonus_houseHold="1" />
-    <ResidentialHigh_1 space_pp="30" level_height="10" bonus_houseHold="1" />
-    <ResidentialHigh_2 space_pp="32" level_height="10" bonus_houseHold="1" />
-    <ResidentialHigh_3 space_pp="34" level_height="10" bonus_houseHold="1" />
-    <ResidentialHigh_4 space_pp="36" level_height="10" bonus_houseHold="1" />
-    <ResidentialHigh_5 space_pp="38" level_height="10" bonus_houseHold="1" />
+    <ResidentialLow_1 space_pp="400" level_height="50" />
+    <ResidentialLow_2 space_pp="400" level_height="50" />
+    <ResidentialLow_3 space_pp="400" level_height="50" />
+    <ResidentialLow_4 space_pp="400" level_height="50" />
+    <ResidentialLow_5 space_pp="400" level_height="50" />
+    <ResidentialHigh_1 space_pp="30" level_height="10" />
+    <ResidentialHigh_2 space_pp="32" level_height="10" />
+    <ResidentialHigh_3 space_pp="34" level_height="10" />
+    <ResidentialHigh_4 space_pp="36" level_height="10" />
+    <ResidentialHigh_5 space_pp="38" level_height="10" />
     <CommercialLow_1 space_pp="90" level_height="5" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
     <CommercialLow_2 space_pp="95" level_height="5" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
     <CommercialLow_3 space_pp="100" level_height="5" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
@@ -35,19 +35,20 @@
     <IndustryOre_2 space_pp="40" level_height="30" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <IndustryOil_1 space_pp="80" level_height="50" ground_mult="0" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
     <IndustryOil_2 space_pp="38" level_height="30" ground_mult="0" lvl_0="10" lvl_1="35" lvl_2="45" lvl_3="10" />
-    <bonusHouseHold>
-      <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
-      <!--Possible two households, but left out: L1 2x2 Detached03,L3 2x3 Detached11-->
-      <meshName>L1 2x3 Detached05</meshName>
-      <meshName>L1 3x3 Detached02</meshName>
-      <meshName>L1 4x4 Detached02</meshName>
-      <meshName>L1 4x4 Detached06a</meshName>
-      <meshName>L1 4x4 Detached11</meshName>
-      <meshName>L2 2x2 Detached05</meshName>
-      <meshName>L2 2x3 Semi-detachedhouse01</meshName>
-      <meshName>L2 3x4 Semi-detachedhouse02a</meshName>
-      <meshName>L3 3x3 Semi-detachedhouse02</meshName>
-      <meshName>L3 4x4 Semi-detachedhouse03a</meshName>
+    <bonusHouseHold printResNames="false">
+      <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
+      <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
+      <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
+      <meshName bonus="1">L1 2x3 Detached05</meshName>
+      <meshName bonus="1">L1 3x3 Detached02</meshName>
+      <meshName bonus="1">L1 4x4 Detached02</meshName>
+      <meshName bonus="1">L1 4x4 Detached06a</meshName>
+      <meshName bonus="1">L1 4x4 Detached11</meshName>
+      <meshName bonus="1">L2 2x2 Detached05</meshName>
+      <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
+      <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
+      <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
+      <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
     </bonusHouseHold>
   </population>
   <!--Consumption values are per household, or per production unit-->

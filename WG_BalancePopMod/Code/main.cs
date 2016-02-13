@@ -33,7 +33,7 @@ namespace WG_BalancedPopMod
                 // ResidentialAI -> Game_ResidentialAI. This stops the buildings from going to game defaults on load.
                 // This has no further effects on buildings as the templates are replaced by ResidentialAIMod
                 var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
-                var newMethod = typeof(TrickResidentialAI).GetMethod("CalculateHomeCount");
+                var newMethod = typeof(TrickAI).GetMethod("CalculateHomeCount");
 
                 // This is to disable all household checks. No need to load a thing
                 segments[0] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
@@ -41,22 +41,22 @@ namespace WG_BalancedPopMod
                 oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 newMethod = typeof(AI_Building).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
                 segments[1] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
-                /*
-                                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
-                                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
-                                {
-                                    // This creates a unique number
-                                    Randomizer number = new Randomizer((int)i);
-                                    try
-                                    {
-                                        seedToId.Add(number.seed, i);
-                                    }
-                                    catch (System.ArgumentException)
-                                    {
-                                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
-                                    }
-                                }
-                */
+/*
+                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
+                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
+                {
+                    // This creates a unique number
+                    Randomizer number = new Randomizer((int)i);
+                    try
+                    {
+                        seedToId.Add(number.seed, i);
+                    }
+                    catch (System.ArgumentException)
+                    {
+                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
+                    }
+                }
+*/
                 isModEnabled = true;
             }
         }
@@ -94,8 +94,7 @@ namespace WG_BalancedPopMod
             IndustrialBuildingAIMod.clearCache();
             IndustrialExtractorAIMod.clearCache();
             ResidentialBuildingAIMod.clearCache();
-
-            DataStore.bonusHousehold.Clear();
+            DataStore.clearCache();
             DataStore.allowRemovalOfCitizens = false;
         }
 
@@ -106,21 +105,9 @@ namespace WG_BalancedPopMod
             {
                 Stopwatch sw = Stopwatch.StartNew();
                 readFromXML();
-
-                // Add mesh names to dictionary, ensuring uniqueness
-                foreach (string data in DataStore.xmlMeshNames)
-                {
-                    if (!DataStore.bonusHousehold.ContainsKey(data))
-                    {
-                        DataStore.bonusHousehold.Add(data, data);
-                    }
-                }
-
                 swapAI();
-                if (DataStore.enableExperimental)
-                {
-                    // Nothing here for now
-                }
+
+                // Now we can remove people
                 DataStore.allowRemovalOfCitizens = true;
 
                 sw.Stop();

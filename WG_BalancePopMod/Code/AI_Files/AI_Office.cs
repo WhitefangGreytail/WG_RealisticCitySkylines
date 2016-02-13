@@ -10,13 +10,13 @@ namespace WG_BalancedPopMod
 {
     class OfficeBuildingAIMod : OfficeBuildingAI
     {
-        private static Dictionary<ulong, employStruct> employCache = new Dictionary<ulong, employStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, buildingEmployStruct> buildingEmployCache = new Dictionary<ulong, buildingEmployStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, int> produceCache = new Dictionary<ulong, int>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
         {
-            employCache.Clear();
+            buildingEmployCache.Clear();
             consumeCache.Clear();
             produceCache.Clear();
         }
@@ -37,79 +37,48 @@ namespace WG_BalancedPopMod
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            employStruct output;
             bool needRefresh = true;
-
-            if (employCache.TryGetValue(seed, out output))
+            buildingEmployStruct cachedLevel;
+            if (buildingEmployCache.TryGetValue(seed, out cachedLevel))
             {
-                needRefresh = output.level != level;
+                needRefresh = cachedLevel.level != level;
             }
 
             if (needRefresh)
             {
-                employCache.Remove(seed);
+                buildingEmployCache.Remove(seed);
                 consumeCache.Remove(seed);
                 produceCache.Remove(seed);
-                int[] array = DataStore.office[level];
 
-                int num = array[DataStore.PEOPLE];
-                level0 = array[DataStore.WORK_LVL0];
-                level1 = array[DataStore.WORK_LVL1];
-                level2 = array[DataStore.WORK_LVL2];
-                level3 = array[DataStore.WORK_LVL3];
-                int num2 = level0 + level1 + level2 + level3;
-
-                if (num > 0 && num2 > 0)
+                prefabEmployStruct output;
+                // If not seen prefab, calculate
+                if (!DataStore.prefabWorkers.TryGetValue(item.gameObject.GetHashCode(), out output))
                 {
-                    // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
-                    Vector3 v = item.m_size;
-                    int x = (int)v.x;
-                    int z = (int)v.z;
-
-                    if (x <= 0)
-                    {
-                        x = width * 6;
-                    }
-                    if (z <= 0)
-                    {
-                        z = length * 6;
-                    }
-                    int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
-                    int value = ((x * z * floorCount) / array[DataStore.PEOPLE]);
-//                Debugging.writeDebugToFile("level: " + level + ", w/l/f: " + (int)item.m_size.x + " * " + (int)item.m_size.z + " * " + Mathf.CeilToInt(item.m_size.y / array[DataStore.LEVEL_HEIGHT]) + ", workers: " + num, "Office.txt");
-                    num = Mathf.Max(10, value);  // Minimum of ten
-
-                    level3 = (num * level3) / num2;
-                    level2 = (num * level2) / num2;
-                    level1 = (num * level1) / num2;
-                    level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
-                }
-                else
-                {
-                    level0 = level1 = level2 = level3 = 1;  // Allocate 1 for every level, to stop div by 0
+                    AI_Utils.calculatePrefabWorkers(width, length, ref item, 10, ref DataStore.office[level], out output);
+                    DataStore.prefabWorkers.Add(item.gameObject.GetHashCode(), output);
                 }
 
-                output.level = level;
-                output.level0 = level0;
-                output.level1 = level1;
-                output.level2 = level2;
-                output.level3 = level3;
+                cachedLevel.level = level;
+                cachedLevel.level0 = output.level0;
+                cachedLevel.level1 = output.level1;
+                cachedLevel.level2 = output.level2;
+                cachedLevel.level3 = output.level3;
 
-                employCache.Add(seed, output);
+                // Update the level for the new building
+                buildingEmployCache.Add(seed, cachedLevel);
             }
-            else
-            {
-                level0 = output.level0;
-                level1 = output.level1;
-                level2 = output.level2;
-                level3 = output.level3;
-            }
+
+            level0 = cachedLevel.level0;
+            level1 = cachedLevel.level1;
+            level2 = cachedLevel.level2;
+            level3 = cachedLevel.level3;
         }
+
 
 
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
-            employCache.Remove(new Randomizer((int)buildingID).seed);
+            buildingEmployCache.Remove(new Randomizer((int)buildingID).seed);
             consumeCache.Remove(new Randomizer((int)buildingID).seed);
             base.ReleaseBuilding(buildingID, ref data);
         }
@@ -221,18 +190,19 @@ namespace WG_BalancedPopMod
         public override int CalculateProductionCapacity(Randomizer r, int width, int length)
         {
             ulong seed = r.seed;
-            ItemClass item = this.m_info.m_class;
+            BuildingInfo item = this.m_info;
+
             int output;
 
             if (!produceCache.TryGetValue(seed, out output))
             {
-                employStruct worker;
-                if (employCache.TryGetValue(seed, out worker))
+                prefabEmployStruct worker;
+                if (DataStore.prefabWorkers.TryGetValue(item.gameObject.GetHashCode(), out worker))
                 {
                     // Employment is available
                     int workers = worker.level0 + worker.level1 + worker.level2 + worker.level3;
 
-                    int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+                    int level = (int)(this.m_info.m_class.m_level >= 0 ? this.m_info.m_class.m_level : 0); // Force it to 0 if the level was set to None
                     output = Mathf.Max(1, workers / DataStore.office[level][DataStore.PRODUCTION]);
                     produceCache.Add(seed, output);
                 }

@@ -11,12 +11,12 @@ namespace WG_BalancedPopMod
 {
     class IndustrialBuildingAIMod : IndustrialBuildingAI
     {
-        private static Dictionary<ulong, employStruct> employCache = new Dictionary<ulong, employStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, buildingEmployStruct> buildingEmployCache = new Dictionary<ulong, buildingEmployStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
         {
-            employCache.Clear();
+            buildingEmployCache.Clear();
             consumeCache.Clear();
         }
 
@@ -36,78 +36,47 @@ namespace WG_BalancedPopMod
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            employStruct output;
             bool needRefresh = true;
-
-            if (employCache.TryGetValue(seed, out output))
+            buildingEmployStruct cachedLevel;
+            if (buildingEmployCache.TryGetValue(seed, out cachedLevel))
             {
-                needRefresh = output.level != level;
+                needRefresh = cachedLevel.level != level;
             }
 
             if (needRefresh)
             {
-                employCache.Remove(seed);
+                buildingEmployCache.Remove(seed);
                 consumeCache.Remove(seed);
-                int[] array = getArray(item.m_class, level);
 
-                int num = array[DataStore.PEOPLE];
-                level0 = array[DataStore.WORK_LVL0];
-                level1 = array[DataStore.WORK_LVL1];
-                level2 = array[DataStore.WORK_LVL2];
-                level3 = array[DataStore.WORK_LVL3];
-                int num2 = level0 + level1 + level2 + level3;
-
-                if (num > 0 && num2 > 0)
+                prefabEmployStruct output;
+                // If not seen prefab, calculate
+                if (!DataStore.prefabWorkers.TryGetValue(item.gameObject.GetHashCode(), out output))
                 {
-                    // Check x and z just incase they are 0. Extremely few are. If they are, then base the calculation of 3/4 of the width and length given
-                    Vector3 v = item.m_size;
-                    int x = (int)v.x;
-                    int z = (int)v.z;
-
-                    if (x <= 0)
-                    {
-                        x = width * 6;
-                    }
-                    if (z <= 0)
-                    {
-                        z = length * 6;
-                    }
-
-                    int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
-                    int value = ((x * z * floorCount) / array[DataStore.PEOPLE]);
-                    num = Mathf.Max(3, value);  // Minimum of three
-
-                    level3 = (num * level3) / num2;
-                    level2 = (num * level2) / num2;
-                    level1 = (num * level1) / num2;
-                    level0 = Mathf.Max(0, num - level3 - level2 - level1);  // Whatever is left
-                }
-                else
-                {
-                    level0 = level1 = level2 = level3 = 1;  // Allocate 1 for every level, to stop div by 0
+                    int[] array = getArray(item.m_class, level);
+                    AI_Utils.calculatePrefabWorkers(width, length, ref item, 3, ref array, out output);
+                    DataStore.prefabWorkers.Add(item.gameObject.GetHashCode(), output);
                 }
 
-                output.level = level;
-                output.level0 = level0;
-                output.level1 = level1;
-                output.level2 = level2;
-                output.level3 = level3;
+                cachedLevel.level = level;
+                cachedLevel.level0 = output.level0;
+                cachedLevel.level1 = output.level1;
+                cachedLevel.level2 = output.level2;
+                cachedLevel.level3 = output.level3;
 
-                employCache.Add(seed, output);
+                // Update the level for the new building
+                buildingEmployCache.Add(seed, cachedLevel);
             }
-            else
-            {
-                level0 = output.level0;
-                level1 = output.level1;
-                level2 = output.level2;
-                level3 = output.level3;
-            }
+
+            level0 = cachedLevel.level0;
+            level1 = cachedLevel.level1;
+            level2 = cachedLevel.level2;
+            level3 = cachedLevel.level3;
         }
 
 
         public override void ReleaseBuilding(ushort buildingID, ref Building data)
         {
-            employCache.Remove(new Randomizer((int)buildingID).seed);
+            buildingEmployCache.Remove(new Randomizer((int)buildingID).seed);
             consumeCache.Remove(new Randomizer((int)buildingID).seed);
             base.ReleaseBuilding(buildingID, ref data);
         }

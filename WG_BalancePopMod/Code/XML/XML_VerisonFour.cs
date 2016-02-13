@@ -195,10 +195,10 @@ namespace WG_BalancedPopMod
                 {
                     string[] values = node.InnerText.Split(new char[] { STRING_DELIMITER });
 
-                    DataStore.xmlMeshNames.Clear(); // Okay to clear now that we have seen the meshname node
+                    DataStore.bonusHouseholdCache.Clear(); // Okay to clear now that we have seen the meshname node
                     foreach (string name in values)
                     {
-                        DataStore.xmlMeshNames.Add(name);
+                        DataStore.bonusHouseholdCache.Add(name, 1);
                     }
                 }
                 else 
@@ -248,18 +248,6 @@ namespace WG_BalancedPopMod
                         catch (Exception e)
                         {
                             Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            int bonus = Convert.ToInt32(node.Attributes["bonus_houseHold"].InnerText);
-                            array[DataStore.BONUS_HOUSEHOLD] = bonus >= 0 ? bonus : 0;  // Force to be greater than 0
-                        }
-                        catch (Exception e)
-                        {
-                            Debugging.panelMessage("readPopulationNode, part c: " + e.Message);
                         }
                     }
                 }
