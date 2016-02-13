@@ -268,6 +268,10 @@ namespace WG_BalancedPopMod
             attribute.Value = Convert.ToString(array[DataStore.LEVEL_HEIGHT]);
             node.Attributes.Append(attribute);
 
+            attribute = xmlDoc.CreateAttribute("calc");
+            attribute.Value = array[DataStore.CALC_METHOD] == 0 ? "model" : "plot";
+            node.Attributes.Append(attribute);
+
             if (array[DataStore.WORK_LVL0] >= 0)
             {
                 attribute = xmlDoc.CreateAttribute("ground_mult");
@@ -501,6 +505,22 @@ namespace WG_BalancedPopMod
                     catch (Exception e)
                     {
                         Debugging.panelMessage("readPopulationNode, part a: " + e.Message);
+                    }
+
+                    try
+                    {
+                        if (Convert.ToBoolean(node.Attributes["calc"].InnerText.Equals("plot")))
+                        {
+                            array[DataStore.CALC_METHOD] = 1;
+                        }
+                        else
+                        {
+                            array[DataStore.CALC_METHOD] = 0;
+                        }
+                    }
+                    catch
+                    {
+
                     }
 
                     if (!name.Contains("Residential"))

@@ -7,6 +7,7 @@ using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using UnityEngine;
 using System.IO;
+using WG_BalancedPopMod;
 
 namespace WG_BalancedPopMod
 {
@@ -15,13 +16,9 @@ namespace WG_BalancedPopMod
         // CalculateHomeCount is only called once in construction or upgrading. Only store consumption
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
-        // Stores the number of households for a prefab
-        private static Dictionary<int, int> prefabHouseHolds = new Dictionary<int, int>(256);  // Shouldn't need huge amounts
-
         public static void clearCache()
         {
             consumeCache.Clear();
-            prefabHouseHolds.Clear();
         }
 
         /// <summary>
@@ -37,55 +34,11 @@ namespace WG_BalancedPopMod
             consumeCache.Remove(r.seed);  // Clean out the consumption cache on upgrade
             int returnValue = 1;
 
-            if (!prefabHouseHolds.TryGetValue(item.gameObject.GetHashCode(), out returnValue))
+            if (!DataStore.prefabHouseHolds.TryGetValue(item.gameObject.GetHashCode(), out returnValue))
             {
-                int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
+                returnValue = AI_Utils.calculatePrefabHousehold(width, length, ref item);
 
-                int[] array = DataStore.residentialLow[level];
-                if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
-                {
-                    array = DataStore.residentialHigh[level];
-                }
-
-                // Check x and z just incase they are 0. A few user created assets are. If they are, then base the calculation of 3/4 of the width and length given
-                Vector3 v = item.m_size;
-                int x = (int)v.x;
-                int z = (int)v.z;
-
-                if (x <= 1)
-                {
-                    x = width * 6;
-                }
-                if (z <= 1) 
-                {
-                    z = length * 6;
-                }
-
-                int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
-                returnValue = (x * z * floorCount) / array[DataStore.PEOPLE];
-
-                if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
-                {
-                    // Minimum of 2, or ceiling of 90% number of floors, which ever is greater. This helps the 1x1 high density
-                    returnValue = Mathf.Max(Mathf.Max(2, Mathf.CeilToInt(0.9f * floorCount)), returnValue);
-                }
-                else
-                {
-                    returnValue = Mathf.Max(1, returnValue);
-                }
-
-                int bonus = 0;
-                if (DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus))
-                {
-                    returnValue = returnValue + bonus;
-                }
-
-                if (DataStore.printResidentialNames)
-                {
-                    Debugging.writeDebugToFile("Requested asset name -->" + item.gameObject.name + "<--, level: " + (level + 1));
-                }
-
-                prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
+                DataStore.prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
             }
             return returnValue;
         }
