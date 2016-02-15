@@ -11,7 +11,7 @@ namespace WG_BalancedPopMod
 {
     class IndustrialBuildingAIMod : IndustrialBuildingAI
     {
-        private static Dictionary<ulong, buildingEmployStruct> buildingEmployCache = new Dictionary<ulong, buildingEmployStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, buildingWorkVisitorStruct> buildingEmployCache = new Dictionary<ulong, buildingWorkVisitorStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
@@ -37,7 +37,7 @@ namespace WG_BalancedPopMod
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             bool needRefresh = true;
-            buildingEmployStruct cachedLevel;
+            buildingWorkVisitorStruct cachedLevel;
             if (buildingEmployCache.TryGetValue(seed, out cachedLevel))
             {
                 needRefresh = cachedLevel.level != level;
@@ -50,11 +50,11 @@ namespace WG_BalancedPopMod
 
                 prefabEmployStruct output;
                 // If not seen prefab, calculate
-                if (!DataStore.prefabWorkers.TryGetValue(item.gameObject.GetHashCode(), out output))
+                if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
                 {
                     int[] array = getArray(item.m_class, level);
-                    AI_Utils.calculatePrefabWorkers(width, length, ref item, 3, ref array, out output);
-                    DataStore.prefabWorkers.Add(item.gameObject.GetHashCode(), output);
+                    AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
+                    DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
                 }
 
                 cachedLevel.level = level;

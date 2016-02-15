@@ -20,7 +20,7 @@ namespace WG_BalancedPopMod
         /// <param name="array"></param>
         /// <param name="output"></param>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void calculatePrefabWorkers(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out prefabEmployStruct output)
+        public static void calculateprefabWorkerVisit(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out prefabEmployStruct output)
         {
             int num = array[DataStore.PEOPLE];
             int level0 = array[DataStore.WORK_LVL0];
@@ -33,7 +33,7 @@ namespace WG_BalancedPopMod
             {
                 Vector3 v = item.m_size;
                 int floorSpace = calcBase(width, length, ref array, v);
-                int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
+                int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                 int value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
                 num = Mathf.Max(minWorkers, value);
 
@@ -46,7 +46,18 @@ namespace WG_BalancedPopMod
             {
                 output.level0 = output.level1 = output.level2 = output.level3 = 1;  // Allocate 1 for every level, to stop div by 0
             }
-        } // end calculatePrefabWorkers
+
+            // Set the visitors here since we're calculating
+            if (array[DataStore.VISIT_MULT] > 1)
+            {
+                int visit = (int) ((output.level0 + output.level1 + output.level2 + output.level3) * (array[DataStore.VISIT_MULT] / 10.0));
+                output.visitors = (int) (Math.Ceiling(visit / 5.0) * 5.0);  // Round to nearest 5 to use up the space
+            }
+            else
+            {
+                output.visitors = 0;
+            }
+        } // end calculateprefabWorkerVisit
 
 
         /// <summary>
