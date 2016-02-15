@@ -42,10 +42,6 @@ namespace WG_BalancedPopMod
                 {
                     readPopulationNode(node);
                 }
-                else if (node.Name.Equals(bonusHouseName))
-                {
-                    readBonusHouseNode(node);
-                }
                 else if (node.Name.Equals(consumeNodeName))
                 {
                     readConsumptionNode(node);
@@ -182,9 +178,13 @@ namespace WG_BalancedPopMod
         {
             XmlComment comment = xmlDoc.CreateComment("space_pp = Square metres per person");
             rootNode.AppendChild(comment);
-            comment = xmlDoc.CreateComment("level_height = Height of a floor. This is recommended to be left alone for balance unless the height of chimneys is taken into account");
+            comment = xmlDoc.CreateComment("level_height = Height of a floor. The height of chimneys have been taken into account");
             rootNode.AppendChild(comment);
-            comment = xmlDoc.CreateComment("lvl_0 ... lvl_3 = Proportional values between each of the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.");
+            comment = xmlDoc.CreateComment("calc = model or plot. To calculate the base using either the building model, or by the land size");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only");
+            rootNode.AppendChild(comment);
+            comment = xmlDoc.CreateComment("lvl_0 ... lvl_3 = Proportional values between the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.");
             rootNode.AppendChild(comment);
         }
 
@@ -271,6 +271,13 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("calc");
             attribute.Value = array[DataStore.CALC_METHOD] == 0 ? "model" : "plot";
             node.Attributes.Append(attribute);
+
+            if (array[DataStore.VISIT_MULT] > 0)
+            {
+                attribute = xmlDoc.CreateAttribute("visit_mult");
+                attribute.Value = Convert.ToString(array[DataStore.VISIT_MULT] / 10.0);
+                node.Attributes.Append(attribute);
+            }
 
             if (array[DataStore.WORK_LVL0] >= 0)
             {
@@ -521,6 +528,20 @@ namespace WG_BalancedPopMod
                     catch
                     {
 
+                    }
+
+                    try
+                    {
+                        double temp = Convert.ToDouble(node.Attributes["visit_mult"].InnerText);
+                        if (temp <= 0)
+                        {
+                            temp = 1;  // Bad person trying to make negative visitors
+                        }
+                        array[DataStore.VISIT_MULT] = (int) (temp * 10.0);
+                    }
+                    catch
+                    {
+                        // We can expect no values for non commercial
                     }
 
                     if (!name.Contains("Residential"))

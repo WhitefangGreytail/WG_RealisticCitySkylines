@@ -27,11 +27,9 @@ namespace WG_BalancedPopMod
         protected void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
         {
             int totalWorkCount = (workCount + 4) / 5;
+            int totalVisitCount = (visitCount + 4) / 5;
             int totalHomeCount = homeCount;
-            int unitWorkCount = 0;
-            int unitHomeCount = 0;
-            int unitVisitCount = 0;
-            int unitCount = 0;
+
             int[] workersRequired = new int[] { 0, 0, 0, 0 };
 
             if ((data.m_flags & (Building.Flags.Abandoned | Building.Flags.BurnedDown)) == Building.Flags.None)
@@ -47,12 +45,10 @@ namespace WG_BalancedPopMod
                     {
                         citizenUnitArray[(int)((UIntPtr)num2)].SetWealthLevel(wealthLevel);
                         homeCount--;
-                        unitHomeCount++;
                     }
                     if ((ushort)(flags & CitizenUnit.Flags.Work) != 0)
                     {
                         workCount -= 5;
-                        unitWorkCount++;
                         for (int i = 0; i < 5; i++)
                         {
                             uint citizen = citizenUnitArray[(int)((UIntPtr)num2)].GetCitizen(i);
@@ -66,7 +62,6 @@ namespace WG_BalancedPopMod
                     if ((ushort)(flags & CitizenUnit.Flags.Visit) != 0)
                     {
                         visitCount -= 5;
-                        unitVisitCount++;
                     }
                     if ((ushort)(flags & CitizenUnit.Flags.Student) != 0)
                     {
@@ -79,13 +74,12 @@ namespace WG_BalancedPopMod
                         CODebugBase<LogChannel>.Error(LogChannel.Core, "Invalid list detected!\n" + Environment.StackTrace);
                         break;
                     }
-                    unitCount++;
                 } // end while
 /*
                 homeCount = Mathf.Max(0, homeCount);
                 workCount = Mathf.Max(0, workCount);
- */
                 visitCount = Mathf.Max(0, visitCount);
+ */
                 studentCount = Mathf.Max(0, studentCount);
 
                 if (homeCount > 0 || workCount > 0 || visitCount > 0 || studentCount > 0)
@@ -132,13 +126,18 @@ namespace WG_BalancedPopMod
 
                     if (workCount < 0)
                     {
-                        RemoveWorkerBuilding(buildingID, ref data, totalWorkCount, ref workersRequired);
+                        RemoveWorkerBuilding(buildingID, ref data, totalWorkCount);
                     }
                     else if (homeCount < 0)
                     {
                         RemoveHouseHold(buildingID, ref data, totalHomeCount);
                     }
-                    // Do nothing for visit only or students
+
+                    if (visitCount < 0)
+                    {
+                        RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
+                    }
+                    // Do nothing for students
 
                     PromoteWorkers(buildingID, ref data, ref workersRequired);
                 } // end if PrivateBuildingAI
@@ -152,7 +151,7 @@ namespace WG_BalancedPopMod
         /// <param name="buildingID"></param>
         /// <param name="data"></param>
         /// <param name="citizenNumber"></param>
-        private void RemoveWorkerBuilding(ushort buildingID, ref Building data, int workerUnits, ref int[] workersRequired)
+        private void RemoveWorkerBuilding(ushort buildingID, ref Building data, int workerUnits)
         {
             int loopCounter = 0;
             uint previousUnit = data.m_citizenUnits;
@@ -316,6 +315,88 @@ namespace WG_BalancedPopMod
                 }
             } // end while
         } // end PromoteWorkers
+
+
+        /// <summary>
+        /// Send this unit away to empty to requirements
+        /// EmptyBuilding
+        /// </summary>
+        /// <param name="buildingID"></param>
+        /// <param name="data"></param>
+        /// <param name="citizenNumber"></param>
+        private void RemoveVisitorsBuilding(ushort buildingID, ref Building data, int visitorsUnit)
+        {
+            int loopCounter = 0;
+            uint previousUnit = data.m_citizenUnits;
+            uint currentUnit = data.m_citizenUnits;
+
+            while (currentUnit != 0u)
+            {
+                // If this unit matches what we one, send the citizens away or remove citzens
+                uint nextUnit = citizenUnitArray[currentUnit].m_nextUnit;
+                bool removeCurrentUnit = false;
+
+                // Only think about removing if it matches the flag
+                if ((ushort)(CitizenUnit.Flags.Visit & citizenUnitArray[currentUnit].m_flags) != 0)
+                {
+                    if (visitorsUnit > 0)
+                    {
+                        // Don't remove the unit, we'll remove excess afterwards
+                        visitorsUnit--;
+                    }
+                    else
+                    {
+                        // Send unit home like empty building
+                        for (int i = 0; i < 5; i++)
+                        {
+                            uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
+                            if (citizen != 0u)
+                            {
+                                // Send out
+                                int citizenIndex = (int)((UIntPtr)citizen);
+                                ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
+                                CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
+                                
+                                ushort home = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
+                                if (home != 0)
+                                {
+                                    CitizenInfo citizenInfo = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
+                                    HumanAI humanAI = citizenInfo.m_citizenAI as HumanAI;
+                                    if (humanAI != null)
+                                    {
+                                        humanAI.StartMoving(citizen, ref instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)], buildingID, home);
+                                    }
+                                }
+                                RemoveFromCitizenUnit(currentUnit, i);
+                            }  // end citizen
+                        } // end for
+                        removeCurrentUnit = true;  // No need to reset, we're already at the end
+                    } // end if
+                } // Flag match
+
+                // Don't need to worry about trying to remove the initial citizen unit. 
+                // This should always exist and other code will always force at least one.
+                if (removeCurrentUnit)
+                {
+                    // Link previous unit to next unit and release the item
+                    citizenUnitArray[previousUnit].m_nextUnit = nextUnit;
+                    instance.m_units.ReleaseItem(currentUnit);
+                    // Previous unit number has not changed
+                }
+                else
+                {
+                    // Current unit is not to be removed, proceed to next
+                    previousUnit = currentUnit;
+                }
+                currentUnit = nextUnit;
+
+                // If list is too long, abort (102400 people is a bit too much)
+                if (++loopCounter > 20480)
+                {
+                    currentUnit = 0u; // Bail out loop
+                }
+            } // end while
+        } // end RemoveWorkerBuilding
 
 
         /// <summary>

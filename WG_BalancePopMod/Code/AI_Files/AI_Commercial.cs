@@ -11,7 +11,7 @@ namespace WG_BalancedPopMod
 {
     public class CommercialBuildingAIMod : CommercialBuildingAI
     {
-        private static Dictionary<ulong, buildingEmployStruct> buildingEmployCache = new Dictionary<ulong, buildingEmployStruct>(DataStore.CACHE_SIZE);
+        private static Dictionary<ulong, buildingWorkVisitorStruct> buildingEmployCache = new Dictionary<ulong, buildingWorkVisitorStruct>(DataStore.CACHE_SIZE);
         private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
 
         public static void clearCache()
@@ -37,7 +37,7 @@ namespace WG_BalancedPopMod
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             bool needRefresh = true;
-            buildingEmployStruct cachedLevel;
+            buildingWorkVisitorStruct cachedLevel;
             if (buildingEmployCache.TryGetValue(seed, out cachedLevel))
             {
                 needRefresh = cachedLevel.level != level;
@@ -50,11 +50,11 @@ namespace WG_BalancedPopMod
 
                 prefabEmployStruct output;
                 // If not seen prefab, calculate
-                if (!DataStore.prefabWorkers.TryGetValue(item.gameObject.GetHashCode(), out output))
+                if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
                 {
                     int[] array = getArray(item.m_class, ref level);
-                    AI_Utils.calculatePrefabWorkers(width, length, ref item, 3, ref array, out output);
-                    DataStore.prefabWorkers.Add(item.gameObject.GetHashCode(), output);
+                    AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
+                    DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
                 }
 
                 cachedLevel.level = level;
@@ -186,56 +186,12 @@ namespace WG_BalancedPopMod
 
         public override int CalculateVisitplaceCount(Randomizer r, int width, int length)
         {
-            ItemClass @class = this.m_info.m_class;
-            int num = 0;
-            ItemClass.SubService subService = @class.m_subService;
-            if (subService != ItemClass.SubService.CommercialLow)
+            prefabEmployStruct visitors;
+            if (!DataStore.prefabWorkerVisit.TryGetValue(this.m_info.gameObject.GetHashCode(), out visitors))
             {
-                if (@class.m_level == ItemClass.Level.Level1)
-                {
-                    num = 90;
-                }
-                else if (@class.m_level == ItemClass.Level.Level2)
-                {
-                    num = 100;
-                }
-                else
-                {
-                    num = 110;
-                }
+                // All commercial places will need visitors. CalcWorkplaces is called first. But just return 0.
             }
-            else if (subService != ItemClass.SubService.CommercialHigh)
-            {
-                if (@class.m_level == ItemClass.Level.Level1)
-                {
-                    num = 200;
-                }
-                else if (@class.m_level == ItemClass.Level.Level2)
-                {
-                    num = 300;
-                }
-                else
-                {
-                    num = 400;
-                }
-            }
-            else if (subService != ItemClass.SubService.CommercialLeisure)
-            {
-                num = 250;
-            }
-            else if (subService == ItemClass.SubService.CommercialTourist)
-            {
-                num = 250;
-            }
-
-
-            // For now, just make it 5 times the original value
-            if (num != 0)
-            {
-                //int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
-                num = Mathf.Max(1000, 5 * width * length * num + r.Int32(100u)) / 100;
-            }
-            return num;
+            return visitors.visitors;
         }
 
 
