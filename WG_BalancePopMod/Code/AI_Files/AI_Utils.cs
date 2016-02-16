@@ -48,15 +48,70 @@ namespace WG_BalancedPopMod
             }
 
             // Set the visitors here since we're calculating
-            if (array[DataStore.VISIT_MULT] > 1)
+            if (DataStore.enableVisitMultiplier)
             {
-                int visit = (int) ((output.level0 + output.level1 + output.level2 + output.level3) * (array[DataStore.VISIT_MULT] / 10.0));
-                output.visitors = (int) (Math.Ceiling(visit / 5.0) * 5.0);  // Round to nearest 5 to use up the space
+                if (array[DataStore.VISIT_MULT] > 1)
+                {
+                    int visit = (int) ((output.level0 + output.level1 + output.level2 + output.level3) * (array[DataStore.VISIT_MULT] / 10.0));
+                    output.visitors = (int) (Math.Ceiling(visit / 5.0) * 5.0);  // Round to nearest 5 to use up the space
+                }
+                else
+                {
+                    output.visitors = 0;
+                }
             }
             else
             {
-                output.visitors = 0;
-            }
+	            int value = 0;
+	            ItemClass.SubService subService = item.m_class.m_subService;
+	            if (subService != ItemClass.SubService.CommercialLow)
+	            {
+		            if (subService != ItemClass.SubService.CommercialHigh)
+		            {
+			            if (subService != ItemClass.SubService.CommercialLeisure)
+			            {
+				            if (subService == ItemClass.SubService.CommercialTourist)
+				            {
+                                value = 250;
+				            }
+			            }
+			            else
+			            {
+                            value = 250;
+			            }
+		            }
+                    else if (item.m_class.m_level == ItemClass.Level.Level1)
+		            {
+                        value = 200;
+		            }
+                    else if (item.m_class.m_level == ItemClass.Level.Level2)
+		            {
+                        value = 300;
+		            }
+		            else
+		            {
+                        value = 400;
+		            }
+	            }
+                else if (item.m_class.m_level == ItemClass.Level.Level1)
+	            {
+                    value = 90;
+	            }
+                else if (item.m_class.m_level == ItemClass.Level.Level2)
+	            {
+                    value = 100;
+	            }
+	            else
+	            {
+                    value = 110;
+	            }
+
+	            if (num != 0)
+	            {
+                    value = Mathf.Max(200, width * length * value) / 100;
+	            }
+                output.visitors = value;
+            } // end visitMult
         } // end calculateprefabWorkerVisit
 
 

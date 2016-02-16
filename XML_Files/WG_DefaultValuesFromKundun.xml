@@ -4,7 +4,7 @@
   <!--calc = model or plot. To calculate the base using either the building model, or by the land size-->
   <!--visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only-->
   <!--lvl_0 ... lvl_3 = Proportional values between the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.-->
-  <population>
+  <population enableVisitMult="false">
     <ResidentialLow_1 space_pp="64" level_height="1000" calc="plot" />
     <ResidentialLow_2 space_pp="51" level_height="1000" calc="plot" />
     <ResidentialLow_3 space_pp="52" level_height="1000" calc="plot" />

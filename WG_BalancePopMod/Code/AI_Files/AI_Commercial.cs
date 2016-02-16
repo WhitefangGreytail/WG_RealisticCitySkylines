@@ -183,7 +183,7 @@ namespace WG_BalancedPopMod
             }
         }
 
-
+/*
         public override int CalculateVisitplaceCount(Randomizer r, int width, int length)
         {
             prefabEmployStruct visitors;
@@ -191,9 +191,10 @@ namespace WG_BalancedPopMod
             {
                 // All commercial places will need visitors. CalcWorkplaces is called first. But just return 0.
             }
+
             return visitors.visitors;
         }
-
+*/
 
         /// <summary>
         /// 

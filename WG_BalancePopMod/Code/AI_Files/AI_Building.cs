@@ -78,8 +78,8 @@ namespace WG_BalancedPopMod
 /*
                 homeCount = Mathf.Max(0, homeCount);
                 workCount = Mathf.Max(0, workCount);
-                visitCount = Mathf.Max(0, visitCount);
  */
+                visitCount = Mathf.Max(0, visitCount);
                 studentCount = Mathf.Max(0, studentCount);
 
                 if (homeCount > 0 || workCount > 0 || visitCount > 0 || studentCount > 0)
@@ -98,49 +98,53 @@ namespace WG_BalancedPopMod
                     }
                 }
 
-                // This is done to have the count in numbers of citizen units and only if the building is of a privateBuilding (Res, Com, Ind, Office)
-                if (DataStore.allowRemovalOfCitizens && (data.Info.GetAI() is PrivateBuildingAI))
+                if (DataStore.strictCapacity)
                 {
-                    // Stop incoming offers to get HandleWorkers() to start fresh
-                    TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
-                    offer.Building = buildingID;
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker0, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker1, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
-                    Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
-
+                    // This is done to have the count in numbers of citizen units and only if the building is of a privateBuilding (Res, Com, Ind, Office)
+                    if (DataStore.allowRemovalOfCitizens && (data.Info.GetAI() is PrivateBuildingAI))
                     {
-                        int worker0 = 0;
-                        int worker1 = 0;
-                        int worker2 = 0;
-                        int worker3 = 0;
-                        ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
-                                                                                       out worker0, out worker1, out worker2, out worker3);
+                        // Stop incoming offers to get HandleWorkers() to start fresh
+                        TransferManager.TransferOffer offer = default(TransferManager.TransferOffer);
+                        offer.Building = buildingID;
+                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker0, offer);
+                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker1, offer);
+                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
+                        Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
 
-                        // Update the workers required once figuring out how many are needed by the new building
-                        workersRequired[0] += worker0;
-                        workersRequired[1] += worker1;
-                        workersRequired[2] += worker2;
-                        workersRequired[3] += worker3;
-                    } // end code block
+                        {
+                            int worker0 = 0;
+                            int worker1 = 0;
+                            int worker2 = 0;
+                            int worker3 = 0;
+                            ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
+                                                                                           out worker0, out worker1, out worker2, out worker3);
 
-                    if (workCount < 0)
-                    {
-                        RemoveWorkerBuilding(buildingID, ref data, totalWorkCount);
-                    }
-                    else if (homeCount < 0)
-                    {
-                        RemoveHouseHold(buildingID, ref data, totalHomeCount);
-                    }
+                            // Update the workers required once figuring out how many are needed by the new building
+                            workersRequired[0] += worker0;
+                            workersRequired[1] += worker1;
+                            workersRequired[2] += worker2;
+                            workersRequired[3] += worker3;
+                        } // end code block
 
-                    if (visitCount < 0)
-                    {
-                        RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
-                    }
-                    // Do nothing for students
+                        if (workCount < 0)
+                        {
+                            RemoveWorkerBuilding(buildingID, ref data, totalWorkCount);
+                        }
+                        else if (homeCount < 0)
+                        {
+                            RemoveHouseHold(buildingID, ref data, totalHomeCount);
+                        }
 
-                    PromoteWorkers(buildingID, ref data, ref workersRequired);
-                } // end if PrivateBuildingAI
+                        if (visitCount < 0)
+                        {
+                            RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
+                        }
+
+                        PromoteWorkers(buildingID, ref data, ref workersRequired);
+                        // Do nothing for students
+
+                    } // end if PrivateBuildingAI
+                } // end strictCapacity
             } // end if good building
         } // end EnsureCitizenUnits
 
