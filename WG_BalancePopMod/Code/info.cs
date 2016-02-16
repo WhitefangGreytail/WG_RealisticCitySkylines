@@ -12,7 +12,7 @@ namespace WG_BalancedPopMod
     {
         public string Name
         {
-            get { return "WG Realistic Population v7.0"; }
+            get { return "WG Realistic Population v7.2"; }
         }
         public string Description
         {

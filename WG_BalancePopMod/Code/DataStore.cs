@@ -35,7 +35,9 @@ namespace WG_BalancedPopMod
 
         // Flags in XML
         public static bool enableExperimental = false;
+        public static bool enableVisitMultiplier = false;
         public static bool timeBasedRealism = false;
+        public static bool strictCapacity = true;
 
         // Static as required for functionality in EnsureCitizenUnits, but after loading the city
         public static bool allowRemovalOfCitizens = false;
@@ -54,20 +56,20 @@ namespace WG_BalancedPopMod
                                                   new int [] {200, 5, -1, 0, -1,   -1, -1, -1, -1,   16, 30, 26,  7, 160,   0, 5,   -1} };
 
         // High floor levels to help with maintaining a single story 
-        public static int[][] commercialLow = { new int [] { 90, 5, 1, 0, 30,   70, 20, 10,  0,   20, 40, 40, 11, 700,   0, 100,   -1},
-                                                new int [] { 95, 5, 1, 0, 30,   30, 45, 20,  5,   24, 45, 45, 10, 740,   0,  90,   -1},
-                                                new int [] {100, 5, 1, 0, 30,    5, 30, 55, 10,   28, 50, 50,  9, 780,   0,  75,   -1} };
+        public static int[][] commercialLow = { new int [] { 90, 5, 1, 0, 20,   70, 20, 10,  0,   20, 40, 40, 11, 700,   0, 100,   -1},
+                                                new int [] { 95, 5, 1, 0, 20,   30, 45, 20,  5,   24, 45, 45, 10, 740,   0,  90,   -1},
+                                                new int [] {100, 5, 1, 0, 20,    5, 30, 55, 10,   28, 50, 50,  9, 780,   0,  75,   -1} };
 
-        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 30,   10, 45, 40,  5,   24, 45, 45, 11, 650,   0, 80,   -1},
-                                                 new int [] {120, 5, 1, 0, 30,    7, 32, 43, 18,   28, 50, 50, 10, 700,   0, 70,   -1},
-                                                 new int [] {125, 5, 1, 0, 30,    5, 25, 45, 25,   32, 55, 55,  9, 750,   0, 60,   -1} };
+        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 20,   10, 45, 40,  5,   24, 45, 45, 11, 650,   0, 80,   -1},
+                                                 new int [] {120, 5, 1, 0, 20,    7, 32, 43, 18,   28, 50, 50, 10, 700,   0, 70,   -1},
+                                                 new int [] {125, 5, 1, 0, 20,    5, 25, 45, 25,   32, 55, 55,  9, 750,   0, 60,   -1} };
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height
-        public static int[][] commercialTourist = { new int[] {1000, 10, 50, 0, 40,   15, 35, 35, 15,   35, 60, 65, 40, 800,   0, 150,   -1 } };
+        public static int[][] commercialTourist = { new int[] {1000, 10, 50, 0, 25,   15, 35, 35, 15,   35, 60, 65, 40, 800,   0, 150,   -1 } };
 
         // Seems to be short buildings all the time
-        public static int[][] commercialLeisure = { new int[] {60, 10, 0, 0, 30,   15, 40, 35, 10,   35, 40, 44, 35, 700,   0, 300,   -1 } };
+        public static int[][] commercialLeisure = { new int[] {60, 10, 0, 0, 20,   15, 40, 35, 10,   35, 40, 44, 35, 700,   0, 300,   -1 } };
 
         public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   24, 12, 11, 9, 1800,   0, 1,   20},
                                          new int [] {37, 5, 0, 0, -1,   1,  5, 14, 80,   27, 13, 12, 9, 1925,   0, 1,   20},

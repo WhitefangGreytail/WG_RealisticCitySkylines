@@ -81,6 +81,15 @@ namespace WG_BalancedPopMod
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
+
+            attribute = xmlDoc.CreateAttribute("strictCapacity");
+            attribute.Value = DataStore.strictCapacity ? "true" : "false";
+            popNode.Attributes.Append(attribute);
+
+            attribute = xmlDoc.CreateAttribute("enableVisitMult");
+            attribute.Value = DataStore.enableVisitMultiplier ? "true" : "false";
+//            popNode.Attributes.Append(attribute);
+
             XmlNode consumeNode = xmlDoc.CreateElement(consumeNodeName);
             XmlNode pollutionNode = xmlDoc.CreateElement(pollutionNodeName);
             XmlNode productionNode = xmlDoc.CreateElement(productionNodeName);
@@ -183,7 +192,7 @@ namespace WG_BalancedPopMod
             comment = xmlDoc.CreateComment("calc = model or plot. To calculate the base using either the building model, or by the land size");
             rootNode.AppendChild(comment);
             comment = xmlDoc.CreateComment("visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only");
-            rootNode.AppendChild(comment);
+//            rootNode.AppendChild(comment);
             comment = xmlDoc.CreateComment("lvl_0 ... lvl_3 = Proportional values between the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.");
             rootNode.AppendChild(comment);
         }
@@ -276,7 +285,7 @@ namespace WG_BalancedPopMod
             {
                 attribute = xmlDoc.CreateAttribute("visit_mult");
                 attribute.Value = Convert.ToString(array[DataStore.VISIT_MULT] / 10.0);
-                node.Attributes.Append(attribute);
+//                node.Attributes.Append(attribute);
             }
 
             if (array[DataStore.WORK_LVL0] >= 0)
@@ -482,6 +491,24 @@ namespace WG_BalancedPopMod
         /// <param name="popNode"></param>
         private void readPopulationNode(XmlNode popNode)
         {
+            try
+            {
+                DataStore.enableVisitMultiplier = Convert.ToBoolean(popNode.Attributes["enableVisitMult"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
+            try
+            {
+                DataStore.strictCapacity = Convert.ToBoolean(popNode.Attributes["strictCapacity"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
             foreach (XmlNode node in popNode.ChildNodes)
             {
                 if (node.Name.Equals(bonusHouseName))
