@@ -10,40 +10,44 @@ using UnityEngine;
 using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using System.Diagnostics;
-
+using Boformer.Redirection;
 
 namespace WG_BalancedPopMod
 {
     public class LoadingExtension : LoadingExtensionBase
     {
+        private const int RES = 0;
+        private const int COM = 0;
+        private const int IND = 0;
+        private const int INDEX = 0;
+        private const int OFFICE = 0;
         public const String XML_FILE = "WG_RealisticCity.xml";
+
+        private readonly Dictionary<MethodInfo, Redirector> redirectsOnLoaded = new Dictionary<MethodInfo, Redirector>();
+        private readonly Dictionary<MethodInfo, Redirector> redirectsOnCreated = new Dictionary<MethodInfo, Redirector>();
 
 
         // This can be with the local application directory, or the directory where the exe file exists.
         // Default location is the local application directory, however the exe directory is checked first
         private string currentFileLocation = "";
-        private static byte[][] segments = new byte[2][];
         private static bool isModEnabled = false;
+        private static bool isLevelLoaded = false;
 
         public override void OnCreated(ILoading loading)
         {
             if (!isModEnabled)
             {
-                // Replace the one method call which is called when the city is loaded and EnsureCitizenUnits is used
-                // ResidentialAI -> Game_ResidentialAI. This stops the buildings from going to game defaults on load.
-                // This has no further effects on buildings as the templates are replaced by ResidentialAIMod
-                var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
-                var newMethod = typeof(TrickAI).GetMethod("CalculateHomeCount");
+                Stopwatch sw = Stopwatch.StartNew();
 
-                // This is to disable all household checks. No need to load a thing
-                segments[0] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
+                readFromXML();
+                Redirect(true);
 
-                oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                newMethod = typeof(AI_Building).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                segments[1] = RedirectionHelper.RedirectCalls(oldMethod, newMethod);
+                sw.Stop();
+                Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
+                isModEnabled = true;
 /*
                 Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
-                for (uint i = 0; i <= (64*1024); i++)  // Up to 256k buildings apparently is ok
+                for (uint i = 0; i <= (1024 * 1024); i++)  // Up to 1M buildings apparently is ok
                 {
                     // This creates a unique number
                     Randomizer number = new Randomizer((int)i);
@@ -51,13 +55,12 @@ namespace WG_BalancedPopMod
                     {
                         seedToId.Add(number.seed, i);
                     }
-                    catch (System.ArgumentException)
+                    catch (Exception e)
                     {
                         Debugging.writeDebugToFile("Seed collision at number: "+ i);
                     }
                 }
 */
-                isModEnabled = true;
             }
         }
 
@@ -65,12 +68,18 @@ namespace WG_BalancedPopMod
         {
             if (isModEnabled)
             {
-                var oldMethod = typeof(ResidentialBuildingAI).GetMethod("CalculateHomeCount");
-                RedirectionHelper.RestoreCalls(oldMethod, segments[0]);
+                try
+                {
+                    WG_XMLBaseVersion xml = new XML_VersionFive();
+                    xml.writeXML(currentFileLocation);
+                }
+                catch (Exception e)
+                {
+                    Debugging.panelMessage(e.Message);
+                }
+                DataStore.clearCache();
 
-                oldMethod = typeof(BuildingAI).GetMethod("EnsureCitizenUnits", BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-                RedirectionHelper.RestoreCalls(oldMethod, segments[1]);
-
+                RevertRedirect(true);
                 isModEnabled = false;
             }
         }
@@ -78,24 +87,11 @@ namespace WG_BalancedPopMod
 
         public override void OnLevelUnloading()
         {
-            try
+            if (isLevelLoaded)
             {
-                WG_XMLBaseVersion xml = new XML_VersionFive();
-                xml.writeXML(currentFileLocation);
+                DataStore.allowRemovalOfCitizens = false;
+                isLevelLoaded = false;
             }
-            catch (Exception e)
-            {
-                Debugging.panelMessage(e.Message);
-            }
-
-            // Clear all the caches
-            OfficeBuildingAIMod.clearCache();
-            CommercialBuildingAIMod.clearCache();
-            IndustrialBuildingAIMod.clearCache();
-            IndustrialExtractorAIMod.clearCache();
-            ResidentialBuildingAIMod.clearCache();
-            DataStore.clearCache();
-            DataStore.allowRemovalOfCitizens = false;
         }
 
 
@@ -103,18 +99,58 @@ namespace WG_BalancedPopMod
         {
             if (mode == LoadMode.LoadGame || mode == LoadMode.NewGame)
             {
-                Stopwatch sw = Stopwatch.StartNew();
-                readFromXML();
-                swapAI();
-
-                // Now we can remove people
-                DataStore.allowRemovalOfCitizens = true;
-
-                sw.Stop();
-                Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
+                if (!isLevelLoaded)
+                {
+                    // Now we can remove people
+                    DataStore.allowRemovalOfCitizens = true;
+                    isLevelLoaded = true;
+                }
             }
         }
 
+        private void Redirect(bool onCreated)
+        {
+            var redirects = onCreated ? redirectsOnCreated : redirectsOnLoaded;
+            redirects.Clear();
+
+            foreach (var type in Assembly.GetExecutingAssembly().GetTypes())
+            {
+                try
+                {
+                    var r = RedirectionUtil.RedirectType(type, onCreated);
+                    if (r != null)
+                    {
+                        foreach (var pair in r)
+                        {
+                            redirects.Add(pair.Key, pair.Value);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debugging.writeDebugToFile($"An error occured while applying {type.Name} redirects!");
+                    Debugging.writeDebugToFile(e.StackTrace);
+                }
+            }
+        }
+
+        private void RevertRedirect(bool onCreated)
+        {
+            var redirects = onCreated ? redirectsOnCreated : redirectsOnLoaded;
+            foreach (var kvp in redirects)
+            {
+                try
+                {
+                    kvp.Value.Revert();
+                }
+                catch (Exception e)
+                {
+                    Debugging.writeDebugToFile($"An error occured while reverting {kvp.Key.Name} redirect!");
+                    Debugging.writeDebugToFile(e.StackTrace);
+                }
+            }
+            redirects.Clear();
+        }
 
         /// <summary>
         ///
@@ -154,6 +190,7 @@ namespace WG_BalancedPopMod
                         {
                             Debugging.panelWarning("Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3");
                             File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
+                            return;
                         }
                     }
                     catch
@@ -172,68 +209,6 @@ namespace WG_BalancedPopMod
             else
             {
                 Debugging.panelMessage("Configuration file not found. Will output new file to : " + currentFileLocation);
-            }
-        }
-
-
-        /// <summary>
-        /// Swap the AI for buildings
-        /// </summary>
-        private void swapAI()
-        {
-            Dictionary<Type, Type> componentRemap = new Dictionary<Type, Type>
-            {
-                {
-                    typeof(IndustrialExtractorAI),
-                    typeof(IndustrialExtractorAIMod)
-                },
-                {
-                    typeof(IndustrialBuildingAI),
-                    typeof(IndustrialBuildingAIMod)
-                },
-                {
-                    typeof(ResidentialBuildingAI),
-                    typeof(ResidentialBuildingAIMod)
-                },
-                {
-                    typeof(OfficeBuildingAI),
-                    typeof(OfficeBuildingAIMod)
-                },
-                {
-                    typeof(CommercialBuildingAI),
-                    typeof(CommercialBuildingAIMod)
-                }
-            };
-
-            uint buildingcount = (uint)PrefabCollection<BuildingInfo>.PrefabCount();
-            for (uint count = 0u; count < buildingcount; count++)
-            {
-                BuildingInfo prefab = PrefabCollection<BuildingInfo>.GetPrefab(count);
-                AdjustBuidingAI(prefab, componentRemap);
-            }
-        }
-
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="buildinginfo"></param>
-        /// <param name="componentRemap"></param>
-        private void AdjustBuidingAI(BuildingInfo buildinginfo, Dictionary<Type, Type> componentRemap)
-        {
-            if (buildinginfo != null && buildinginfo.GetComponent<BuildingAI>() != null)
-            {
-                BuildingAI component = buildinginfo.GetComponent<BuildingAI>();
-                Type originalAiType = component.GetType();
-                Type newAIType;
-
-                if (componentRemap.TryGetValue(originalAiType, out newAIType))
-                {
-                    BuildingAI buildingAI = buildinginfo.gameObject.AddComponent(newAIType) as BuildingAI;
-                    buildingAI.m_info = buildinginfo;
-                    buildinginfo.m_buildingAI = buildingAI;
-                    buildingAI.InitializePrefab();
-                }
             }
         }
     }

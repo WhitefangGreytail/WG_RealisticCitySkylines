@@ -5,10 +5,11 @@ using System.Text;
 using ColossalFramework.Math;
 using ColossalFramework;
 using UnityEngine;
-
+using Boformer.Redirection;
 
 namespace WG_BalancedPopMod
 {
+    [TargetType(typeof(BuildingAI))]
     public class AI_Building : BuildingAI
     {
         private static CitizenManager instance = Singleton<CitizenManager>.instance;
@@ -24,6 +25,7 @@ namespace WG_BalancedPopMod
         /// <param name="workCount"></param>
         /// <param name="visitCount"></param>
         /// <param name="studentCount"></param>
+        [RedirectMethod(true)]
         protected void EnsureCitizenUnits(ushort buildingID, ref Building data, int homeCount, int workCount, int visitCount, int studentCount)
         {
             int totalWorkCount = (workCount + 4) / 5;
@@ -134,12 +136,12 @@ namespace WG_BalancedPopMod
                         {
                             RemoveHouseHold(buildingID, ref data, totalHomeCount);
                         }
-
+/*
                         if (visitCount < 0)
                         {
                             RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
                         }
-
+*/
                         PromoteWorkers(buildingID, ref data, ref workersRequired);
                         // Do nothing for students
 
@@ -323,7 +325,8 @@ namespace WG_BalancedPopMod
 
         /// <summary>
         /// Send this unit away to empty to requirements
-        /// EmptyBuilding
+        /// 
+        /// This may not be working as intended
         /// </summary>
         /// <param name="buildingID"></param>
         /// <param name="data"></param>

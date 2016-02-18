@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace WG_BalancedPopMod
@@ -19,9 +18,11 @@ namespace WG_BalancedPopMod
         /// <param name="minWorkers"></param>
         /// <param name="array"></param>
         /// <param name="output"></param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void calculateprefabWorkerVisit(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out prefabEmployStruct output)
         {
+            // Prefabs are tied to a level
+
+	        int value = 0;
             int num = array[DataStore.PEOPLE];
             int level0 = array[DataStore.WORK_LVL0];
             int level1 = array[DataStore.WORK_LVL1];
@@ -34,7 +35,7 @@ namespace WG_BalancedPopMod
                 Vector3 v = item.m_size;
                 int floorSpace = calcBase(width, length, ref array, v);
                 int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
-                int value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
+                value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
                 num = Mathf.Max(minWorkers, value);
 
                 output.level3 = (num * level3) / num2;
@@ -48,70 +49,52 @@ namespace WG_BalancedPopMod
             }
 
             // Set the visitors here since we're calculating
-            if (DataStore.enableVisitMultiplier)
-            {
-                if (array[DataStore.VISIT_MULT] > 1)
+	        ItemClass.SubService subService = item.m_class.m_subService;
+            value = 0;
+	        if (subService == ItemClass.SubService.CommercialLow)
+	        {
+                if (item.m_class.m_level == ItemClass.Level.Level1)
                 {
-                    int visit = (int) ((output.level0 + output.level1 + output.level2 + output.level3) * (array[DataStore.VISIT_MULT] / 10.0));
-                    output.visitors = (int) (Math.Ceiling(visit / 5.0) * 5.0);  // Round to nearest 5 to use up the space
+                    value = 90;
+                }
+                else if (item.m_class.m_level == ItemClass.Level.Level2)
+                {
+                    value = 100;
                 }
                 else
                 {
-                    output.visitors = 0;
+                    value = 110;
                 }
             }
-            else
+            else if (subService == ItemClass.SubService.CommercialHigh)
             {
-	            int value = 0;
-	            ItemClass.SubService subService = item.m_class.m_subService;
-	            if (subService != ItemClass.SubService.CommercialLow)
-	            {
-		            if (subService != ItemClass.SubService.CommercialHigh)
-		            {
-			            if (subService != ItemClass.SubService.CommercialLeisure)
-			            {
-				            if (subService == ItemClass.SubService.CommercialTourist)
-				            {
-                                value = 250;
-				            }
-			            }
-			            else
-			            {
-                            value = 250;
-			            }
-		            }
-                    else if (item.m_class.m_level == ItemClass.Level.Level1)
-		            {
-                        value = 200;
-		            }
-                    else if (item.m_class.m_level == ItemClass.Level.Level2)
-		            {
-                        value = 300;
-		            }
-		            else
-		            {
-                        value = 400;
-		            }
-	            }
-                else if (item.m_class.m_level == ItemClass.Level.Level1)
-	            {
-                    value = 90;
-	            }
+                if (item.m_class.m_level == ItemClass.Level.Level1)
+                {
+                    value = 200;
+                }
                 else if (item.m_class.m_level == ItemClass.Level.Level2)
-	            {
-                    value = 100;
-	            }
-	            else
-	            {
-                    value = 110;
-	            }
+                {
+                    value = 300;
+                }
+                else
+                {
+                    value = 400;
+                }
+            }
+            else if (subService == ItemClass.SubService.CommercialLeisure)
+            {
+                value = 250;
+            }
+            else if (subService == ItemClass.SubService.CommercialTourist)
+            {
+                value = 250;
+            }
 
-	            if (num != 0)
-	            {
-                    value = Mathf.Max(200, width * length * value) / 100;
-	            }
-                output.visitors = value;
-            } // end visitMult
+	        if (num != 0)
+	        {
+                value = Mathf.Max(200, width * length * value) / 100;
+	        }
+            output.visitors = value;
         } // end calculateprefabWorkerVisit
 
 
@@ -122,7 +105,6 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <param name="item"></param>
         /// <param name="returnValue"></param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static int calculatePrefabHousehold(int width, int length, ref BuildingInfo item)
         {
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
@@ -162,6 +144,13 @@ namespace WG_BalancedPopMod
         }  // end calculatePrefabHousehold
 
 
+        // TODO - This is for future expansion
+        public static int getLandValueIncomeComponent()
+        {
+            return 0;
+        }
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -169,7 +158,6 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <param name="array"></param>
         /// <param name="v"></param>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private static int calcBase(int width, int length, ref int[] array, Vector3 v)
         {
             if (array[DataStore.CALC_METHOD] == 0)

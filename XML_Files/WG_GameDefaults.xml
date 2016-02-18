@@ -2,7 +2,6 @@
   <!--space_pp = Square metres per person-->
   <!--level_height = Height of a floor. The height of chimneys have been taken into account-->
   <!--calc = model or plot. To calculate the base using either the building model, or by the land size-->
-  <!--visit_mult = The number of visitors as a multiple of workers to 1 decimal place. This is used for commercial only-->
   <!--lvl_0 ... lvl_3 = Proportional values between the education levels (uneducated, educated, well educated, highly educated). Does not need to be percentages.-->
   <population enableVisitMult="false">
     <ResidentialLow_1 space_pp="64" level_height="1000" calc="plot" />
@@ -15,14 +14,14 @@
     <ResidentialHigh_3 space_pp="10" level_height="1000" calc="plot" />
     <ResidentialHigh_4 space_pp="9" level_height="1000" calc="plot" />
     <ResidentialHigh_5 space_pp="8" level_height="1000" calc="plot" />
-    <CommercialLow_1 space_pp="128" level_height="1000" calc="plot" ground_mult="0" visit_mult="1.8" lvl_0="100" lvl_1="0" lvl_2="0" lvl_3="0" />
-    <CommercialLow_2 space_pp="85" level_height="1000" calc="plot" ground_mult="0" visit_mult="1.3" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
-    <CommercialLow_3 space_pp="64" level_height="1000" calc="plot" ground_mult="0" visit_mult="0.9" lvl_0="5" lvl_1="15" lvl_2="30" lvl_3="50" />
-    <CommercialHigh_1 space_pp="85" level_height="1000" calc="plot" ground_mult="0" visit_mult="2.6" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
-    <CommercialHigh_2 space_pp="64" level_height="1000" calc="plot" ground_mult="0" visit_mult="3" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
-    <CommercialHigh_3 space_pp="51" level_height="1000" calc="plot" ground_mult="0" visit_mult="3.2" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
-    <CommercialLeisure_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" visit_mult="2.5" lvl_0="30" lvl_1="30" lvl_2="20" lvl_3="20" />
-    <CommercialTourist_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" visit_mult="2.5" lvl_0="20" lvl_1="20" lvl_2="30" lvl_3="30" />
+    <CommercialLow_1 space_pp="128" level_height="1000" calc="plot" ground_mult="0" lvl_0="100" lvl_1="0" lvl_2="0" lvl_3="0" />
+    <CommercialLow_2 space_pp="85" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
+    <CommercialLow_3 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="5" lvl_1="15" lvl_2="30" lvl_3="50" />
+    <CommercialHigh_1 space_pp="85" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
+    <CommercialHigh_2 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
+    <CommercialHigh_3 space_pp="51" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
+    <CommercialLeisure_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="30" lvl_1="30" lvl_2="20" lvl_3="20" />
+    <CommercialTourist_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="20" lvl_2="30" lvl_3="30" />
     <Office_1 space_pp="128" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
     <Office_2 space_pp="58" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
     <Office_3 space_pp="38" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
