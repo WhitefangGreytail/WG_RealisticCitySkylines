@@ -18,6 +18,7 @@ namespace WG_BalancedPopMod
         private const string bonusHouseName = "bonusHouseHold";
         private const string meshName = "meshName";
         private const string consumeNodeName = "consumption";
+        private const string visitNodeName = "visitor";
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
 
@@ -45,6 +46,10 @@ namespace WG_BalancedPopMod
                 else if (node.Name.Equals(consumeNodeName))
                 {
                     readConsumptionNode(node);
+                }
+                else if (node.Name.Equals(visitNodeName))
+                {
+                    readVisitNode(node);
                 }
                 else if (node.Name.Equals(pollutionNodeName))
                 {
@@ -81,34 +86,30 @@ namespace WG_BalancedPopMod
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
-
             attribute = xmlDoc.CreateAttribute("strictCapacity");
             attribute.Value = DataStore.strictCapacity ? "true" : "false";
             popNode.Attributes.Append(attribute);
 
-            attribute = xmlDoc.CreateAttribute("enableVisitMult");
-            attribute.Value = DataStore.enableVisitMultiplier ? "true" : "false";
-//            popNode.Attributes.Append(attribute);
-
             XmlNode consumeNode = xmlDoc.CreateElement(consumeNodeName);
+            XmlNode visitNode = xmlDoc.CreateElement(visitNodeName);
             XmlNode pollutionNode = xmlDoc.CreateElement(pollutionNodeName);
             XmlNode productionNode = xmlDoc.CreateElement(productionNodeName);
 
             try
             {
-                makeNodes(xmlDoc, "ResidentialLow", DataStore.residentialLow, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "ResidentialLow", DataStore.residentialLow, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "ResidentialHigh", DataStore.residentialHigh, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "Office", DataStore.office, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "Industry", DataStore.industry, popNode, consumeNode, visitNode, pollutionNode, productionNode);
 
-                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, pollutionNode, productionNode);
-                makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryFarm", DataStore.industry_farm, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryForest", DataStore.industry_forest, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryOre", DataStore.industry_ore, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, "IndustryOil", DataStore.industry_oil, popNode, consumeNode, visitNode, pollutionNode, productionNode);
             }
             catch (Exception e)
             {
@@ -145,6 +146,8 @@ namespace WG_BalancedPopMod
             rootNode.AppendChild(popNode);
             createConsumptionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(consumeNode);
+            createVisitNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(visitNode);
             createProductionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(productionNode);
             createPollutionNodeComment(xmlDoc, rootNode);
@@ -206,6 +209,13 @@ namespace WG_BalancedPopMod
             rootNode.AppendChild(comment);
         }
 
+        /// <param name="xmlDoc"></param>
+        /// <param name="rootNode"></param>
+        private void createVisitNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
+        {
+            XmlComment comment = xmlDoc.CreateComment("This does nothing currently, but is here to prime the data before they are changed.");
+            rootNode.AppendChild(comment);
+        }
 
         /// <param name="xmlDoc"></param>
         /// <param name="rootNode"></param>
@@ -235,11 +245,11 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode, XmlNode productionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[][] array, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             for (int i = 0; i < array.GetLength(0); i++)
             {
-                makeNodes(xmlDoc, buildingType, array[i], i, rootPopNode, consumNode, pollutionNode, productionNode);
+                makeNodes(xmlDoc, buildingType, array[i], i, rootPopNode, consumNode, visitNode, pollutionNode, productionNode);
             }
         }
 
@@ -251,10 +261,11 @@ namespace WG_BalancedPopMod
         /// <param name="rootPopNode"></param>
         /// <param name="consumNode"></param>
         /// <param name="pollutionNode"></param>
-        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode pollutionNode, XmlNode productionNode)
+        private void makeNodes(XmlDocument xmlDoc, String buildingType, int[] array, int level, XmlNode rootPopNode, XmlNode consumNode, XmlNode visitNode, XmlNode pollutionNode, XmlNode productionNode)
         {
             makePopNode(rootPopNode, xmlDoc, buildingType, level, array);
             makeConsumeNode(consumNode, xmlDoc, buildingType, level, array[DataStore.POWER], array[DataStore.WATER], array[DataStore.SEWAGE], array[DataStore.GARBAGE], array[DataStore.INCOME]);
+            makeVisitNode(visitNode, xmlDoc, buildingType, level, array);
             makePollutionNode(pollutionNode, xmlDoc, buildingType, level, array[DataStore.GROUND_POLLUTION], array[DataStore.NOISE_POLLUTION]);
             makeProductionNode(productionNode, xmlDoc, buildingType, level, array[DataStore.PRODUCTION]);
         }
@@ -281,13 +292,6 @@ namespace WG_BalancedPopMod
             attribute.Value = array[DataStore.CALC_METHOD] == 0 ? "model" : "plot";
             node.Attributes.Append(attribute);
 
-            if (array[DataStore.VISIT_MULT] > 0)
-            {
-                attribute = xmlDoc.CreateAttribute("visit_mult");
-                attribute.Value = Convert.ToString(array[DataStore.VISIT_MULT] / 10.0);
-//                node.Attributes.Append(attribute);
-            }
-
             if (array[DataStore.WORK_LVL0] >= 0)
             {
                 attribute = xmlDoc.CreateAttribute("ground_mult");
@@ -303,6 +307,26 @@ namespace WG_BalancedPopMod
             }
 
             root.AppendChild(node);
+        }
+
+
+        /// <param name="root"></param>
+        /// <param name="xmlDoc"></param>
+        /// <param name="buildingType"></param>
+        /// <param name="level"></param>
+        /// <param name="array"></param>
+        private void makeVisitNode(XmlNode root, XmlDocument xmlDoc, String buildingType, int level, int[] array)
+        {
+            if (array[DataStore.VISIT] >= 0)
+            {
+                XmlNode node = xmlDoc.CreateElement(buildingType + "_" + (level + 1));
+
+                XmlAttribute attribute = xmlDoc.CreateAttribute("visit");
+                attribute.Value = Convert.ToString(array[DataStore.VISIT]);
+                node.Attributes.Append(attribute);
+
+                root.AppendChild(node);
+            }
         }
 
 
@@ -557,20 +581,6 @@ namespace WG_BalancedPopMod
 
                     }
 
-                    try
-                    {
-                        double temp = Convert.ToDouble(node.Attributes["visit_mult"].InnerText);
-                        if (temp <= 0)
-                        {
-                            temp = 1;  // Bad person trying to make negative visitors
-                        }
-                        array[DataStore.VISIT_MULT] = (int) (temp * 10.0);
-                    }
-                    catch
-                    {
-                        // We can expect no values for non commercial
-                    }
-
                     if (!name.Contains("Residential"))
                     {
                         try
@@ -660,6 +670,33 @@ namespace WG_BalancedPopMod
                         // Needs a value to be valid
                         DataStore.bonusHouseholdCache.Add(name, bonus);
                     }
+                }
+            }
+        }
+
+
+        /// <param name="produceNode"></param>
+        private void readVisitNode(XmlNode produceNode)
+        {
+            foreach (XmlNode node in produceNode.ChildNodes)
+            {
+                try
+                {
+                    // Extract power, water, sewage, garbage and wealth
+                    string[] attr = node.Name.Split(new char[] { '_' });
+                    string name = attr[0];
+                    int level = Convert.ToInt32(attr[1]) - 1;
+                    int[] array = getArray(name, level, "readVisitNode");
+
+                    array[DataStore.VISIT] = Convert.ToInt32(node.Attributes["visit"].InnerText);
+                    if (array[DataStore.VISIT] <= 0)
+                    {
+                        array[DataStore.VISIT] = 1;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debugging.panelMessage("readVisitNode: " + e.Message);
                 }
             }
         }

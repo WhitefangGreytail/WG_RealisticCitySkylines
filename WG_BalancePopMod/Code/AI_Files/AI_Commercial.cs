@@ -5,21 +5,14 @@ using System.Text;
 using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using UnityEngine;
-using System.Runtime.CompilerServices; 
+using System.Runtime.CompilerServices;
+using Boformer.Redirection;
 
 namespace WG_BalancedPopMod
 {
+    [TargetType(typeof(CommercialBuildingAI))]
     public class CommercialBuildingAIMod : CommercialBuildingAI
     {
-        private static Dictionary<ulong, buildingWorkVisitorStruct> buildingEmployCache = new Dictionary<ulong, buildingWorkVisitorStruct>(DataStore.CACHE_SIZE);
-        private static Dictionary<ulong, consumeStruct> consumeCache = new Dictionary<ulong, consumeStruct>(DataStore.CACHE_SIZE);
-
-        public static void clearCache()
-        {
-            buildingEmployCache.Clear();
-            consumeCache.Clear();
-        }
-
         /// <summary>
         /// 
         /// </summary>
@@ -30,55 +23,26 @@ namespace WG_BalancedPopMod
         /// <param name="level1"></param>
         /// <param name="level2"></param>
         /// <param name="level3"></param>
+        [RedirectMethod(true)]
         public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
             ulong seed = r.seed;
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            bool needRefresh = true;
-            buildingWorkVisitorStruct cachedLevel;
-            if (buildingEmployCache.TryGetValue(seed, out cachedLevel))
+            prefabEmployStruct output;
+            // If not seen prefab, calculate
+            if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                needRefresh = cachedLevel.level != level;
+                int[] array = getArray(item.m_class, ref level);
+                AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
+                DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
 
-            if (needRefresh)
-            {
-                buildingEmployCache.Remove(seed);
-                consumeCache.Remove(seed);
-
-                prefabEmployStruct output;
-                // If not seen prefab, calculate
-                if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
-                {
-                    int[] array = getArray(item.m_class, ref level);
-                    AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
-                    DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
-                }
-
-                cachedLevel.level = level;
-                cachedLevel.level0 = output.level0;
-                cachedLevel.level1 = output.level1;
-                cachedLevel.level2 = output.level2;
-                cachedLevel.level3 = output.level3;
-
-                // Update the level for the new building
-                buildingEmployCache.Add(seed, cachedLevel);
-            }
-
-            level0 = cachedLevel.level0;
-            level1 = cachedLevel.level1;
-            level2 = cachedLevel.level2;
-            level3 = cachedLevel.level3;
-        }
-
-
-        public override void ReleaseBuilding(ushort buildingID, ref Building data)
-        {
-            buildingEmployCache.Remove(new Randomizer((int)buildingID).seed);
-            consumeCache.Remove(new Randomizer((int)buildingID).seed);
-            base.ReleaseBuilding(buildingID, ref data);
+            level0 = output.level0;
+            level1 = output.level1;
+            level2 = output.level2;
+            level3 = output.level3;
         }
 
 
@@ -92,70 +56,25 @@ namespace WG_BalancedPopMod
         /// <param name="sewageAccumulation"></param>
         /// <param name="garbageAccumulation"></param>
         /// <param name="incomeAccumulation"></param>
+        [RedirectMethod(true)]
         public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
         {
-            ulong seed = r.seed;
             ItemClass item = this.m_info.m_class;
-            consumeStruct output;
-            bool needRefresh = true;
 
-            if (consumeCache.TryGetValue(seed, out output))
-            {
-                needRefresh = output.productionRate != productionRate;
-            }
+            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(item, ref level);
 
-            if (needRefresh)
-            {
-                consumeCache.Remove(seed);
+            electricityConsumption = array[DataStore.POWER];
+            waterConsumption = array[DataStore.WATER];
+            sewageAccumulation = array[DataStore.SEWAGE];
+            garbageAccumulation = array[DataStore.GARBAGE];
+            incomeAccumulation = array[DataStore.INCOME];
 
-                int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-                int[] array = getArray(item, ref level);
-
-                electricityConsumption = array[DataStore.POWER];
-                waterConsumption = array[DataStore.WATER];
-                sewageAccumulation = array[DataStore.SEWAGE];
-                garbageAccumulation = array[DataStore.GARBAGE];
-                incomeAccumulation = array[DataStore.INCOME];
-
-                if (electricityConsumption != 0)
-                {
-                    electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption + r.Int32(100u)) / 100;
-                }
-                if (waterConsumption != 0)
-                {
-                    waterConsumption = Mathf.Max(100, productionRate * waterConsumption + r.Int32(100u)) / 100;
-                }
-                if (sewageAccumulation != 0)
-                {
-                    sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation + r.Int32(100u)) / 100;
-                }
-                if (garbageAccumulation != 0)
-                {
-                    garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation + r.Int32(100u)) / 100;
-                }
-                if (incomeAccumulation != 0)
-                {
-                    incomeAccumulation = productionRate * incomeAccumulation;
-                }
-
-                output.productionRate = productionRate;
-                output.electricity = electricityConsumption;
-                output.water = waterConsumption;
-                output.sewage = sewageAccumulation;
-                output.garbage = garbageAccumulation;
-                output.income = incomeAccumulation;
-
-                consumeCache.Add(seed, output);
-            }
-            else
-            {
-                productionRate = output.productionRate;
-                electricityConsumption = output.electricity;
-                waterConsumption = output.water;
-                sewageAccumulation = output.sewage;
-                garbageAccumulation = output.garbage;
-                incomeAccumulation = output.income;
-            }
+            electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
+            waterConsumption = Mathf.Max(100, productionRate * waterConsumption) / 100;
+            sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation) / 100;
+            garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation) / 100;
+            incomeAccumulation = productionRate * incomeAccumulation;
         }
 
 
@@ -166,6 +85,7 @@ namespace WG_BalancedPopMod
         /// <param name="cityPlanningPolicies"></param>
         /// <param name="groundPollution"></param>
         /// <param name="noisePollution"></param>
+        [RedirectMethod(true)]
         public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
             ItemClass item = this.m_info.m_class;
@@ -184,12 +104,13 @@ namespace WG_BalancedPopMod
         }
 
 /*
+        [RedirectMethod(true)]
         public override int CalculateVisitplaceCount(Randomizer r, int width, int length)
         {
             prefabEmployStruct visitors;
             if (!DataStore.prefabWorkerVisit.TryGetValue(this.m_info.gameObject.GetHashCode(), out visitors))
             {
-                // All commercial places will need visitors. CalcWorkplaces is called first. But just return 0.
+                // All commercial places will need visitors. CalcWorkplaces is called first. But just return 0 otherwise.
             }
 
             return visitors.visitors;
@@ -202,7 +123,6 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private int[] getArray(ItemClass item, ref int level)
         {
             switch (item.m_subService)
