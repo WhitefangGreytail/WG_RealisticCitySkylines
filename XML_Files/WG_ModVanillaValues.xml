@@ -55,15 +55,15 @@
   <!--Consumption values are per household, or per production unit-->
   <consumption>
     <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="140" />
-    <ResidentialLow_2 power="12" water="26" sewage="20" garbage="13" wealth="160" />
-    <ResidentialLow_3 power="14" water="28" sewage="22" garbage="12" wealth="180" />
-    <ResidentialLow_4 power="16" water="31" sewage="25" garbage="11" wealth="200" />
-    <ResidentialLow_5 power="18" water="34" sewage="28" garbage="10" wealth="220" />
+    <ResidentialLow_2 power="12" water="26" sewage="20" garbage="13" wealth="150" />
+    <ResidentialLow_3 power="14" water="28" sewage="22" garbage="12" wealth="160" />
+    <ResidentialLow_4 power="16" water="31" sewage="25" garbage="11" wealth="170" />
+    <ResidentialLow_5 power="18" water="34" sewage="28" garbage="10" wealth="180" />
     <ResidentialHigh_1 power="8" water="20" sewage="16" garbage="11" wealth="112" />
-    <ResidentialHigh_2 power="10" water="22" sewage="18" garbage="10" wealth="128" />
-    <ResidentialHigh_3 power="12" water="24" sewage="20" garbage="9" wealth="144" />
-    <ResidentialHigh_4 power="14" water="27" sewage="23" garbage="8" wealth="160" />
-    <ResidentialHigh_5 power="16" water="30" sewage="26" garbage="7" wealth="176" />
+    <ResidentialHigh_2 power="10" water="22" sewage="18" garbage="10" wealth="120" />
+    <ResidentialHigh_3 power="12" water="24" sewage="20" garbage="9" wealth="128" />
+    <ResidentialHigh_4 power="14" water="27" sewage="23" garbage="8" wealth="136" />
+    <ResidentialHigh_5 power="16" water="30" sewage="26" garbage="7" wealth="144" />
     <CommercialLow_1 power="20" water="40" sewage="40" garbage="11" wealth="750" />
     <CommercialLow_2 power="24" water="45" sewage="45" garbage="10" wealth="800" />
     <CommercialLow_3 power="28" water="50" sewage="50" garbage="9" wealth="850" />
@@ -92,9 +92,9 @@
     <CommercialLow_1 visit="90" />
     <CommercialLow_2 visit="100" />
     <CommercialLow_3 visit="110" />
-    <CommercialHigh_1 visit="200" />
+    <CommercialHigh_1 visit="250" />
     <CommercialHigh_2 visit="300" />
-    <CommercialHigh_3 visit="400" />
+    <CommercialHigh_3 visit="350" />
     <CommercialLeisure_1 visit="250" />
     <CommercialTourist_1 visit="250" />
   </visitor>

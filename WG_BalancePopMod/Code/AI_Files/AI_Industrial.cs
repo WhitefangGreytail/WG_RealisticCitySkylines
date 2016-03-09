@@ -67,7 +67,9 @@ namespace WG_BalancedPopMod
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
-            incomeAccumulation = array[DataStore.INCOME];
+
+            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
             waterConsumption = Mathf.Max(100, productionRate * waterConsumption) / 100;

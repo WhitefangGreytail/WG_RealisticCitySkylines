@@ -39,25 +39,32 @@ namespace WG_BalancedPopMod
 
             foreach (XmlNode node in root.ChildNodes)
             {
-                if (node.Name.Equals(popNodeName))
+                try
                 {
-                    readPopulationNode(node);
+                    if (node.Name.Equals(popNodeName))
+                    {
+                        readPopulationNode(node);
+                    }
+                    else if (node.Name.Equals(consumeNodeName))
+                    {
+                        readConsumptionNode(node);
+                    }
+                    else if (node.Name.Equals(visitNodeName))
+                    {
+                        readVisitNode(node);
+                    }
+                    else if (node.Name.Equals(pollutionNodeName))
+                    {
+                        readPollutionNode(node);
+                    }
+                    else if (node.Name.Equals(productionNodeName))
+                    {
+                        readProductionNode(node);
+                    }
                 }
-                else if (node.Name.Equals(consumeNodeName))
+                catch (Exception e)
                 {
-                    readConsumptionNode(node);
-                }
-                else if (node.Name.Equals(visitNodeName))
-                {
-                    readVisitNode(node);
-                }
-                else if (node.Name.Equals(pollutionNodeName))
-                {
-                    readPollutionNode(node);
-                }
-                else if (node.Name.Equals(productionNodeName))
-                {
-                    readProductionNode(node);
+                    UnityEngine.Debug.LogException(e);
                 }
             }
         } // end readXML
@@ -153,9 +160,9 @@ namespace WG_BalancedPopMod
             createPollutionNodeComment(xmlDoc, rootNode);
             rootNode.AppendChild(pollutionNode);
 
-            if (File.Exists(fullPathFileName))
+            try
             {
-                try
+                if (File.Exists(fullPathFileName))
                 {
                     if (File.Exists(fullPathFileName + ".bak"))
                     {
@@ -164,10 +171,10 @@ namespace WG_BalancedPopMod
 
                     File.Move(fullPathFileName, fullPathFileName + ".bak");
                 }
-                catch (Exception e)
-                {
-                    Debugging.panelMessage(e.Message);
-                }
+            }
+            catch (Exception e)
+            {
+                Debugging.panelMessage(e.Message);
             }
 
             try
@@ -480,7 +487,7 @@ namespace WG_BalancedPopMod
                 {
                     Debugging.panelMessage("readPollutionNode: " + name + " " + e.Message);
                 }
-            }
+            } // end foreach
         }
 
 
@@ -515,15 +522,6 @@ namespace WG_BalancedPopMod
         /// <param name="popNode"></param>
         private void readPopulationNode(XmlNode popNode)
         {
-            try
-            {
-                DataStore.enableVisitMultiplier = Convert.ToBoolean(popNode.Attributes["enableVisitMult"].InnerText);
-            }
-            catch (Exception)
-            {
-                // Do nothing
-            }
-
             try
             {
                 DataStore.strictCapacity = Convert.ToBoolean(popNode.Attributes["strictCapacity"].InnerText);
@@ -604,7 +602,7 @@ namespace WG_BalancedPopMod
                             Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
                         }
                     }
-                }
+                } // end if
             } // end foreach
         }
 
@@ -654,21 +652,21 @@ namespace WG_BalancedPopMod
             {
                 if (node.Name.Equals(meshName))
                 {
-                    string name = node.InnerText;
-                    int bonus = 1;
                     try
                     {
+                        string name = node.InnerText;
+                        int bonus = 1;
                         bonus = Convert.ToInt32(node.Attributes["bonus"].InnerText);
+
+                        if (name.Length > 0)
+                        {
+                            // Needs a value to be valid
+                            DataStore.bonusHouseholdCache.Add(name, bonus);
+                        }
                     }
                     catch (Exception e)
                     {
                         Debugging.panelMessage("readBonusHouseNode: " + e.Message + ". Setting to 1");
-                    }
-
-                    if (name.Length > 0)
-                    {
-                        // Needs a value to be valid
-                        DataStore.bonusHouseholdCache.Add(name, bonus);
                     }
                 }
             }
