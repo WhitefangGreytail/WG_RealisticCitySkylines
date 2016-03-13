@@ -144,10 +144,23 @@ namespace WG_BalancedPopMod
         }  // end calculatePrefabHousehold
 
 
-        // TODO - This is for future expansion
-        public static int getLandValueIncomeComponent()
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="seed"></param>
+        /// <returns></returns>
+        public static int getLandValueIncomeComponent(ulong seed)
         {
-            return 0;
+            ushort buildingID = 0;
+            int landValue = 0;
+
+            if (DataStore.seedToId.TryGetValue(seed, out buildingID))
+            {
+                Building buildingData = ColossalFramework.Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
+                ColossalFramework.Singleton<ImmaterialResourceManager>.instance.CheckLocalResource(ImmaterialResourceManager.Resource.LandValue, buildingData.m_position, out landValue);
+            }
+
+            return landValue;
         }
 
 

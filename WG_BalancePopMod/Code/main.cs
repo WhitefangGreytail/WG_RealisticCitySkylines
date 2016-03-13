@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Reflection;
 using System.Xml;
 using ICities;
-using UnityEngine;
-using ColossalFramework.Math;
-using ColossalFramework.Plugins;
 using System.Diagnostics;
 using Boformer.Redirection;
+using ColossalFramework.Math;
 
 namespace WG_BalancedPopMod
 {
@@ -30,44 +26,46 @@ namespace WG_BalancedPopMod
         // This can be with the local application directory, or the directory where the exe file exists.
         // Default location is the local application directory, however the exe directory is checked first
         private string currentFileLocation = "";
-        private static bool isModEnabled = false;
-        private static bool isLevelLoaded = false;
+        private static volatile bool isModEnabled = false;
+        private static volatile bool isLevelLoaded = false;
 
         public override void OnCreated(ILoading loading)
         {
             if (!isModEnabled)
             {
+                isModEnabled = true;
                 Stopwatch sw = Stopwatch.StartNew();
 
-                readFromXML();
                 Redirect(true);
+                readFromXML();
 
-                sw.Stop();
-                Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
-                isModEnabled = true;
-/*
-                Dictionary<ulong, uint> seedToId = new Dictionary<ulong, uint>(131071);
-                for (uint i = 0; i <= (1024 * 1024); i++)  // Up to 1M buildings apparently is ok
+                DataStore.seedToId.Clear();
+                for (int i = 0; i <= ushort.MaxValue; ++i)  // Up to 1M buildings apparently is ok
                 {
                     // This creates a unique number
-                    Randomizer number = new Randomizer((int)i);
                     try
                     {
-                        seedToId.Add(number.seed, i);
+                        Randomizer number = new Randomizer(i);
+                        DataStore.seedToId.Add(number.seed, (ushort) i);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        Debugging.writeDebugToFile("Seed collision at number: "+ i);
+                        Debugging.writeDebugToFile("Seed collision at number: " + i);
                     }
                 }
-*/
+
+                sw.Stop();
+                UnityEngine.Debug.Log("WG_BalancedPopMod: Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
             }
         }
+
 
         public override void OnReleased()
         {
             if (isModEnabled)
             {
+                isModEnabled = false;
+
                 try
                 {
                     WG_XMLBaseVersion xml = new XML_VersionFive();
@@ -80,7 +78,6 @@ namespace WG_BalancedPopMod
                 DataStore.clearCache();
 
                 RevertRedirect(true);
-                isModEnabled = false;
             }
         }
 
@@ -89,8 +86,8 @@ namespace WG_BalancedPopMod
         {
             if (isLevelLoaded)
             {
-                DataStore.allowRemovalOfCitizens = false;
                 isLevelLoaded = false;
+                DataStore.allowRemovalOfCitizens = false;
             }
         }
 
@@ -101,9 +98,9 @@ namespace WG_BalancedPopMod
             {
                 if (!isLevelLoaded)
                 {
+                    isLevelLoaded = true;
                     // Now we can remove people
                     DataStore.allowRemovalOfCitizens = true;
-                    isLevelLoaded = true;
                 }
             }
         }
@@ -176,34 +173,33 @@ namespace WG_BalancedPopMod
                 try
                 {
                     doc.Load(currentFileLocation);
-                    try
-                    {
-                        int version = Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText);
-                        if (version == 4)
-                        {
-                            reader = new XML_VersionFour();
 
-                            // Make a back up copy of the old system to be safe
-                            File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
-                        }
-                        else if (version <= 3) // Uh oh... version 3 was a while back..
-                        {
-                            Debugging.panelWarning("Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3");
-                            File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
-                            return;
-                        }
-                    }
-                    catch
+                    int version = Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText);
+                    if (version == 4)
                     {
-                        // Default to new XML structure
-                    }
+                        reader = new XML_VersionFour();
 
+                        // Make a back up copy of the old system to be safe
+                        File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
+                        string error = "Detected an old version of the XML (v4). " + currentFileLocation + ".ver4 has been created for future reference and will be upgraded to the new version.";
+                        Debugging.panelWarning(error);
+                        UnityEngine.Debug.Log(error);
+                    }
+                    else if (version <= 3) // Uh oh... version 3 was a while back..
+                    {
+                        string error = "Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3";
+                        Debugging.panelWarning(error);
+                        UnityEngine.Debug.Log(error);
+                        File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
+                        return;
+                    }
                     reader.readXML(doc);
                 }
                 catch (Exception e)
                 {
                     // Game will now use defaults
-                    Debugging.panelMessage(e.Message);
+                    Debugging.panelMessage("Detected exception. Unloaded values will become default. See unity log for more details");
+                    UnityEngine.Debug.LogException(e);
                 }
             }
             else

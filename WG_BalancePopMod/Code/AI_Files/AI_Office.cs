@@ -6,6 +6,7 @@ using ColossalFramework.Math;
 using ColossalFramework.Plugins;
 using UnityEngine;
 using Boformer.Redirection;
+using ColossalFramework;
 
 namespace WG_BalancedPopMod
 {
@@ -64,7 +65,9 @@ namespace WG_BalancedPopMod
             waterConsumption = DataStore.office[level][DataStore.WATER];
             sewageAccumulation = DataStore.office[level][DataStore.SEWAGE];
             garbageAccumulation = DataStore.office[level][DataStore.GARBAGE];
-            incomeAccumulation = DataStore.office[level][DataStore.INCOME];
+
+            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            incomeAccumulation = DataStore.office[level][DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
             waterConsumption = Mathf.Max(100, productionRate * waterConsumption) / 100;
@@ -79,7 +82,7 @@ namespace WG_BalancedPopMod
         /// </summary>
         /// <param name="productionRate"></param>
         /// <param name="cityPlanningPolicies"></param>
-        /// <param name="groundPollution"></param>
+        /// <param name="groundPollution"></param>;
         /// <param name="noisePollution"></param>
         [RedirectMethod(true)]
         public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)

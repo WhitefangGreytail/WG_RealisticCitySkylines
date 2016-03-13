@@ -1,6 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+
 
 namespace WG_BalancedPopMod
 {
@@ -44,25 +43,25 @@ namespace WG_BalancedPopMod
 
         // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning
         public static int[][] residentialLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 24, 18, 14, 140,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   12, 26, 20, 13, 160,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   14, 28, 22, 12, 180,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   16, 31, 25, 11, 200,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   18, 34, 28, 10, 220,   0, 1,   -1} };
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   12, 26, 20, 13, 150,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   14, 28, 22, 12, 160,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   16, 31, 25, 11, 170,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   18, 34, 28, 10, 180,   0, 1,   -1} };
 
         public static int[][] residentialHigh = { new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 20, 16, 11, 112,   0, 5,   -1},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,   10, 22, 18, 10, 128,   0, 5,   -1},
-                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,   12, 24, 20,  9, 144,   0, 5,   -1},
-                                                  new int [] {185, 5, -1, 0, -1,   -1, -1, -1, -1,   14, 27, 23,  8, 160,   0, 5,   -1},
-                                                  new int [] {200, 5, -1, 0, -1,   -1, -1, -1, -1,   16, 30, 26,  7, 176,   0, 5,   -1} };
+                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,   10, 22, 18, 10, 120,   0, 5,   -1},
+                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,   12, 24, 20,  9, 128,   0, 5,   -1},
+                                                  new int [] {185, 5, -1, 0, -1,   -1, -1, -1, -1,   14, 27, 23,  8, 136,   0, 5,   -1},
+                                                  new int [] {200, 5, -1, 0, -1,   -1, -1, -1, -1,   16, 30, 26,  7, 144,   0, 5,   -1} };
 
         // High floor levels to help with maintaining a single story 
         public static int[][] commercialLow = { new int [] { 90, 5, 1, 0,  90,   70, 20, 10,  0,   20, 40, 40, 11, 750,   0, 100,   -1},
                                                 new int [] { 95, 5, 1, 0, 100,   30, 45, 20,  5,   24, 45, 45, 10, 800,   0,  90,   -1},
                                                 new int [] {100, 5, 1, 0, 110,    5, 30, 55, 10,   28, 50, 50,  9, 850,   0,  75,   -1} };
 
-        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 200,   10, 45, 40,  5,   24, 45, 45, 11, 700,   0, 80,   -1},
+        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 250,   10, 45, 40,  5,   24, 45, 45, 11, 700,   0, 80,   -1},
                                                  new int [] {120, 5, 1, 0, 300,    7, 32, 43, 18,   28, 50, 50, 10, 750,   0, 70,   -1},
-                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   32, 55, 55,  9, 800,   0, 60,   -1} };
+                                                 new int [] {125, 5, 1, 0, 350,    5, 25, 45, 25,   32, 55, 55,  9, 800,   0, 60,   -1} };
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height
@@ -112,11 +111,13 @@ namespace WG_BalancedPopMod
         // Prefab stores
         public static Dictionary<int, int> prefabHouseHolds = new Dictionary<int, int>(512);
         public static Dictionary<int, prefabEmployStruct> prefabWorkerVisit = new Dictionary<int, prefabEmployStruct>(1024);
+        public static Dictionary<ulong, ushort> seedToId = new Dictionary<ulong, ushort>();
 
         public static void clearCache()
         {
             prefabHouseHolds.Clear();
             prefabWorkerVisit.Clear();
+            seedToId.Clear();
         }
     } // end DataStore
 
