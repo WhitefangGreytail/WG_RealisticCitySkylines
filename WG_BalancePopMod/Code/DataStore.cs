@@ -59,9 +59,9 @@ namespace WG_BalancedPopMod
                                                 new int [] { 95, 5, 1, 0, 100,   30, 45, 20,  5,   24, 45, 45, 10, 800,   0,  90,   -1},
                                                 new int [] {100, 5, 1, 0, 110,    5, 30, 55, 10,   28, 50, 50,  9, 850,   0,  75,   -1} };
 
-        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 250,   10, 45, 40,  5,   24, 45, 45, 11, 700,   0, 80,   -1},
-                                                 new int [] {120, 5, 1, 0, 300,    7, 32, 43, 18,   28, 50, 50, 10, 750,   0, 70,   -1},
-                                                 new int [] {125, 5, 1, 0, 350,    5, 25, 45, 25,   32, 55, 55,  9, 800,   0, 60,   -1} };
+        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 220,   10, 45, 40,  5,   24, 45, 45, 11, 700,   0, 80,   -1},
+                                                 new int [] {120, 5, 1, 0, 310,    7, 32, 43, 18,   28, 50, 50, 10, 750,   0, 70,   -1},
+                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   32, 55, 55,  9, 800,   0, 60,   -1} };
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height

@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ColossalFramework.Math;
-using ColossalFramework.Plugins;
+﻿using ColossalFramework.Math;
 using UnityEngine;
-using System.Runtime.CompilerServices;
 using Boformer.Redirection;
 
 namespace WG_BalancedPopMod
@@ -105,19 +99,19 @@ namespace WG_BalancedPopMod
             }
         }
 
-/*
         [RedirectMethod(true)]
         public override int CalculateVisitplaceCount(Randomizer r, int width, int length)
         {
+            int returnVal = 0;
             prefabEmployStruct visitors;
-            if (!DataStore.prefabWorkerVisit.TryGetValue(this.m_info.gameObject.GetHashCode(), out visitors))
+            if (DataStore.prefabWorkerVisit.TryGetValue(this.m_info.gameObject.GetHashCode(), out visitors))
             {
+                returnVal = visitors.visitors;
                 // All commercial places will need visitors. CalcWorkplaces is called first. But just return 0 otherwise.
             }
-
-            return visitors.visitors;
+            return returnVal;
         }
-*/
+
 
         /// <summary>
         /// 

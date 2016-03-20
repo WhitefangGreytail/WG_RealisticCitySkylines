@@ -1,13 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
-using System.Reflection;
 using System.Xml;
-using ICities;
-using UnityEngine;
-using ColossalFramework.Plugins;
 
 
 namespace WG_BalancedPopMod
@@ -64,6 +57,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
+                    Debugging.bufferWarning(e.Message);
                     UnityEngine.Debug.LogException(e);
                 }
             }
@@ -220,7 +214,7 @@ namespace WG_BalancedPopMod
         /// <param name="rootNode"></param>
         private void createVisitNodeComment(XmlDocument xmlDoc, XmlNode rootNode)
         {
-            XmlComment comment = xmlDoc.CreateComment("This does nothing currently, but is here to prime the data before they are changed.");
+            XmlComment comment = xmlDoc.CreateComment("Visitor Values are multiplies of 100th of a person per cell.");
             rootNode.AppendChild(comment);
         }
 
@@ -485,7 +479,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.panelMessage("readPollutionNode: " + name + " " + e.Message);
+                    Debugging.bufferWarning("readPollutionNode: " + name + " " + e.Message);
                 }
             } // end foreach
         }
@@ -513,7 +507,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.panelMessage("readConsumptionNode: " + e.Message);
+                    Debugging.bufferWarning("readConsumptionNode: " + e.Message);
                 }
             }
         }
@@ -560,7 +554,7 @@ namespace WG_BalancedPopMod
                     }
                     catch (Exception e)
                     {
-                        Debugging.panelMessage("readPopulationNode, part a: " + e.Message);
+                        Debugging.bufferWarning("readPopulationNode, part a: " + e.Message);
                     }
 
                     try
@@ -599,7 +593,7 @@ namespace WG_BalancedPopMod
                         }
                         catch (Exception e)
                         {
-                            Debugging.panelMessage("readPopulationNode, part b: " + e.Message);
+                            Debugging.bufferWarning("readPopulationNode, part b: " + e.Message);
                         }
                     }
                 } // end if
@@ -666,7 +660,7 @@ namespace WG_BalancedPopMod
                     }
                     catch (Exception e)
                     {
-                        Debugging.panelMessage("readBonusHouseNode: " + e.Message + ". Setting to 1");
+                        Debugging.bufferWarning("readBonusHouseNode: " + e.Message + ". Setting to 1");
                     }
                 }
             }
@@ -694,7 +688,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.panelMessage("readVisitNode: " + e.Message);
+                    Debugging.bufferWarning("readVisitNode: " + e.Message);
                 }
             }
         }
@@ -721,7 +715,7 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.panelMessage("readProductionNode: " + e.Message);
+                    Debugging.bufferWarning("readProductionNode: " + e.Message);
                 }
             }
         }
