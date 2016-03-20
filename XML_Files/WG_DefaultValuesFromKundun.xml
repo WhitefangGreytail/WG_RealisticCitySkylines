@@ -77,6 +77,19 @@
     <IndustryOil_1 power="250" water="200" sewage="270" garbage="200" wealth="350" />
     <IndustryOil_2 power="250" water="200" sewage="270" garbage="200" wealth="350" />
   </consumption>
+  <!--Visitor Values are multiplies of 100th of a person per cell.-->
+  <visitor>
+    <CommercialLow_1 visit="90" />
+    <CommercialLow_2 visit="100" />
+    <CommercialLow_3 visit="110" />
+    <CommercialHigh_1 visit="200" />
+    <CommercialHigh_2 visit="300" />
+    <CommercialHigh_3 visit="400" />
+    <CommercialLeisure_1 visit="250" />
+    <CommercialTourist_1 visit="250" />
+  </visitor>
+  <!--Production for offices is number of employees per production unit.-->
+  <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
     <Office_1 production="20" />
     <Office_2 production="20" />

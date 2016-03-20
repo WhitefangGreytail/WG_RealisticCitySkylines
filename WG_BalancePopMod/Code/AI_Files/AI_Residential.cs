@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using ColossalFramework;
-using ColossalFramework.Math;
-using ColossalFramework.Plugins;
+﻿using ColossalFramework.Math;
 using UnityEngine;
-using System.IO;
-using WG_BalancedPopMod;
 using Boformer.Redirection;
 
 namespace WG_BalancedPopMod

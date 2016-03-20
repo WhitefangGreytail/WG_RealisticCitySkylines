@@ -49,50 +49,9 @@ namespace WG_BalancedPopMod
             }
 
             // Set the visitors here since we're calculating
-	        ItemClass.SubService subService = item.m_class.m_subService;
-            value = 0;
-	        if (subService == ItemClass.SubService.CommercialLow)
-	        {
-                if (item.m_class.m_level == ItemClass.Level.Level1)
-                {
-                    value = 90;
-                }
-                else if (item.m_class.m_level == ItemClass.Level.Level2)
-                {
-                    value = 100;
-                }
-                else
-                {
-                    value = 110;
-                }
-            }
-            else if (subService == ItemClass.SubService.CommercialHigh)
-            {
-                if (item.m_class.m_level == ItemClass.Level.Level1)
-                {
-                    value = 200;
-                }
-                else if (item.m_class.m_level == ItemClass.Level.Level2)
-                {
-                    value = 300;
-                }
-                else
-                {
-                    value = 400;
-                }
-            }
-            else if (subService == ItemClass.SubService.CommercialLeisure)
-            {
-                value = 250;
-            }
-            else if (subService == ItemClass.SubService.CommercialTourist)
-            {
-                value = 250;
-            }
-
 	        if (num != 0)
 	        {
-                value = Mathf.Max(200, width * length * value) / 100;
+                value = Mathf.Max(200, width * length * array[DataStore.VISIT]) / 100;
 	        }
             output.visitors = value;
         } // end calculateprefabWorkerVisit

@@ -87,14 +87,14 @@
     <IndustryOil_1 power="200" water="200" sewage="250" garbage="60" wealth="300" />
     <IndustryOil_2 power="270" water="220" sewage="300" garbage="75" wealth="400" />
   </consumption>
-  <!--This does nothing currently, but is here to prime the data before they are changed.-->
+  <!--Visitor Values are multiplies of 100th of a person per cell.-->
   <visitor>
     <CommercialLow_1 visit="90" />
     <CommercialLow_2 visit="100" />
     <CommercialLow_3 visit="110" />
-    <CommercialHigh_1 visit="250" />
-    <CommercialHigh_2 visit="300" />
-    <CommercialHigh_3 visit="350" />
+    <CommercialHigh_1 visit="220" />
+    <CommercialHigh_2 visit="310" />
+    <CommercialHigh_3 visit="400" />
     <CommercialLeisure_1 visit="250" />
     <CommercialTourist_1 visit="250" />
   </visitor>

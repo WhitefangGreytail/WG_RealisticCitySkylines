@@ -28,13 +28,14 @@ namespace WG_BalancedPopMod
         private string currentFileLocation = "";
         private static volatile bool isModEnabled = false;
         private static volatile bool isLevelLoaded = false;
+        private static Stopwatch sw;
 
         public override void OnCreated(ILoading loading)
         {
             if (!isModEnabled)
             {
                 isModEnabled = true;
-                Stopwatch sw = Stopwatch.StartNew();
+                sw = Stopwatch.StartNew();
 
                 Redirect(true);
                 readFromXML();
@@ -50,12 +51,12 @@ namespace WG_BalancedPopMod
                     }
                     catch (Exception)
                     {
-                        Debugging.writeDebugToFile("Seed collision at number: " + i);
+                        //Debugging.writeDebugToFile("Seed collision at number: " + i);
                     }
                 }
 
                 sw.Stop();
-                UnityEngine.Debug.Log("WG_BalancedPopMod: Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
+                UnityEngine.Debug.Log("WG_RealisticCity: Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
             }
         }
 
@@ -101,6 +102,8 @@ namespace WG_BalancedPopMod
                     isLevelLoaded = true;
                     // Now we can remove people
                     DataStore.allowRemovalOfCitizens = true;
+                    Debugging.releaseBuffer();
+                    Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
                 }
             }
         }
@@ -125,8 +128,8 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.writeDebugToFile($"An error occured while applying {type.Name} redirects!");
-                    Debugging.writeDebugToFile(e.StackTrace);
+                    UnityEngine.Debug.Log($"An error occured while applying {type.Name} redirects!");
+                    UnityEngine.Debug.Log(e.StackTrace);
                 }
             }
         }
@@ -142,8 +145,8 @@ namespace WG_BalancedPopMod
                 }
                 catch (Exception e)
                 {
-                    Debugging.writeDebugToFile($"An error occured while reverting {kvp.Key.Name} redirect!");
-                    Debugging.writeDebugToFile(e.StackTrace);
+                    UnityEngine.Debug.Log($"An error occured while reverting {kvp.Key.Name} redirect!");
+                    UnityEngine.Debug.Log(e.StackTrace);
                 }
             }
             redirects.Clear();
@@ -182,13 +185,13 @@ namespace WG_BalancedPopMod
                         // Make a back up copy of the old system to be safe
                         File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
                         string error = "Detected an old version of the XML (v4). " + currentFileLocation + ".ver4 has been created for future reference and will be upgraded to the new version.";
-                        Debugging.panelWarning(error);
+                        Debugging.bufferWarning(error);
                         UnityEngine.Debug.Log(error);
                     }
                     else if (version <= 3) // Uh oh... version 3 was a while back..
                     {
                         string error = "Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3";
-                        Debugging.panelWarning(error);
+                        Debugging.bufferWarning(error);
                         UnityEngine.Debug.Log(error);
                         File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
                         return;
@@ -198,13 +201,14 @@ namespace WG_BalancedPopMod
                 catch (Exception e)
                 {
                     // Game will now use defaults
-                    Debugging.panelMessage("Detected exception. Unloaded values will become default. See unity log for more details");
+                    Debugging.bufferWarning("The following exception(s) were detected while loading the XML file. Some (or all) values may not be loaded.");
+                    Debugging.bufferWarning(e.Message);
                     UnityEngine.Debug.LogException(e);
                 }
             }
             else
             {
-                Debugging.panelMessage("Configuration file not found. Will output new file to : " + currentFileLocation);
+                UnityEngine.Debug.Log("Configuration file not found. Will output new file to : " + currentFileLocation);
             }
         }
     }
