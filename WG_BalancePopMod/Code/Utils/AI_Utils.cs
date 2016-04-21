@@ -30,13 +30,21 @@ namespace WG_BalancedPopMod
             int level3 = array[DataStore.WORK_LVL3];
             int num2 = level0 + level1 + level2 + level3;
 
+            if (DataStore.printEmploymentNames)
+            {
+                Debugging.writeDebugToFile("Requested employment asset name -->" + item.gameObject.name + "<--, level: " + item.m_class.m_level);
+            }
+
             if (num > 0 && num2 > 0)
             {
                 Vector3 v = item.m_size;
                 int floorSpace = calcBase(width, length, ref array, v);
                 int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                 value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
-                num = Mathf.Max(minWorkers, value);
+                int bonus = 0;
+                DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus);
+
+                num = Mathf.Max(minWorkers, (value + bonus));
 
                 output.level3 = (num * level3) / num2;
                 output.level2 = (num * level2) / num2;
