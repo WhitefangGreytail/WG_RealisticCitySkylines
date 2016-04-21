@@ -9,14 +9,14 @@
     <ResidentialLow_3 space_pp="400" level_height="50" calc="model" />
     <ResidentialLow_4 space_pp="400" level_height="50" calc="model" />
     <ResidentialLow_5 space_pp="400" level_height="50" calc="model" />
-    <ResidentialHigh_1 space_pp="30" level_height="10" calc="model" />
-    <ResidentialHigh_2 space_pp="32" level_height="10" calc="model" />
-    <ResidentialHigh_3 space_pp="34" level_height="10" calc="model" />
-    <ResidentialHigh_4 space_pp="37" level_height="10" calc="model" />
-    <ResidentialHigh_5 space_pp="40" level_height="10" calc="model" />
-    <CommercialLow_1 space_pp="90" level_height="5" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
-    <CommercialLow_2 space_pp="95" level_height="5" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
-    <CommercialLow_3 space_pp="100" level_height="5" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
+    <ResidentialHigh_1 space_pp="28" level_height="10" calc="model" />
+    <ResidentialHigh_2 space_pp="30" level_height="10" calc="model" />
+    <ResidentialHigh_3 space_pp="32" level_height="10" calc="model" />
+    <ResidentialHigh_4 space_pp="35" level_height="10" calc="model" />
+    <ResidentialHigh_5 space_pp="38" level_height="10" calc="model" />
+    <CommercialLow_1 space_pp="100" level_height="6" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
+    <CommercialLow_2 space_pp="105" level_height="6" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
+    <CommercialLow_3 space_pp="110" level_height="6" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
     <CommercialHigh_1 space_pp="115" level_height="5" calc="model" ground_mult="1" lvl_0="10" lvl_1="45" lvl_2="40" lvl_3="5" />
     <CommercialHigh_2 space_pp="120" level_height="5" calc="model" ground_mult="1" lvl_0="7" lvl_1="32" lvl_2="43" lvl_3="18" />
     <CommercialHigh_3 space_pp="125" level_height="5" calc="model" ground_mult="1" lvl_0="5" lvl_1="25" lvl_2="45" lvl_3="25" />
@@ -50,42 +50,44 @@
       <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
       <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
       <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
+      <meshName bonus="-13">H5 4x4 Highrise07</meshName>
     </bonusHouseHold>
+    <bonusWorker printWorkNames="false" />
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
-    <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="120" />
-    <ResidentialLow_2 power="12" water="26" sewage="20" garbage="13" wealth="140" />
-    <ResidentialLow_3 power="14" water="28" sewage="22" garbage="12" wealth="160" />
-    <ResidentialLow_4 power="16" water="31" sewage="25" garbage="11" wealth="180" />
-    <ResidentialLow_5 power="18" water="34" sewage="28" garbage="10" wealth="200" />
-    <ResidentialHigh_1 power="8" water="20" sewage="16" garbage="11" wealth="96" />
-    <ResidentialHigh_2 power="10" water="22" sewage="18" garbage="10" wealth="112" />
-    <ResidentialHigh_3 power="12" water="24" sewage="20" garbage="9" wealth="128" />
-    <ResidentialHigh_4 power="14" water="27" sewage="23" garbage="8" wealth="144" />
-    <ResidentialHigh_5 power="16" water="30" sewage="26" garbage="7" wealth="160" />
-    <CommercialLow_1 power="20" water="40" sewage="40" garbage="11" wealth="700" />
-    <CommercialLow_2 power="24" water="45" sewage="45" garbage="10" wealth="740" />
-    <CommercialLow_3 power="28" water="50" sewage="50" garbage="9" wealth="780" />
-    <CommercialHigh_1 power="24" water="45" sewage="45" garbage="11" wealth="650" />
-    <CommercialHigh_2 power="28" water="50" sewage="50" garbage="10" wealth="700" />
-    <CommercialHigh_3 power="32" water="55" sewage="55" garbage="9" wealth="750" />
+    <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="140" />
+    <ResidentialLow_2 power="11" water="26" sewage="20" garbage="13" wealth="150" />
+    <ResidentialLow_3 power="12" water="28" sewage="22" garbage="12" wealth="160" />
+    <ResidentialLow_4 power="13" water="31" sewage="25" garbage="11" wealth="170" />
+    <ResidentialLow_5 power="14" water="34" sewage="28" garbage="10" wealth="180" />
+    <ResidentialHigh_1 power="9" water="20" sewage="16" garbage="11" wealth="112" />
+    <ResidentialHigh_2 power="10" water="22" sewage="18" garbage="10" wealth="120" />
+    <ResidentialHigh_3 power="11" water="24" sewage="20" garbage="9" wealth="128" />
+    <ResidentialHigh_4 power="12" water="27" sewage="23" garbage="8" wealth="136" />
+    <ResidentialHigh_5 power="13" water="30" sewage="26" garbage="7" wealth="144" />
+    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="700" />
+    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="750" />
+    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="800" />
+    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="700" />
+    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="750" />
+    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="800" />
     <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="700" />
-    <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="800" />
-    <Office_1 power="24" water="12" sewage="11" garbage="9" wealth="1800" />
-    <Office_2 power="27" water="13" sewage="12" garbage="9" wealth="1925" />
-    <Office_3 power="32" water="14" sewage="13" garbage="8" wealth="2100" />
-    <Industry_1 power="80" water="100" sewage="120" garbage="50" wealth="180" />
-    <Industry_2 power="110" water="130" sewage="150" garbage="48" wealth="210" />
-    <Industry_3 power="140" water="160" sewage="180" garbage="46" wealth="250" />
-    <IndustryFarm_1 power="60" water="200" sewage="225" garbage="30" wealth="180" />
-    <IndustryFarm_2 power="110" water="400" sewage="500" garbage="50" wealth="210" />
-    <IndustryForest_1 power="80" water="30" sewage="40" garbage="40" wealth="180" />
-    <IndustryForest_2 power="120" water="75" sewage="80" garbage="50" wealth="220" />
-    <IndustryOre_1 power="170" water="200" sewage="200" garbage="80" wealth="240" />
-    <IndustryOre_2 power="230" water="210" sewage="280" garbage="60" wealth="300" />
-    <IndustryOil_1 power="200" water="200" sewage="250" garbage="60" wealth="300" />
-    <IndustryOil_2 power="270" water="220" sewage="300" garbage="75" wealth="380" />
+    <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="900" />
+    <Office_1 power="20" water="12" sewage="11" garbage="9" wealth="1800" />
+    <Office_2 power="24" water="13" sewage="12" garbage="9" wealth="1900" />
+    <Office_3 power="28" water="14" sewage="13" garbage="8" wealth="2000" />
+    <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="200" />
+    <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="230" />
+    <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="260" />
+    <IndustryFarm_1 power="30" water="200" sewage="225" garbage="30" wealth="180" />
+    <IndustryFarm_2 power="70" water="400" sewage="500" garbage="50" wealth="220" />
+    <IndustryForest_1 power="30" water="30" sewage="40" garbage="40" wealth="180" />
+    <IndustryForest_2 power="80" water="75" sewage="80" garbage="50" wealth="240" />
+    <IndustryOre_1 power="100" water="200" sewage="200" garbage="80" wealth="240" />
+    <IndustryOre_2 power="200" water="210" sewage="280" garbage="60" wealth="300" />
+    <IndustryOil_1 power="120" water="200" sewage="250" garbage="60" wealth="300" />
+    <IndustryOil_2 power="240" water="220" sewage="300" garbage="75" wealth="400" />
   </consumption>
   <!--Visitor Values are multiplies of 100th of a person per cell.-->
   <visitor>

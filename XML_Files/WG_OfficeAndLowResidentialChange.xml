@@ -9,14 +9,14 @@
     <ResidentialLow_3 space_pp="400" level_height="50" calc="model" />
     <ResidentialLow_4 space_pp="400" level_height="50" calc="model" />
     <ResidentialLow_5 space_pp="400" level_height="50" calc="model" />
-    <ResidentialHigh_1 space_pp="30" level_height="10" calc="model" />
-    <ResidentialHigh_2 space_pp="32" level_height="10" calc="model" />
-    <ResidentialHigh_3 space_pp="34" level_height="10" calc="model" />
-    <ResidentialHigh_4 space_pp="37" level_height="10" calc="model" />
-    <ResidentialHigh_5 space_pp="40" level_height="10" calc="model" />
-    <CommercialLow_1 space_pp="90" level_height="10" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
-    <CommercialLow_2 space_pp="95" level_height="10" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
-    <CommercialLow_3 space_pp="100" level_height="10" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
+    <ResidentialHigh_1 space_pp="28" level_height="10" calc="model" />
+    <ResidentialHigh_2 space_pp="30" level_height="10" calc="model" />
+    <ResidentialHigh_3 space_pp="32" level_height="10" calc="model" />
+    <ResidentialHigh_4 space_pp="35" level_height="10" calc="model" />
+    <ResidentialHigh_5 space_pp="38" level_height="10" calc="model" />
+    <CommercialLow_1 space_pp="100" level_height="10" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
+    <CommercialLow_2 space_pp="105" level_height="10" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
+    <CommercialLow_3 space_pp="110" level_height="10" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
     <CommercialHigh_1 space_pp="115" level_height="10" calc="model" ground_mult="1" lvl_0="10" lvl_1="45" lvl_2="40" lvl_3="5" />
     <CommercialHigh_2 space_pp="120" level_height="10" calc="model" ground_mult="1" lvl_0="7" lvl_1="32" lvl_2="43" lvl_3="18" />
     <CommercialHigh_3 space_pp="125" level_height="10" calc="model" ground_mult="1" lvl_0="5" lvl_1="25" lvl_2="45" lvl_3="25" />
@@ -50,7 +50,10 @@
       <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
       <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
       <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
+      <meshName bonus="-25">H5 4x4 Highrise07</meshName>
     </bonusHouseHold>
+    <bonusWorker printWorkNames="false">
+    </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>

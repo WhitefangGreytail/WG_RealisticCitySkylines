@@ -41,6 +41,8 @@
       <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
       <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
     </bonusHouseHold>
+    <bonusWorker printWorkNames="false">
+    </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>

@@ -9,6 +9,7 @@ namespace WG_BalancedPopMod
     {
         private const string popNodeName = "population";
         private const string bonusHouseName = "bonusHouseHold";
+        private const string bonusWorkName = "bonusWorker";
         private const string meshName = "meshName";
         private const string consumeNodeName = "consumption";
         private const string visitNodeName = "visitor";
@@ -143,6 +144,26 @@ namespace WG_BalancedPopMod
                 bonusHouseholdNode.AppendChild(meshNameNode);
             }
             popNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to population
+
+            // Add mesh names to dictionary
+            XmlNode bonusWorkNode = xmlDoc.CreateElement(bonusWorkName);
+            attribute = xmlDoc.CreateAttribute("printWorkNames");
+            attribute.Value = DataStore.printEmploymentNames ? "true" : "false";
+            bonusWorkNode.Attributes.Append(attribute);
+
+            foreach (string data in DataStore.bonusWorkerCache.Keys)
+            {
+                XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
+                meshNameNode.InnerXml = data;
+                attribute = xmlDoc.CreateAttribute("bonus");
+                int value = 1;
+                DataStore.bonusWorkerCache.TryGetValue(data, out value);
+                attribute.Value = Convert.ToString(value);
+                meshNameNode.Attributes.Append(attribute);
+                bonusWorkNode.AppendChild(meshNameNode);
+            }
+            popNode.AppendChild(bonusWorkNode); // Append the bonusWorkers to population
+
 
             rootNode.AppendChild(popNode);
             createConsumptionNodeComment(xmlDoc, rootNode);
@@ -531,6 +552,10 @@ namespace WG_BalancedPopMod
                 {
                     readBonusHouseNode(node);
                 }
+                else if (node.Name.Equals(bonusWorkName))
+                {
+                    readBonusWorkers(node);
+                }
                 else
                 {
                     string[] attr = node.Name.Split(new char[] { '_' });
@@ -666,6 +691,42 @@ namespace WG_BalancedPopMod
             }
         }
 
+        /// <param name="node"></param>
+        private void readBonusWorkers(XmlNode parent)
+        {
+            try
+            {
+                DataStore.printEmploymentNames = Convert.ToBoolean(parent.Attributes["printWorkNames"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
+            DataStore.bonusWorkerCache.Clear(); // Okay to clear now that we have seen the meshname node
+            foreach (XmlNode node in parent.ChildNodes)
+            {
+                if (node.Name.Equals(meshName))
+                {
+                    try
+                    {
+                        string name = node.InnerText;
+                        int bonus = 5;
+                        bonus = Convert.ToInt32(node.Attributes["bonus"].InnerText);
+
+                        if (name.Length > 0)
+                        {
+                            // Needs a value to be valid
+                            DataStore.bonusWorkerCache.Add(name, bonus);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Debugging.bufferWarning("readBonusWorkers: " + e.Message + ". Setting to 5");
+                    }
+                }
+            }
+        }
 
         /// <param name="produceNode"></param>
         private void readVisitNode(XmlNode produceNode)
