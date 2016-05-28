@@ -237,6 +237,10 @@ namespace WG_BalancedPopMod
             }
 //Debugging.writeDebugToFile(buildingID + ". Workers needed: " + workersRequired[0] + ", " + workersRequired[1] + ", " + workersRequired[2] + ", " + workersRequired[3]);
 
+            // Crime and garbage are reset
+            data.m_crimeBuffer = 0;
+            data.m_garbageBuffer = 0;
+
             int loopCounter = 0;
             uint previousUnit = data.m_citizenUnits;
             uint currentUnit = data.m_citizenUnits;
