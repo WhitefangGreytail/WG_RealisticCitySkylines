@@ -10,10 +10,10 @@
     <ResidentialLow_4 space_pp="400" level_height="50" calc="model" />
     <ResidentialLow_5 space_pp="400" level_height="50" calc="model" />
     <ResidentialHigh_1 space_pp="28" level_height="5" calc="model" />
-    <ResidentialHigh_2 space_pp="30" level_height="5" calc="model" />
-    <ResidentialHigh_3 space_pp="32" level_height="5" calc="model" />
-    <ResidentialHigh_4 space_pp="35" level_height="5" calc="model" />
-    <ResidentialHigh_5 space_pp="38" level_height="5" calc="model" />
+    <ResidentialHigh_2 space_pp="29" level_height="5" calc="model" />
+    <ResidentialHigh_3 space_pp="30" level_height="5" calc="model" />
+    <ResidentialHigh_4 space_pp="32" level_height="5" calc="model" />
+    <ResidentialHigh_5 space_pp="34" level_height="5" calc="model" />
     <CommercialLow_1 space_pp="100" level_height="6" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
     <CommercialLow_2 space_pp="105" level_height="6" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
     <CommercialLow_3 space_pp="110" level_height="6" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
@@ -23,8 +23,8 @@
     <CommercialLeisure_1 space_pp="60" level_height="10" calc="model" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <CommercialTourist_1 space_pp="1000" level_height="10" calc="model" ground_mult="50" lvl_0="15" lvl_1="35" lvl_2="35" lvl_3="15" />
     <Office_1 space_pp="34" level_height="5" calc="model" ground_mult="0" lvl_0="2" lvl_1="8" lvl_2="20" lvl_3="70" />
-    <Office_2 space_pp="37" level_height="5" calc="model" ground_mult="0" lvl_0="1" lvl_1="5" lvl_2="14" lvl_3="80" />
-    <Office_3 space_pp="40" level_height="5" calc="model" ground_mult="0" lvl_0="1" lvl_1="3" lvl_2="6" lvl_3="90" />
+    <Office_2 space_pp="36" level_height="5" calc="model" ground_mult="0" lvl_0="1" lvl_1="5" lvl_2="14" lvl_3="80" />
+    <Office_3 space_pp="38" level_height="5" calc="model" ground_mult="0" lvl_0="1" lvl_1="3" lvl_2="6" lvl_3="90" />
     <Industry_1 space_pp="38" level_height="50" calc="model" ground_mult="0" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
     <Industry_2 space_pp="35" level_height="50" calc="model" ground_mult="0" lvl_0="20" lvl_1="45" lvl_2="25" lvl_3="10" />
     <Industry_3 space_pp="32" level_height="50" calc="model" ground_mult="0" lvl_0="5" lvl_1="20" lvl_2="45" lvl_3="30" />
@@ -50,11 +50,50 @@
       <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
       <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
       <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
-      <meshName bonus="-25">H5 4x4 Highrise07</meshName>
+      <meshName bonus="-11">H4 4x3 Tenement10</meshName>
+      <meshName bonus="-4">H4 4x4 Tenement12</meshName>
+      <meshName bonus="-8">H5 4x4 Highrise02</meshName>
+      <meshName bonus="-20">H5 4x4 Highrise07</meshName>
+      <meshName bonus="11">H5 4x4 Highrise08</meshName>
+      <meshName bonus="-20">413694648.Tranquil Turquoise_Data</meshName>
+      <meshName bonus="-18">421547247.Gula's Adam Highrise_Data</meshName>
+      <meshName bonus="-12">453820359.Sprawl_Data</meshName>
+      <meshName bonus="-22">460321524.Truancy_Data</meshName>
+      <meshName bonus="-31">472267886.ZED68-PACHATOWER-4x4HRL5_Data</meshName>
+      <meshName bonus="-577">665177868.PURGIO S_CITY 101_Data</meshName>
+      <meshName bonus="-19">666347361.Nurture_Data</meshName>
+      <meshName bonus="-451">673778168.PURGIO S_CITY 103_Data</meshName>
+      <meshName bonus="-787">681918587.Marina Torch_Data</meshName>
+      <meshName bonus="-578">690181725.Aura Tower_Data</meshName>
+      <meshName bonus="-738">691942109.Sulafa tower_Data</meshName>
     </bonusHouseHold>
     <bonusWorker printWorkNames="false">
-      <meshName bonus="120">419078725.Barry Plaza_Data</meshName>
-      <meshName bonus="-150">622221778.Stalwart_Data</meshName>
+      <meshName bonus="122">419078725.Barry Plaza_Data</meshName>
+      <meshName bonus="-362">428925673.Leviathan_Data</meshName>
+      <meshName bonus="-1033">434097849.Monolith_Data</meshName>
+      <meshName bonus="-2768">435267158.Twin Monoliths_Data</meshName>
+      <meshName bonus="-15738">453154792.Gula's Kingdom Tower_Data</meshName>
+      <meshName bonus="-167">476346019.Blue Rise Plaza_Data</meshName>
+      <meshName bonus="-155">509112645.Crystallization_Data</meshName>
+      <meshName bonus="-4868">527535273.snowjaoONEONE_Data</meshName>
+      <meshName bonus="46">534117358.Two Prudential Plaza_Data</meshName>
+      <meshName bonus="-145">568336474.Javelin_Data</meshName>
+      <meshName bonus="-606">579129058.Figueroa at Wilshire 1:1_Data</meshName>
+      <meshName bonus="-533">604009267.One World Trade Center 1:1_Data</meshName>
+      <meshName bonus="-885">605000091.60 Wall Street_Data</meshName>
+      <meshName bonus="-2017">621431766.Glory_Data</meshName>
+      <meshName bonus="-148">622221778.Stalwart_Data</meshName>
+      <meshName bonus="-1770">628101617.Pan Pacific Insurance_Data</meshName>
+      <meshName bonus="-154">651651763.Alliance_Data</meshName>
+      <meshName bonus="-2136">660411166.Elstree Building_Data</meshName>
+      <meshName bonus="42">660864619.Policy_Data</meshName>
+      <meshName bonus="-261">661075324.Santander Tower_Data</meshName>
+      <meshName bonus="89">661823191.Whirligig XL_Data</meshName>
+      <meshName bonus="-2003">670944160.Big Office Building_Data</meshName>
+      <meshName bonus="-440">672448363.Foster Tower Madrid (Red)_Data</meshName>
+      <meshName bonus="-440">672525995.Foster Tower Madrid (White)_Data</meshName>
+      <meshName bonus="-404">680500415.Space Tower Madrid_Data</meshName>
+      <meshName bonus="-1607">687777086.Mirage_Data</meshName>
     </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
@@ -64,22 +103,22 @@
     <ResidentialLow_3 power="12" water="28" sewage="22" garbage="12" wealth="160" />
     <ResidentialLow_4 power="13" water="31" sewage="25" garbage="11" wealth="170" />
     <ResidentialLow_5 power="14" water="34" sewage="28" garbage="10" wealth="180" />
-    <ResidentialHigh_1 power="9" water="20" sewage="16" garbage="11" wealth="112" />
-    <ResidentialHigh_2 power="10" water="22" sewage="18" garbage="10" wealth="120" />
-    <ResidentialHigh_3 power="11" water="24" sewage="20" garbage="9" wealth="128" />
-    <ResidentialHigh_4 power="12" water="27" sewage="23" garbage="8" wealth="136" />
-    <ResidentialHigh_5 power="13" water="30" sewage="26" garbage="7" wealth="144" />
-    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="700" />
-    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="750" />
-    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="800" />
-    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="700" />
-    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="750" />
-    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="800" />
+    <ResidentialHigh_1 power="9" water="18" sewage="14" garbage="11" wealth="105" />
+    <ResidentialHigh_2 power="10" water="20" sewage="16" garbage="10" wealth="112" />
+    <ResidentialHigh_3 power="11" water="22" sewage="18" garbage="9" wealth="120" />
+    <ResidentialHigh_4 power="12" water="25" sewage="21" garbage="8" wealth="127" />
+    <ResidentialHigh_5 power="13" water="28" sewage="24" garbage="7" wealth="135" />
+    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="750" />
+    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="800" />
+    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="850" />
+    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="750" />
+    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="800" />
+    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="850" />
     <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="700" />
     <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="900" />
-    <Office_1 power="20" water="12" sewage="11" garbage="9" wealth="1800" />
-    <Office_2 power="24" water="13" sewage="12" garbage="9" wealth="1900" />
-    <Office_3 power="28" water="14" sewage="13" garbage="8" wealth="2000" />
+    <Office_1 power="20" water="9" sewage="8" garbage="9" wealth="2000" />
+    <Office_2 power="24" water="10" sewage="9" garbage="9" wealth="2250" />
+    <Office_3 power="28" water="11" sewage="10" garbage="9" wealth="2500" />
     <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="200" />
     <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="230" />
     <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="260" />

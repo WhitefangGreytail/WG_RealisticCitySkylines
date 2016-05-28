@@ -48,20 +48,20 @@ namespace WG_BalancedPopMod
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   13, 31, 25, 11, 170,   0, 1,   -1},
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   14, 34, 28, 10, 180,   0, 1,   -1} };
 
-        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 20, 16, 11, 112,   0, 5,   -1},
-                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,   10, 22, 18, 10, 120,   0, 5,   -1},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,   11, 24, 20,  9, 128,   0, 5,   -1},
-                                                  new int [] {175, 5, -1, 0, -1,   -1, -1, -1, -1,   12, 27, 23,  8, 136,   0, 5,   -1},
-                                                  new int [] {190, 5, -1, 0, -1,   -1, -1, -1, -1,   13, 30, 26,  7, 144,   0, 5,   -1} };
+        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 18, 14, 11, 105,   0, 5,   -1},
+                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,   10, 20, 16, 10, 112,   0, 5,   -1},
+                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,   11, 22, 18,  9, 120,   0, 5,   -1},
+                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,   12, 25, 21,  8, 127,   0, 5,   -1},
+                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,   13, 28, 24,  7, 135,   0, 5,   -1} };
 
         // High floor levels to help with maintaining a single story 
-        public static int[][] commercialLow = { new int [] {100, 6, 1, 0,  90,   70, 20, 10,  0,   14, 40, 40, 11, 700,   0, 100,   -1},
-                                                new int [] {105, 6, 1, 0, 100,   30, 45, 20,  5,   16, 45, 45, 10, 750,   0,  90,   -1},
-                                                new int [] {110, 6, 1, 0, 110,    5, 30, 55, 10,   18, 50, 50,  9, 800,   0,  75,   -1} };
+        public static int[][] commercialLow = { new int [] {100, 6, 1, 0,  90,   70, 20, 10,  0,   14, 40, 40, 11, 750,   0, 100,   -1},
+                                                new int [] {105, 6, 1, 0, 100,   30, 45, 20,  5,   16, 45, 45, 10, 800,   0,  90,   -1},
+                                                new int [] {110, 6, 1, 0, 110,    5, 30, 55, 10,   18, 50, 50,  9, 850,   0,  75,   -1} };
 
-        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 220,   10, 45, 40,  5,   16, 45, 45, 11, 700,   0, 80,   -1},
-                                                 new int [] {120, 5, 1, 0, 310,    7, 32, 43, 18,   18, 50, 50, 10, 750,   0, 70,   -1},
-                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   20, 55, 55,  9, 800,   0, 60,   -1} };
+        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 220,   10, 45, 40,  5,   16, 45, 45, 11, 750,   0, 80,   -1},
+                                                 new int [] {120, 5, 1, 0, 310,    7, 32, 43, 18,   18, 50, 50, 10, 800,   0, 70,   -1},
+                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   20, 55, 55,  9, 850,   0, 60,   -1} };
 
         // High floor level to get a dense base and to account for hotel employment structure.
         // Every other tourist building seems to be low height
@@ -70,9 +70,9 @@ namespace WG_BalancedPopMod
         // Seems to be short buildings all the time
         public static int[][] commercialLeisure = { new int[] {60, 10, 0, 0, 250,   15, 40, 35, 10,   35, 40, 44, 35, 700,   0, 300,   -1 } };
 
-        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   20, 12, 11, 9, 1800,   0, 1,   20},
-                                         new int [] {37, 5, 0, 0, -1,   1,  5, 14, 80,   24, 13, 12, 9, 1900,   0, 1,   20},
-                                         new int [] {40, 5, 0, 0, -1,   1,  3,  6, 90,   28, 14, 13, 8, 2000,   0, 1,   20} };
+        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   20,  9,  8, 9, 2000,   0, 1,   20},
+                                         new int [] {36, 5, 0, 0, -1,   1,  5, 14, 80,   24, 10,  9, 9, 2250,   0, 1,   20},
+                                         new int [] {38, 5, 0, 0, -1,   1,  3,  6, 90,   28, 11, 10, 9, 2500,   0, 1,   20} };
 
         // Very high floor level because chimney stacks count to height level
         public static int[][] industry = { new int [] {38, 50, 0, 0, -1,   70, 20, 10,  0,    50, 100, 120, 50, 200,   300, 300,   100},
@@ -106,14 +106,53 @@ namespace WG_BalancedPopMod
             { "L2 3x4 Semi-detachedhouse02a", 1 },
             { "L3 3x3 Semi-detachedhouse02", 1 },
             { "L3 4x4 Semi-detachedhouse03a", 1 },
-            { "H5 4x4 Highrise07", -25 }
+            { "H4 4x3 Tenement10", -11 },
+            { "H4 4x4 Tenement12", -4 },
+            { "H5 4x4 Highrise02", -8 },
+            { "H5 4x4 Highrise07", -20 },
+            { "H5 4x4 Highrise08", 11 },
+            { "413694648.Tranquil Turquoise_Data", -20 },
+            { "421547247.Gula's Adam Highrise_Data", -18 },
+            { "453820359.Sprawl_Data", -12 },
+            { "460321524.Truancy_Data", -22 },
+            { "472267886.ZED68-PACHATOWER-4x4HRL5_Data", -31 },
+            { "665177868.PURGIO S_CITY 101_Data", -577 },
+            { "666347361.Nurture_Data", -19 },
+            { "673778168.PURGIO S_CITY 103_Data", -451 },
+            { "681918587.Marina Torch_Data", -787 },
+            { "690181725.Aura Tower_Data", -578 },
+            { "691942109.Sulafa tower_Data", -738 }
         };
 
         public static bool printEmploymentNames = false;
         public static Dictionary<string, int> bonusWorkerCache = new Dictionary<string, int>()
         {
-            { "419078725.Barry Plaza_Data", 120 },
-            { "622221778.Stalwart_Data", -150 }
+            { "419078725.Barry Plaza_Data", 122 },
+            { "428925673.Leviathan_Data", -362 },
+            { "434097849.Monolith_Data", -1033 },
+            { "435267158.Twin Monoliths_Data", -2768 },
+            { "453154792.Gula's Kingdom Tower_Data", -15738 },
+            { "476346019.Blue Rise Plaza_Data", -167 },
+            { "509112645.Crystallization_Data", -155 },
+            { "527535273.snowjaoONEONE_Data", -4868 },
+            { "534117358.Two Prudential Plaza_Data", 46 },
+            { "568336474.Javelin_Data", -145 },
+            { "579129058.Figueroa at Wilshire 1:1_Data", -606 },
+            { "604009267.One World Trade Center 1:1_Data", -533 },
+            { "605000091.60 Wall Street_Data", -885 },
+            { "621431766.Glory_Data", -2017 },
+            { "622221778.Stalwart_Data", -148 },
+            { "628101617.Pan Pacific Insurance_Data", -1770 },
+            { "651651763.Alliance_Data", -154 },
+            { "660411166.Elstree Building_Data", -2136 },
+            { "660864619.Policy_Data", 42 },
+            { "661075324.Santander Tower_Data", -261 },
+            { "661823191.Whirligig XL_Data", 89 },
+            { "670944160.Big Office Building_Data", -2003 },
+            { "672448363.Foster Tower Madrid (Red)_Data", -440 },
+            { "672525995.Foster Tower Madrid (White)_Data", -440 },
+            { "680500415.Space Tower Madrid_Data", -404 },
+            { "687777086.Mirage_Data", -1607 }
         };
 
         // Prefab stores
