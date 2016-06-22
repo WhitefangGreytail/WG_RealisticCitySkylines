@@ -446,19 +446,27 @@ namespace WG_BalancedPopMod
         /// <param name="citData"></param>
         private static void FireAndTeleportHome(ushort buildingID, uint citizen, int citizenIndex, ushort citizenInstanceIndex, ref CitizenInstance citData)
         {
+            // Teleport citizen home if at work, or travelling to work
             if (citizenArray[citizenIndex].GetBuildingByLocation() == buildingID ||
                 (citizenInstanceIndex != 0 && citData.m_targetBuilding == buildingID))
             {
-                // Stop citizen and teleport citizen home to be simple
                 if (citData.m_path != 0u)
                 {
                     Singleton<PathManager>.instance.ReleasePath(citData.m_path);
                     citData.m_path = 0u;
                 }
-                citizenArray[citizenIndex].m_workBuilding = 0;
-                citizenArray[citizenIndex].m_flags = Citizen.Flags.Unemployed;
+
+                if (citizenInstanceIndex != 0)
+                {
+                    Singleton<CitizenManager>.instance.ReleaseCitizenInstance(citizenInstanceIndex);
+                }
+
                 citizenArray[citizenIndex].CurrentLocation = Citizen.Location.Home;
             }
+
+            citizenArray[citizenIndex].m_workBuilding = 0;
+            citizenArray[citizenIndex].Unemployed = 1;
+            citizenArray[citizenIndex].m_flags = citizenArray[citizenIndex].m_flags | Citizen.Flags.Unemployed;
         }
 
 

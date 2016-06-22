@@ -121,7 +121,8 @@ namespace WG_BalancedPopMod
             { "673778168.PURGIO S_CITY 103_Data", -451 },
             { "681918587.Marina Torch_Data", -787 },
             { "690181725.Aura Tower_Data", -578 },
-            { "691942109.Sulafa tower_Data", -738 }
+            { "691942109.Sulafa tower_Data", -738 },
+            { "700349615.The Pentominium_Data", -1138 }
         };
 
         public static bool printEmploymentNames = false;
