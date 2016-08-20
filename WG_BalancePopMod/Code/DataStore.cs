@@ -70,9 +70,9 @@ namespace WG_BalancedPopMod
         // Seems to be short buildings all the time
         public static int[][] commercialLeisure = { new int[] {60, 10, 0, 0, 250,   15, 40, 35, 10,   35, 40, 44, 35, 700,   0, 300,   -1 } };
 
-        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   20,  9,  8, 9, 2000,   0, 1,   20},
-                                         new int [] {36, 5, 0, 0, -1,   1,  5, 14, 80,   24, 10,  9, 9, 2250,   0, 1,   20},
-                                         new int [] {38, 5, 0, 0, -1,   1,  3,  6, 90,   28, 11, 10, 9, 2500,   0, 1,   20} };
+        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   10, 4, 4, 4, 1000,   0, 1,   10},
+                                         new int [] {36, 5, 0, 0, -1,   1,  5, 14, 80,   12, 5, 4, 4, 1125,   0, 1,   10},
+                                         new int [] {38, 5, 0, 0, -1,   1,  3,  6, 90,   14, 5, 5, 4, 1250,   0, 1,   10} };
 
         // Very high floor level because chimney stacks count to height level
         public static int[][] industry = { new int [] {38, 50, 0, 0, -1,   70, 20, 10,  0,    50, 100, 120, 50, 200,   300, 300,   100},

@@ -9,7 +9,7 @@ namespace WG_BalancedPopMod
     [TargetType(typeof(BuildingAI))]
     public class AI_Building : BuildingAI
     {
-        private static CitizenManager instance = Singleton<CitizenManager>.instance;
+        private static CitizenManager citizenManager = Singleton<CitizenManager>.instance;
         private static CitizenUnit[] citizenUnitArray = Singleton<CitizenManager>.instance.m_units.m_buffer;
         private static Citizen[] citizenArray = Singleton<CitizenManager>.instance.m_citizens.m_buffer;
 
@@ -74,17 +74,17 @@ namespace WG_BalancedPopMod
                         break;
                     }
                 } // end while
-/*
-                homeCount = Mathf.Max(0, homeCount);
-                workCount = Mathf.Max(0, workCount);
- */
+                  /*
+                                  homeCount = Mathf.Max(0, homeCount);
+                                  workCount = Mathf.Max(0, workCount);
+                   */
                 visitCount = Mathf.Max(0, visitCount);
                 studentCount = Mathf.Max(0, studentCount);
 
                 if (homeCount > 0 || workCount > 0 || visitCount > 0 || studentCount > 0)
                 {
                     uint num4 = 0u;
-                    if (instance.CreateUnits(out num4, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, homeCount, workCount, visitCount, 0, studentCount))
+                    if (citizenManager.CreateUnits(out num4, ref Singleton<SimulationManager>.instance.m_randomizer, buildingID, 0, homeCount, workCount, visitCount, 0, studentCount))
                     {
                         if (num != 0u)
                         {
@@ -133,12 +133,12 @@ namespace WG_BalancedPopMod
                         {
                             RemoveHouseHold(buildingID, ref data, totalHomeCount);
                         }
-/*
-                        if (visitCount < 0)
-                        {
-                            RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
-                        }
-*/
+                        /*
+                                                if (visitCount < 0)
+                                                {
+                                                    RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
+                                                }
+                        */
                         PromoteWorkers(buildingID, ref data, ref workersRequired);
                         // Do nothing for students
 
@@ -184,10 +184,7 @@ namespace WG_BalancedPopMod
                             if (citizen != 0u)
                             {
                                 // Do not shift back where possible. There's enough staff turnover that the spaces aren't worth the intensive checking
-                                int citizenIndex = (int)((UIntPtr)citizen);
-                                ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
-                                CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
-                                FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_workBuilding = 0;
                             }  // end citizen
                         } // end for
                         removeCurrentUnit = true;
@@ -200,7 +197,9 @@ namespace WG_BalancedPopMod
                 {
                     // Link previous unit to next unit and release the item
                     citizenUnitArray[previousUnit].m_nextUnit = nextUnit;
-                    instance.m_units.ReleaseItem(currentUnit);
+
+                    citizenUnitArray[currentUnit] = default(CitizenUnit);
+                    citizenManager.m_units.ReleaseItem(currentUnit);
                     // Previous unit number has not changed
                 }
                 else
@@ -210,8 +209,7 @@ namespace WG_BalancedPopMod
                 }
                 currentUnit = nextUnit;
 
-                // If list is too long, abort (102400 people is a bit too much)
-                if (++loopCounter > 20480)
+                if (++loopCounter > 524288)
                 {
                     currentUnit = 0u; // Bail out loop
                 }
@@ -235,7 +233,7 @@ namespace WG_BalancedPopMod
                 // We are okay with employees, or it's residential. Return
                 return;
             }
-//Debugging.writeDebugToFile(buildingID + ". Workers needed: " + workersRequired[0] + ", " + workersRequired[1] + ", " + workersRequired[2] + ", " + workersRequired[3]);
+            //Debugging.writeDebugToFile(buildingID + ". Workers needed: " + workersRequired[0] + ", " + workersRequired[1] + ", " + workersRequired[2] + ", " + workersRequired[3]);
 
             // Crime and garbage are reset
             data.m_crimeBuffer = 0;
@@ -261,7 +259,7 @@ namespace WG_BalancedPopMod
                             // Do not shift back where possible. There should be enough staff turnover that the spaces aren't worth the intensive checking
                             int citizenIndex = (int)((UIntPtr)citizen);
                             ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
-                            CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
+                            CitizenInstance citData = citizenManager.m_instances.m_buffer[(int)citizenInstanceIndex];
 
                             // Get education level. Perform checks
                             Citizen cit = citizenArray[(int)((UIntPtr)citizen)];
@@ -298,14 +296,14 @@ namespace WG_BalancedPopMod
                                 else
                                 {
                                     workersRequired[education]++;
-                                    FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                    citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_workBuilding = 0;
                                     RemoveFromCitizenUnit(currentUnit, i);
                                 }
                             }
                             else if (workersRequired[education] < 0)
                             {
                                 workersRequired[education]++;
-                                FireAndTeleportHome(buildingID, citizen, citizenIndex, citizenInstanceIndex, ref citData);
+                                citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_workBuilding = 0;
                                 RemoveFromCitizenUnit(currentUnit, i);
                             } // end if
                         }  // end citizen
@@ -315,8 +313,7 @@ namespace WG_BalancedPopMod
                 previousUnit = currentUnit;
                 currentUnit = nextUnit;
 
-                // If list is too long, abort (102400 people is a bit too much)
-                if (++loopCounter > 20480)
+                if (++loopCounter > 524288)
                 {
                     currentUnit = 0u; // Bail out loop
                 }
@@ -357,26 +354,9 @@ namespace WG_BalancedPopMod
                         // Send unit home like empty building
                         for (int i = 0; i < 5; i++)
                         {
+                            // CommonBuildingAI.RemovePeople() -> CitizenManager. ReleaseUnitImplementation()
                             uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
-                            if (citizen != 0u)
-                            {
-                                // Send out
-                                int citizenIndex = (int)((UIntPtr)citizen);
-                                ushort citizenInstanceIndex = citizenArray[citizenIndex].m_instance;
-                                CitizenInstance citData = instance.m_instances.m_buffer[(int)citizenInstanceIndex];
-                                
-                                ushort home = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding;
-                                if (home != 0)
-                                {
-                                    CitizenInfo citizenInfo = instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)].GetCitizenInfo(citizen);
-                                    HumanAI humanAI = citizenInfo.m_citizenAI as HumanAI;
-                                    if (humanAI != null)
-                                    {
-                                        humanAI.StartMoving(citizen, ref instance.m_citizens.m_buffer[(int)((UIntPtr)citizen)], buildingID, home);
-                                    }
-                                }
-                                RemoveFromCitizenUnit(currentUnit, i);
-                            }  // end citizen
+                            citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_visitBuilding = 0;
                         } // end for
                         removeCurrentUnit = true;  // No need to reset, we're already at the end
                     } // end if
@@ -388,7 +368,9 @@ namespace WG_BalancedPopMod
                 {
                     // Link previous unit to next unit and release the item
                     citizenUnitArray[previousUnit].m_nextUnit = nextUnit;
-                    instance.m_units.ReleaseItem(currentUnit);
+
+                    citizenUnitArray[currentUnit] = default(CitizenUnit);
+                    citizenManager.m_units.ReleaseItem(currentUnit);
                     // Previous unit number has not changed
                 }
                 else
@@ -398,8 +380,7 @@ namespace WG_BalancedPopMod
                 }
                 currentUnit = nextUnit;
 
-                // If list is too long, abort (102400 people is a bit too much)
-                if (++loopCounter > 20480)
+                if (++loopCounter > 524288)
                 {
                     currentUnit = 0u; // Bail out loop
                 }
@@ -433,40 +414,6 @@ namespace WG_BalancedPopMod
                     citizenUnitArray[(int)((UIntPtr)currentUnit)].m_citizen4 = 0u;
                     break;
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="buildingID"></param>
-        /// <param name="citizenArray"></param>
-        /// <param name="citizen"></param>
-        /// <param name="citizenIndex"></param>
-        /// <param name="citizenInstanceIndex"></param>
-        /// <param name="citData"></param>
-        private static void FireAndTeleportHome(ushort buildingID, uint citizen, int citizenIndex, ushort citizenInstanceIndex, ref CitizenInstance citData)
-        {
-            // Teleport citizen home if at work, or travelling to work
-            if (citizenArray[citizenIndex].GetBuildingByLocation() == buildingID ||
-                (citizenInstanceIndex != 0 && citData.m_targetBuilding == buildingID))
-            {
-                if (citData.m_path != 0u)
-                {
-                    Singleton<PathManager>.instance.ReleasePath(citData.m_path);
-                    citData.m_path = 0u;
-                }
-
-                if (citizenInstanceIndex != 0)
-                {
-                    Singleton<CitizenManager>.instance.ReleaseCitizenInstance(citizenInstanceIndex);
-                }
-
-                citizenArray[citizenIndex].CurrentLocation = Citizen.Location.Home;
-            }
-
-            citizenArray[citizenIndex].m_workBuilding = 0;
-            citizenArray[citizenIndex].Unemployed = 1;
-            citizenArray[citizenIndex].m_flags = citizenArray[citizenIndex].m_flags | Citizen.Flags.Unemployed;
         }
 
 
@@ -505,12 +452,9 @@ namespace WG_BalancedPopMod
                         // Remove excess citizens
                         for (int i = 0; i < 5; i++)
                         {
+                            // CommonBuildingAI.RemovePeople() -> CitizenManager. ReleaseUnitImplementation()
                             uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
-
-                            if (citizen != 0u)
-                            {
-                                instance.ReleaseCitizen(citizen);
-                            }  // end citizen
+                            citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding = 0;
                         } // end for
                         removeCurrentUnit = true;
                     } // end if - above count
@@ -522,6 +466,8 @@ namespace WG_BalancedPopMod
                 {
                     // Link previous unit to next unit and release the item
                     citizenUnitArray[previousUnit].m_nextUnit = nextUnit;
+
+                    citizenUnitArray[currentUnit] = default(CitizenUnit);
                     instance.m_units.ReleaseItem(currentUnit);
                     // Previous unit number has not changed
                 }
@@ -532,41 +478,11 @@ namespace WG_BalancedPopMod
                 }
                 currentUnit = nextUnit;
 
-                // If list is too long, abort (102400 people is a bit too much)
-                if (++loopCounter > 20480)
+                if (++loopCounter > 524288)
                 {
                     currentUnit = 0u; // Bail out loop
                 }
             } // end while
-        } // end SendHouseHoldAway
-
-
-        /// <summary>
-        /// This gets the next citizen unit which is not full. The result can be the input
-        /// </summary>
-        /// <param name="currentUnit"></param>
-        /// <param name="array"></param>
-        /// <param name="lastAllowedUnit"></param>
-        /// <returns></returns>
-        private uint GetNextCitizenUnitWithSpace(uint currentUnit, CitizenUnit[] array, uint lastAllowedUnit)
-        {
-            while (currentUnit != 0u)
-            {
-                CitizenUnit unit = array[currentUnit];
-                if (!unit.Full())
-                {
-                    return currentUnit;
-                }
-                currentUnit = array[currentUnit].m_nextUnit;
-
-                if (currentUnit == lastAllowedUnit)
-                {
-                    // Halt search and future searches
-                    currentUnit = 0u;
-                }
-            }
-
-            return 0u;
-        } // end GetNextCitizenUnitWithSpace
-    }
+        } // end RemoveHouseHold
+    } // end AI_Building
 }

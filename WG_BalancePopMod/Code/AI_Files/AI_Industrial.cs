@@ -28,7 +28,7 @@ namespace WG_BalancedPopMod
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = getArray(item.m_class, level);
+                int[] array = getArray(item, level);
                 AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
@@ -55,7 +55,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(item, level);
+            int[] array = getArray(this.m_info, level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -87,7 +87,7 @@ namespace WG_BalancedPopMod
             groundPollution = 0;
             noisePollution = 0;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(@class, level);
+            int[] array = getArray(this.m_info, level);
 
             groundPollution = (productionRate * array[DataStore.GROUND_POLLUTION]) / 100;
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -106,7 +106,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(@class, level);
+            int[] array = getArray(this.m_info, level);
             return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
         }
 
@@ -117,25 +117,48 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(ItemClass item, int level)
+        private int[] getArray(BuildingInfo item, int level)
         {
-            switch (item.m_subService)
+            int tempLevel = 0;
+            int[][] array = DataStore.industry;
+
+            try
             {
-                case ItemClass.SubService.IndustrialOre:
-                    return DataStore.industry_ore[level + 1];
+                switch (item.m_class.m_subService)
+                {
+                    case ItemClass.SubService.IndustrialOre:
+                        array = DataStore.industry_ore;
+                        tempLevel = level + 1;
+                        break;
 
-                case ItemClass.SubService.IndustrialForestry:
-                    return DataStore.industry_forest[level + 1];
+                    case ItemClass.SubService.IndustrialForestry:
+                        array = DataStore.industry_forest;
+                        tempLevel = level + 1;
+                        break;
 
-                case ItemClass.SubService.IndustrialFarming:
-                    return DataStore.industry_farm[level + 1];
+                    case ItemClass.SubService.IndustrialFarming:
+                        array = DataStore.industry_farm;
+                        tempLevel = level + 1;
+                        break;
 
-                case ItemClass.SubService.IndustrialOil:
-                    return DataStore.industry_oil[level + 1];
+                    case ItemClass.SubService.IndustrialOil:
+                        array = DataStore.industry_oil;
+                        tempLevel = level + 1;
+                        break;
 
-                case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
-                default:
-                    return DataStore.industry[level];
+                    case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
+                    default:
+                        tempLevel = level;
+                        break;
+                }
+
+                return array[tempLevel];
+            }
+            catch (System.Exception e)
+            {
+                string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
+                Debugging.panelWarning(error);
+                return array[0];
             }
         }
     }

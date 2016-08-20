@@ -29,7 +29,7 @@ namespace WG_BalancedPopMod
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = getArray(item.m_class, EXTRACT_LEVEL);
+                int[] array = getArray(item, EXTRACT_LEVEL);
                 AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 2, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
@@ -56,7 +56,7 @@ namespace WG_BalancedPopMod
         {
             ulong seed = r.seed;
             ItemClass item = this.m_info.m_class;
-            int[] array = getArray(item, EXTRACT_LEVEL);
+            int[] array = getArray(this.m_info, EXTRACT_LEVEL);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -84,10 +84,9 @@ namespace WG_BalancedPopMod
         [RedirectMethod(true)]
         public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
-            ItemClass @class = this.m_info.m_class;
             groundPollution = 0;
             noisePollution = 0;
-            int[] array = getArray(@class, EXTRACT_LEVEL);
+            int[] array = getArray(this.m_info, EXTRACT_LEVEL);
 
             groundPollution = (productionRate * array[DataStore.GROUND_POLLUTION]) / 100;
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -104,7 +103,7 @@ namespace WG_BalancedPopMod
         [RedirectMethod(true)]
         public override int CalculateProductionCapacity(Randomizer r, int width, int length)
         {
-            int[] array = getArray(this.m_info.m_class, EXTRACT_LEVEL);
+            int[] array = getArray(this.m_info, EXTRACT_LEVEL);
             return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
         }
 
@@ -116,25 +115,42 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(ItemClass item, int level)
+        private int[] getArray(BuildingInfo item, int level)
         {
-            switch (item.m_subService)
+            int[][] array = DataStore.industry;
+
+            try
             {
-                case ItemClass.SubService.IndustrialOre:
-                    return DataStore.industry_ore[level];
+                switch (item.m_class.m_subService)
+                {
+                    case ItemClass.SubService.IndustrialOre:
+                        array = DataStore.industry_ore;
+                        break;
 
-                case ItemClass.SubService.IndustrialForestry:
-                    return DataStore.industry_forest[level];
+                    case ItemClass.SubService.IndustrialForestry:
+                        array = DataStore.industry_forest;
+                        break;
 
-                case ItemClass.SubService.IndustrialFarming:
-                    return DataStore.industry_farm[level];
+                    case ItemClass.SubService.IndustrialFarming:
+                        array = DataStore.industry_farm;
+                        break;
 
-                case ItemClass.SubService.IndustrialOil:
-                    return DataStore.industry_oil[level];
+                    case ItemClass.SubService.IndustrialOil:
+                        array = DataStore.industry_oil;
+                        break;
 
-                case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
-                default:
-                    return DataStore.industry[level];
+                    case ItemClass.SubService.IndustrialGeneric:  // Deliberate fall through
+                    default:
+                        break;
+                }
+
+                return array[level];
+            }
+            catch (System.Exception e)
+            {
+                string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
+                Debugging.panelWarning(error);
+                return array[0];
             }
         }
     }
