@@ -28,7 +28,7 @@ namespace WG_BalancedPopMod
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = getArray(item.m_class, ref level);
+                int[] array = getArray(this.m_info, level);
                 AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
@@ -56,7 +56,7 @@ namespace WG_BalancedPopMod
             ItemClass item = this.m_info.m_class;
 
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(item, ref level);
+            int[] array = getArray(this.m_info, level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
@@ -86,7 +86,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(item, ref level);
+            int[] array = getArray(this.m_info, level);
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -119,22 +119,38 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(ItemClass item, ref int level)
+        private int[] getArray(BuildingInfo item, int level)
         {
-            switch (item.m_subService)
-            {
-                case ItemClass.SubService.CommercialLeisure:
-                    return DataStore.commercialLeisure[0];
-                
-                case ItemClass.SubService.CommercialTourist:
-                    return DataStore.commercialTourist[0];
-                
-                case ItemClass.SubService.CommercialHigh:
-                    return DataStore.commercialHigh[level];
+            int[][] array = DataStore.commercialLow;
 
-                case ItemClass.SubService.CommercialLow:
-                default:
-                    return DataStore.commercialLow[level];
+            try
+            {
+                switch (item.m_class.m_subService)
+                {
+                    case ItemClass.SubService.CommercialLeisure:
+                        array = DataStore.commercialLeisure;
+                        break;
+                
+                    case ItemClass.SubService.CommercialTourist:
+                        array = DataStore.commercialTourist;
+                        break;
+                
+                    case ItemClass.SubService.CommercialHigh:
+                        array = DataStore.commercialHigh;
+                        break;
+
+                    case ItemClass.SubService.CommercialLow:
+                    default:
+                        break;
+                }
+
+                return array[level];
+            }
+            catch (System.Exception e)
+            {
+                string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
+                Debugging.panelWarning(error);
+                return array[0];
             }
         }
     }

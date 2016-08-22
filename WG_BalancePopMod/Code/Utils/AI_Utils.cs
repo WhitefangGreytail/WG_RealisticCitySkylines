@@ -30,11 +30,6 @@ namespace WG_BalancedPopMod
             int level3 = array[DataStore.WORK_LVL3];
             int num2 = level0 + level1 + level2 + level3;
 
-            if (DataStore.printEmploymentNames)
-            {
-                Debugging.writeDebugToFile("Requested employment asset name -->" + item.gameObject.name + "<--, level: " + item.m_class.m_level);
-            }
-
             if (num > 0 && num2 > 0)
             {
                 Vector3 v = item.m_size;
@@ -42,7 +37,12 @@ namespace WG_BalancedPopMod
                 int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                 value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
                 int bonus = 0;
-                DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus);
+
+                if (!DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus) && DataStore.printEmploymentNames)
+                {
+                    // No need try/catch, no ArgumentException
+                    DataStore.bonusWorkerCache.Add(item.gameObject.name, bonus);
+                }
 
                 num = Mathf.Max(minWorkers, (value + bonus));
 
@@ -97,17 +97,13 @@ namespace WG_BalancedPopMod
             }
 
             int bonus = 0;
-            if (DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus))
+            if (!DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus) && DataStore.printResidentialNames)
             {
-                returnValue = returnValue + bonus;
+                // No need try/catch, no ArgumentException
+                DataStore.bonusHouseholdCache.Add(item.gameObject.name, bonus);
             }
 
-            if (DataStore.printResidentialNames)
-            {
-                Debugging.writeDebugToFile("Requested asset name -->" + item.gameObject.name + "<--, level: " + (level + 1));
-            }
-
-            return returnValue;
+            return (returnValue + bonus);
         }  // end calculatePrefabHousehold
 
 

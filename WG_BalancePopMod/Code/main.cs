@@ -103,29 +103,12 @@ namespace WG_BalancedPopMod
                     isLevelLoaded = true;
                     // Now we can remove people
                     DataStore.allowRemovalOfCitizens = true;
-                    doCitizenFix();
                     Debugging.releaseBuffer();
                     Debugging.panelMessage("Successfully loaded in " + sw.ElapsedMilliseconds + " ms.");
                 }
             }
         }
 
-
-        // @deprecated - Remove at v8.0
-        private void doCitizenFix()
-        {
-            Citizen[] citizenArray = Singleton<CitizenManager>.instance.m_citizens.m_buffer;
-            for (int i = 0; i < 1048576; i++)
-            {
-                // If all flags but unemployed is there, turn on created flag
-                if (citizenArray[i].m_flags == Citizen.Flags.Unemployed)
-                {
-                    // 
-                    citizenArray[i].m_flags = citizenArray[i].m_flags | Citizen.Flags.Created;
-                }
-
-            }
-        }
 
         private void Redirect(bool onCreated)
         {
