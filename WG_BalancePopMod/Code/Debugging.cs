@@ -2,12 +2,14 @@
 using System.IO;
 using ColossalFramework.Plugins;
 using System.Text;
+using System.Collections.Generic;
 
 namespace WG_BalancedPopMod
 {
     class Debugging
     {
-        public static StringBuilder sb = new StringBuilder();
+        private static StringBuilder sb = new StringBuilder();
+        private static Dictionary<String, int> messagesToSuppress = new Dictionary<string, int>();
 
         // Write to a file
         public static void writeDebugToFile(String text, String fileName)
@@ -22,7 +24,11 @@ namespace WG_BalancedPopMod
         // Write to WG log file
         public static void writeDebugToFile(String text)
         {
-            writeDebugToFile(text, "WG_Pop.log");
+            if (!messagesToSuppress.ContainsKey(text))
+            {
+                writeDebugToFile(text, "WG_Pop.log");
+                messagesToSuppress.Add(text, 0);
+            }
         }
 
         // Buffer warning

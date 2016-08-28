@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 
@@ -15,7 +16,6 @@ namespace WG_BalancedPopMod
         private const string visitNodeName = "visitor";
         private const string pollutionNodeName = "pollution";
         private const string productionNodeName = "production";
-
 
         /// <param name="doc"></param>
         public override void readXML(XmlDocument doc)
@@ -132,7 +132,9 @@ namespace WG_BalancedPopMod
             bonusHouseholdNode.AppendChild(comment);
             comment = xmlDoc.CreateComment("L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a");
             bonusHouseholdNode.AppendChild(comment);
-            foreach (string data in DataStore.bonusHouseholdCache.Keys)
+
+            SortedList<string, int> list = new SortedList<string, int>(DataStore.bonusHouseholdCache);
+            foreach (string data in list.Keys)
             {
                 XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
                 meshNameNode.InnerXml = data;
@@ -151,7 +153,8 @@ namespace WG_BalancedPopMod
             attribute.Value = DataStore.printEmploymentNames ? "true" : "false";
             bonusWorkNode.Attributes.Append(attribute);
 
-            foreach (string data in DataStore.bonusWorkerCache.Keys)
+            list = new SortedList<string, int>(DataStore.bonusWorkerCache);
+            foreach (string data in list.Keys)
             {
                 XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
                 meshNameNode.InnerXml = data;
