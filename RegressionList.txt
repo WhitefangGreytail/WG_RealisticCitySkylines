@@ -10,11 +10,20 @@ SingleHouseTest
 5.  Mod on  - Remove contents of XML. Play and exit to main menu. Warning is displayed. XML is filled in.
 6.  Mod on  - Level up any employment building so that it requires fewer employees, excess employees leave. This can however have workers swiftly move in and make it difficult to see.
 7.  Mod on  - Level up a large residential building so that the household number reduce. Excess households disappear
+
 8.  Mod on  - Delete XML. Play and exit to main menu. No warning is displayed. XML is created
+
 9.  Mod on  - Can change values, play and exit to main menu. XML is updated
+
 10. Mod on  - With step 9, take a copy of the XML into a diff tool. Load different cities and exit to menu 4 times. Compare contents of the configuration XML with the contents within the diff tool. The contents must be exactly the same.
 
 11. Mod on - Change XML to be malformed. XML is reformed.
 
+12. Remove last three bonus from residential and worker.
+a.  Turn off merge. Enter game, exit. Nothing is added
+b.  Turn on merge.  Enter game, exit. Last three bonus are added
 
-7.5. Passed: 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11
+13.  Remove last three bonus from residential and worker. Turn on print for both sets. Enter game, exit. Last three bonus are added with a bonus of 0.
+
+
+v8.0.0 - Passed 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13

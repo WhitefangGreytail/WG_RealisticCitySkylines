@@ -100,6 +100,7 @@ namespace WG_BalancedPopMod
                 if (DataStore.strictCapacity)
                 {
                     // This is done to have the count in numbers of citizen units and only if the building is of a privateBuilding (Res, Com, Ind, Office)
+                    // There also appears to be an issue that without allowRemovalOfCitizens flag, the population will dip, then shoot up.
                     if (DataStore.allowRemovalOfCitizens && (data.Info.GetAI() is PrivateBuildingAI))
                     {
                         // Stop incoming offers to get HandleWorkers() to start fresh
@@ -110,20 +111,18 @@ namespace WG_BalancedPopMod
                         Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker2, offer);
                         Singleton<TransferManager>.instance.RemoveIncomingOffer(TransferManager.TransferReason.Worker3, offer);
 
-                        {
-                            int worker0 = 0;
-                            int worker1 = 0;
-                            int worker2 = 0;
-                            int worker3 = 0;
-                            ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
-                                                                                           out worker0, out worker1, out worker2, out worker3);
+                        int worker0 = 0;
+                        int worker1 = 0;
+                        int worker2 = 0;
+                        int worker3 = 0;
+                        ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
+                                                                                       out worker0, out worker1, out worker2, out worker3);
 
-                            // Update the workers required once figuring out how many are needed by the new building
-                            workersRequired[0] += worker0;
-                            workersRequired[1] += worker1;
-                            workersRequired[2] += worker2;
-                            workersRequired[3] += worker3;
-                        } // end code block
+                        // Update the workers required once figuring out how many are needed by the new building
+                        workersRequired[0] += worker0;
+                        workersRequired[1] += worker1;
+                        workersRequired[2] += worker2;
+                        workersRequired[3] += worker3;
 
                         if (workCount < 0)
                         {
@@ -134,10 +133,10 @@ namespace WG_BalancedPopMod
                             RemoveHouseHold(buildingID, ref data, totalHomeCount);
                         }
                         /*
-                                                if (visitCount < 0)
-                                                {
-                                                    RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
-                                                }
+                            if (visitCount < 0)
+                            {
+                                RemoveVisitorsBuilding(buildingID, ref data, totalVisitCount);
+                            }
                         */
                         PromoteWorkers(buildingID, ref data, ref workersRequired);
                         // Do nothing for students
@@ -452,7 +451,7 @@ namespace WG_BalancedPopMod
                         // Remove excess citizens
                         for (int i = 0; i < 5; i++)
                         {
-                            // CommonBuildingAI.RemovePeople() -> CitizenManager. ReleaseUnitImplementation()
+                            // CommonBuildingAI.RemovePeople() -> CitizenManager.ReleaseUnitImplementation()
                             uint citizen = citizenUnitArray[(int)((UIntPtr)currentUnit)].GetCitizen(i);
                             citizenManager.m_citizens.m_buffer[(int)((UIntPtr)citizen)].m_homeBuilding = 0;
                         } // end for

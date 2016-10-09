@@ -36,13 +36,6 @@
     <IndustryOre_2 space_pp="43" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <IndustryOil_1 space_pp="43" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <IndustryOil_2 space_pp="43" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
-    <bonusHouseHold printResNames="false">
-      <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
-      <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
-      <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
-    </bonusHouseHold>
-    <bonusWorker printWorkNames="false">
-    </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
@@ -144,4 +137,8 @@
     <IndustryOil_1 ground="500" noise="400" />
     <IndustryOil_2 ground="500" noise="400" />
   </pollution>
+  <bonusHouseHold printResNames="false" mergeResNames="false">
+  </bonusHouseHold>
+  <bonusWorker printWorkNames="false" mergeWorkNames="false">
+  </bonusWorker>
 </WG_CityMod>

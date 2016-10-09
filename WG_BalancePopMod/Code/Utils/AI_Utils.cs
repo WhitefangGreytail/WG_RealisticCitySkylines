@@ -38,10 +38,14 @@ namespace WG_BalancedPopMod
                 value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
                 int bonus = 0;
 
-                if (!DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus) && DataStore.printEmploymentNames)
+                if ((array[DataStore.CALC_METHOD] == 0))  // Plot only will ignore the bonus required
                 {
-                    // No need try/catch, no ArgumentException
-                    DataStore.bonusWorkerCache.Add(item.gameObject.name, bonus);
+                    bool gotValue = DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus);
+                    if (DataStore.printEmploymentNames && !gotValue)
+                    {
+                        // No need try/catch, no ArgumentException
+                        DataStore.bonusWorkerCache.Add(item.gameObject.name, bonus);
+                    }
                 }
 
                 num = Mathf.Max(minWorkers, (value + bonus));
@@ -97,10 +101,14 @@ namespace WG_BalancedPopMod
             }
 
             int bonus = 0;
-            if (!DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus) && DataStore.printResidentialNames)
+            if ((array[DataStore.CALC_METHOD] == 0))  // Plot only will ignore the bonus required
             {
-                // No need try/catch, no ArgumentException
-                DataStore.bonusHouseholdCache.Add(item.gameObject.name, bonus);
+                bool gotValue = DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus);
+                if (DataStore.printResidentialNames && !gotValue)
+                {
+                    // No need try/catch, no ArgumentException
+                    DataStore.bonusHouseholdCache.Add(item.gameObject.name, bonus);
+                }
             }
 
             return (returnValue + bonus);

@@ -36,24 +36,6 @@
     <IndustryOre_2 space_pp="40" level_height="30" calc="model" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <IndustryOil_1 space_pp="80" level_height="50" calc="model" ground_mult="0" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
     <IndustryOil_2 space_pp="38" level_height="30" calc="model" ground_mult="0" lvl_0="10" lvl_1="35" lvl_2="45" lvl_3="10" />
-    <bonusHouseHold printResNames="false">
-      <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
-      <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
-      <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
-      <meshName bonus="1">L1 2x3 Detached05</meshName>
-      <meshName bonus="1">L1 3x3 Detached02</meshName>
-      <meshName bonus="1">L1 4x4 Detached02</meshName>
-      <meshName bonus="1">L1 4x4 Detached06a</meshName>
-      <meshName bonus="1">L1 4x4 Detached11</meshName>
-      <meshName bonus="1">L2 2x2 Detached05</meshName>
-      <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
-      <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
-      <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
-      <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
-      <meshName bonus="-25">H5 4x4 Highrise07</meshName>
-    </bonusHouseHold>
-    <bonusWorker printWorkNames="false">
-    </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
@@ -155,4 +137,26 @@
     <IndustryOil_1 ground="450" noise="375" />
     <IndustryOil_2 ground="300" noise="400" />
   </pollution>
+  <bonusHouseHold printResNames="false" mergeResNames="false">
+    <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
+    <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
+    <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
+    <meshName bonus="-11">H4 4x3 Tenement10</meshName>
+    <meshName bonus="-4">H4 4x4 Tenement12</meshName>
+    <meshName bonus="-8">H5 4x4 Highrise02</meshName>
+    <meshName bonus="-20">H5 4x4 Highrise07</meshName>
+    <meshName bonus="11">H5 4x4 Highrise08</meshName>
+    <meshName bonus="1">L1 2x3 Detached05</meshName>
+    <meshName bonus="1">L1 3x3 Detached02</meshName>
+    <meshName bonus="1">L1 4x4 Detached02</meshName>
+    <meshName bonus="1">L1 4x4 Detached06a</meshName>
+    <meshName bonus="1">L1 4x4 Detached11</meshName>
+    <meshName bonus="1">L2 2x2 Detached05</meshName>
+    <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
+    <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
+    <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
+    <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
+  </bonusHouseHold>
+  <bonusWorker printWorkNames="false" mergeWorkNames="false">
+  </bonusWorker>
 </WG_CityMod>
