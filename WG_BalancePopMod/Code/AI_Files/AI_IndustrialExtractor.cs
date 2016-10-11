@@ -146,7 +146,7 @@ namespace WG_BalancedPopMod
 
                 return array[level];
             }
-            catch (System.Exception e)
+            catch (System.Exception)
             {
                 string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
                 Debugging.writeDebugToFile(error);

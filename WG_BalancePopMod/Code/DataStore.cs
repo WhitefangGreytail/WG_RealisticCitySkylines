@@ -12,7 +12,7 @@ namespace WG_BalancedPopMod
         public const int PEOPLE = 0;  // sqm per person, also calculated value for internal use only
         public const int LEVEL_HEIGHT = 1;  // m per floor.
         public const int DENSIFICATION = 2;  //
-        public const int CALC_METHOD = 3;
+        public const int CALC_METHOD = 3;  // 0 for model, 1 for plot
         public const int VISIT = 4;
 
         public const int WORK_LVL0 = 5;
@@ -34,8 +34,6 @@ namespace WG_BalancedPopMod
 
         // Flags in XML
         public static bool enableExperimental = false;
-        public static bool enableVisitMultiplier = false;
-        public static bool timeBasedRealism = false;
         public static bool strictCapacity = true;
 
         // Static as required for functionality in EnsureCitizenUnits, but after loading the city
@@ -94,7 +92,9 @@ namespace WG_BalancedPopMod
 
         // Bonus house hold data structure
         public static bool printResidentialNames = false;
-        public static Dictionary<string, int> bonusHouseholdCache = new Dictionary<string, int>()
+        public static bool mergeResidentialNames = true;
+        public static Dictionary<string, int> bonusHouseholdCache = new Dictionary<string, int>();
+        public static Dictionary<string, int> defaultBonusHousehold = new Dictionary<string, int>()
         {
             { "L1 2x3 Detached05", 1 },
             { "L1 3x3 Detached02", 1 },
@@ -112,48 +112,99 @@ namespace WG_BalancedPopMod
             { "H5 4x4 Highrise07", -20 },
             { "H5 4x4 Highrise08", 11 },
             { "413694648.Tranquil Turquoise_Data", -20 },
+            { "415635897.Highcliff from hongkong_Data", -129 },
             { "421547247.Gula's Adam Highrise_Data", -18 },
+            { "417797417.ZED68-PHOENIXTOWER-4x4HRL5_Data", -22 },
+            { "425922383.Pearl Tower 1.4_Data", 6 },
             { "453820359.Sprawl_Data", -12 },
             { "460321524.Truancy_Data", -22 },
             { "472267886.ZED68-PACHATOWER-4x4HRL5_Data", -31 },
+            { "501398369.ZED68-HOPPER TOWER-4x4HRL5_Data", -17 },
+            { "643034042.ZED68-OzOne Building (Ozo)_Data", -4 },
             { "665177868.PURGIO S_CITY 101_Data", -577 },
             { "666347361.Nurture_Data", -19 },
             { "673778168.PURGIO S_CITY 103_Data", -451 },
             { "681918587.Marina Torch_Data", -787 },
             { "690181725.Aura Tower_Data", -578 },
             { "691942109.Sulafa tower_Data", -738 },
-            { "700349615.The Pentominium_Data", -1138 }
+            { "700349615.The Pentominium_Data", -1138 },
+            //{ "700381657.Terrace_Data", 0 },
+            { "719510655.Launch_Data", -2090 },
+            { "727276417.City Commons Condos_Data", 5 },
+            { "749570687.Chelsea Tower_Data", -48 },
+            { "754279432.Ahmed Abdul Rahim Al Attar Tower_Data", -66 },
+            { "768450784.Damac residenze_Data", -1118 }
         };
 
         public static bool printEmploymentNames = false;
-        public static Dictionary<string, int> bonusWorkerCache = new Dictionary<string, int>()
+        public static bool mergeEmploymentNames = true;
+        public static Dictionary<string, int> bonusWorkerCache = new Dictionary<string, int>();
+        public static Dictionary<string, int> defaultBonusWorker = new Dictionary<string, int>()
         {
+            { "H2 4x3 BigFactory08", 16 },
             { "419078725.Barry Plaza_Data", 122 },
-            { "428925673.Leviathan_Data", -362 },
+            { "422472215.Lever Tower_Data", 21 },
+            //{ "422434231.Bank of America_Data", 0 }, - Don't need
+            { "426607732.Ares Tower_Data", -19264 },
+            { "428001234.Trump Tower Chicago_Data", -8053 },
+            { "428925673.Leviathan_Data", -962 },
+            { "432230772.Antares Tower_Data", -3543 },
             { "434097849.Monolith_Data", -1033 },
             { "435267158.Twin Monoliths_Data", -2768 },
-            { "453154792.Gula's Kingdom Tower_Data", -15738 },
-            { "476346019.Blue Rise Plaza_Data", -167 },
+            { "439107462.Gula's Rivergate Lykes_Data", -23 },
+            { "453154792.Gula's Kingdom Tower_Data", -21238 },  // 243886 sqm
+            { "476346019.Bluerise Plaza_Data", -1067 },
+            { "480111098.Messeturm (1:1)_Data", -470 },
+            { "494346780.Drosovilas USBank tower_Data", -213 },
             { "509112645.Crystallization_Data", -155 },
-            { "527535273.snowjaoONEONE_Data", -4868 },
-            { "534117358.Two Prudential Plaza_Data", 46 },
-            { "568336474.Javelin_Data", -145 },
-            { "579129058.Figueroa at Wilshire 1:1_Data", -606 },
-            { "604009267.One World Trade Center 1:1_Data", -533 },
-            { "605000091.60 Wall Street_Data", -885 },
-            { "621431766.Glory_Data", -2017 },
+            { "517277801.Central Plaza_Data", -3304 },
+            { "527535273.snowjaoONEONE_Data", -5568 },
+            { "531215484.Shanghai Tower, Shanghai (1:1)_Data", -18603 },
+            { "534117358.Two Prudential Plaza_Data", -554 },
+            { "534142273.TorreTrump_World_Tower_Data", 258 },
+            { "536393392.383 Madison Avenue 1:1_Data", -1060 },
+            { "537804449.Bank of America - 1:1_Data", 390 },
+            { "568336474.Javelin_Data", -181 },
+            { "572463914.Plaza Centenario_Data", -352 },
+            { "579129058.Figueroa at Wilshire 1:1_Data", -1306 },
+            { "591074989.The Tower_Data", -661 },
+            { "604009267.One World Trade Center 1:1_Data", -2933 },  // 325279 sqm
+            { "605000091.60 Wall Street_Data", -1535 },
+            { "610913759.Kkorea Jongno Tower [종로타워]_Data", -800 },
+            { "615095287.GITS Huge Office Building(ID#04)_Data", -6054 },
+            { "621431766.Glory_Data", -2717 },
             { "622221778.Stalwart_Data", -148 },
-            { "628101617.Pan Pacific Insurance_Data", -1770 },
-            { "651651763.Alliance_Data", -154 },
-            { "660411166.Elstree Building_Data", -2136 },
+            { "628101617.Pan Pacific Insurance_Data", -2369 },
+            { "635997321.1330 Post Oak Boulevard_Data", 325 },
+            { "663727769.Plant Administration 01_Data", -259 },
+            { "663729149.Plant Administration 02_Data", -123 },
+            { "640403421.GITS Office Tower (ID#02c)_Data", -38 },
+            { "647059381.GiTS Mega Office Bldg (ID#05)_Data", -19150 },
+            { "651651763.Alliance_Data", -311 },
+            { "652765729.Zed68-Mint 3x4L3Off_Data", 58 },
+            { "660411166.Elstree Building_Data", -2736 },
             { "660864619.Policy_Data", 42 },
-            { "661075324.Santander Tower_Data", -261 },
-            { "661823191.Whirligig XL_Data", 89 },
-            { "670944160.Big Office Building_Data", -2003 },
-            { "672448363.Foster Tower Madrid (Red)_Data", -440 },
-            { "672525995.Foster Tower Madrid (White)_Data", -440 },
-            { "680500415.Space Tower Madrid_Data", -404 },
-            { "687777086.Mirage_Data", -1607 }
+            { "661075324.Santander Tower_Data", -661 },
+            { "661823191.Whirligig XL_Data", -2450 },
+            { "664835898.US Bank Plaza_Data", -356 },
+            { "670944160.Big Office Building_Data", -2403 },
+            { "672448363.Foster Tower Madrid (Red)_Data", -640 },
+            { "672525995.Foster Tower Madrid (White)_Data", -640 },
+            { "676602837.PWC Tower Madrid_Data", -640 },
+            { "678159892.Crystal Tower Madrid_Data", -993 },
+            { "680500415.Space Tower Madrid_Data", -704 },
+            { "687777086.Mirage_Data", -2207 },
+            { "700553372.One Canada Square_Data", -3142 },
+            { "700549442.8 Canada Square_Data", -2673 },
+            { "708476856.Al habtoor business tower_Data", -92 },
+            { "708992454.Eclipse_Data", -2067 },
+            { "730926381.The Bay Gate large_Data", 82 },
+            { "748418268.Reaver_Data", 0 },
+            { "749227212.Abeno Harukas_Data", -10700 },
+            { "751581536.Research Facility_Data", -32 },
+            { "762728624.Goldin Finance 117_Data", -4429 },
+            { "766038657.Sant'Elia Tower_Data", -3133 }
+            //{ "768372480.Audacity_Data", 0 },
         };
 
         // Prefab stores
@@ -163,9 +214,19 @@ namespace WG_BalancedPopMod
 
         public static void clearCache()
         {
+            bonusWorkerCache.Clear();
+            bonusHouseholdCache.Clear();
             prefabHouseHolds.Clear();
             prefabWorkerVisit.Clear();
             seedToId.Clear();
+
+            printResidentialNames = false;
+            printEmploymentNames = false;
+            mergeResidentialNames = true;
+            mergeEmploymentNames = true;
+
+            strictCapacity = true;
+            allowRemovalOfCitizens = false;
         }
     } // end DataStore
 

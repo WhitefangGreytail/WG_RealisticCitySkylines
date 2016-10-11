@@ -55,6 +55,14 @@ namespace WG_BalancedPopMod
                     {
                         readProductionNode(node);
                     }
+                    else if (node.Name.Equals(bonusHouseName))
+                    {
+                        readBonusHouseNode(node);
+                    }
+                    else if (node.Name.Equals(bonusWorkName))
+                    {
+                        readBonusWorkers(node);
+                    }
                 }
                 catch (Exception e)
                 {
@@ -80,11 +88,8 @@ namespace WG_BalancedPopMod
             attribute = xmlDoc.CreateAttribute("experimental");
             attribute.Value = DataStore.enableExperimental ? "true" : "false";
             rootNode.Attributes.Append(attribute);
-
-            attribute = xmlDoc.CreateAttribute("enableTimeVariation");
-            attribute.Value = DataStore.timeBasedRealism ? "true" : "false";
-            rootNode.Attributes.Append(attribute);
             */
+
             xmlDoc.AppendChild(rootNode);
 
             XmlNode popNode = xmlDoc.CreateElement(popNodeName);
@@ -118,12 +123,25 @@ namespace WG_BalancedPopMod
                 Debugging.panelMessage(e.Message);
             }
 
+            // First segment
             createPopulationNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(popNode);
+            createConsumptionNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(consumeNode);
+            createVisitNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(visitNode);
+            createProductionNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(productionNode);
+            createPollutionNodeComment(xmlDoc, rootNode);
+            rootNode.AppendChild(pollutionNode);
 
-            // Add mesh names to dictionary
+            // Add mesh names to XML
             XmlNode bonusHouseholdNode = xmlDoc.CreateElement(bonusHouseName);
             attribute = xmlDoc.CreateAttribute("printResNames");
             attribute.Value = DataStore.printResidentialNames ? "true" : "false";
+            bonusHouseholdNode.Attributes.Append(attribute);
+            attribute = xmlDoc.CreateAttribute("mergeResNames");
+            attribute.Value = DataStore.mergeResidentialNames ? "true" : "false";
             bonusHouseholdNode.Attributes.Append(attribute);
 
             XmlComment comment = xmlDoc.CreateComment("Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,");
@@ -145,12 +163,15 @@ namespace WG_BalancedPopMod
                 meshNameNode.Attributes.Append(attribute);
                 bonusHouseholdNode.AppendChild(meshNameNode);
             }
-            popNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to population
+            rootNode.AppendChild(bonusHouseholdNode); // Append the bonusHousehold to root
 
             // Add mesh names to dictionary
             XmlNode bonusWorkNode = xmlDoc.CreateElement(bonusWorkName);
             attribute = xmlDoc.CreateAttribute("printWorkNames");
             attribute.Value = DataStore.printEmploymentNames ? "true" : "false";
+            bonusWorkNode.Attributes.Append(attribute);
+            attribute = xmlDoc.CreateAttribute("mergeWorkNames");
+            attribute.Value = DataStore.mergeEmploymentNames ? "true" : "false";
             bonusWorkNode.Attributes.Append(attribute);
 
             list = new SortedList<string, int>(DataStore.bonusWorkerCache);
@@ -165,18 +186,7 @@ namespace WG_BalancedPopMod
                 meshNameNode.Attributes.Append(attribute);
                 bonusWorkNode.AppendChild(meshNameNode);
             }
-            popNode.AppendChild(bonusWorkNode); // Append the bonusWorkers to population
-
-
-            rootNode.AppendChild(popNode);
-            createConsumptionNodeComment(xmlDoc, rootNode);
-            rootNode.AppendChild(consumeNode);
-            createVisitNodeComment(xmlDoc, rootNode);
-            rootNode.AppendChild(visitNode);
-            createProductionNodeComment(xmlDoc, rootNode);
-            rootNode.AppendChild(productionNode);
-            createPollutionNodeComment(xmlDoc, rootNode);
-            rootNode.AppendChild(pollutionNode);
+            rootNode.AppendChild(bonusWorkNode); // Append the bonusWorkers to root
 
             try
             {
@@ -551,6 +561,7 @@ namespace WG_BalancedPopMod
 
             foreach (XmlNode node in popNode.ChildNodes)
             {
+                // TODO - These two to be removed in Jan 2017
                 if (node.Name.Equals(bonusHouseName))
                 {
                     readBonusHouseNode(node);
@@ -669,7 +680,15 @@ namespace WG_BalancedPopMod
                 // Do nothing
             }
 
-            DataStore.bonusHouseholdCache.Clear(); // Okay to clear now that we have seen the meshname node
+            try
+            {
+                DataStore.mergeResidentialNames = Convert.ToBoolean(parent.Attributes["mergeResNames"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
             foreach (XmlNode node in parent.ChildNodes)
             {
                 if (node.Name.Equals(meshName))
@@ -706,7 +725,6 @@ namespace WG_BalancedPopMod
                 // Do nothing
             }
 
-            DataStore.bonusWorkerCache.Clear(); // Okay to clear now that we have seen the meshname node
             foreach (XmlNode node in parent.ChildNodes)
             {
                 if (node.Name.Equals(meshName))

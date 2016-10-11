@@ -36,65 +36,6 @@
     <IndustryOre_2 space_pp="40" level_height="30" calc="model" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <IndustryOil_1 space_pp="80" level_height="50" calc="model" ground_mult="0" lvl_0="15" lvl_1="60" lvl_2="23" lvl_3="2" />
     <IndustryOil_2 space_pp="38" level_height="30" calc="model" ground_mult="0" lvl_0="10" lvl_1="35" lvl_2="45" lvl_3="10" />
-    <bonusHouseHold printResNames="false">
-      <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
-      <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
-      <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
-      <meshName bonus="1">L1 2x3 Detached05</meshName>
-      <meshName bonus="1">L1 3x3 Detached02</meshName>
-      <meshName bonus="1">L1 4x4 Detached02</meshName>
-      <meshName bonus="1">L1 4x4 Detached06a</meshName>
-      <meshName bonus="1">L1 4x4 Detached11</meshName>
-      <meshName bonus="1">L2 2x2 Detached05</meshName>
-      <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
-      <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
-      <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
-      <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
-      <meshName bonus="-11">H4 4x3 Tenement10</meshName>
-      <meshName bonus="-4">H4 4x4 Tenement12</meshName>
-      <meshName bonus="-8">H5 4x4 Highrise02</meshName>
-      <meshName bonus="-20">H5 4x4 Highrise07</meshName>
-      <meshName bonus="11">H5 4x4 Highrise08</meshName>
-      <meshName bonus="-20">413694648.Tranquil Turquoise_Data</meshName>
-      <meshName bonus="-18">421547247.Gula's Adam Highrise_Data</meshName>
-      <meshName bonus="-12">453820359.Sprawl_Data</meshName>
-      <meshName bonus="-22">460321524.Truancy_Data</meshName>
-      <meshName bonus="-31">472267886.ZED68-PACHATOWER-4x4HRL5_Data</meshName>
-      <meshName bonus="-577">665177868.PURGIO S_CITY 101_Data</meshName>
-      <meshName bonus="-19">666347361.Nurture_Data</meshName>
-      <meshName bonus="-451">673778168.PURGIO S_CITY 103_Data</meshName>
-      <meshName bonus="-787">681918587.Marina Torch_Data</meshName>
-      <meshName bonus="-578">690181725.Aura Tower_Data</meshName>
-      <meshName bonus="-738">691942109.Sulafa tower_Data</meshName>
-    </bonusHouseHold>
-    <bonusWorker printWorkNames="false">
-      <meshName bonus="122">419078725.Barry Plaza_Data</meshName>
-      <meshName bonus="-362">428925673.Leviathan_Data</meshName>
-      <meshName bonus="-1033">434097849.Monolith_Data</meshName>
-      <meshName bonus="-2768">435267158.Twin Monoliths_Data</meshName>
-      <meshName bonus="-15738">453154792.Gula's Kingdom Tower_Data</meshName>
-      <meshName bonus="-167">476346019.Blue Rise Plaza_Data</meshName>
-      <meshName bonus="-155">509112645.Crystallization_Data</meshName>
-      <meshName bonus="-4868">527535273.snowjaoONEONE_Data</meshName>
-      <meshName bonus="46">534117358.Two Prudential Plaza_Data</meshName>
-      <meshName bonus="-145">568336474.Javelin_Data</meshName>
-      <meshName bonus="-606">579129058.Figueroa at Wilshire 1:1_Data</meshName>
-      <meshName bonus="-533">604009267.One World Trade Center 1:1_Data</meshName>
-      <meshName bonus="-885">605000091.60 Wall Street_Data</meshName>
-      <meshName bonus="-2017">621431766.Glory_Data</meshName>
-      <meshName bonus="-148">622221778.Stalwart_Data</meshName>
-      <meshName bonus="-1770">628101617.Pan Pacific Insurance_Data</meshName>
-      <meshName bonus="-154">651651763.Alliance_Data</meshName>
-      <meshName bonus="-2136">660411166.Elstree Building_Data</meshName>
-      <meshName bonus="42">660864619.Policy_Data</meshName>
-      <meshName bonus="-261">661075324.Santander Tower_Data</meshName>
-      <meshName bonus="89">661823191.Whirligig XL_Data</meshName>
-      <meshName bonus="-2003">670944160.Big Office Building_Data</meshName>
-      <meshName bonus="-440">672448363.Foster Tower Madrid (Red)_Data</meshName>
-      <meshName bonus="-440">672525995.Foster Tower Madrid (White)_Data</meshName>
-      <meshName bonus="-404">680500415.Space Tower Madrid_Data</meshName>
-      <meshName bonus="-1607">687777086.Mirage_Data</meshName>
-    </bonusWorker>
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
@@ -116,9 +57,9 @@
     <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="850" />
     <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="700" />
     <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="900" />
-    <Office_1 power="20" water="9" sewage="8" garbage="9" wealth="2000" />
-    <Office_2 power="24" water="10" sewage="9" garbage="9" wealth="2250" />
-    <Office_3 power="28" water="11" sewage="10" garbage="9" wealth="2500" />
+    <Office_1 power="10" water="4" sewage="4" garbage="4" wealth="1000" />
+    <Office_2 power="12" water="5" sewage="4" garbage="4" wealth="1125" />
+    <Office_3 power="14" water="5" sewage="5" garbage="4" wealth="1250" />
     <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="200" />
     <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="230" />
     <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="260" />
@@ -145,9 +86,9 @@
   <!--Production for offices is number of employees per production unit.-->
   <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
-    <Office_1 production="20" />
-    <Office_2 production="20" />
-    <Office_3 production="20" />
+    <Office_1 production="10" />
+    <Office_2 production="10" />
+    <Office_3 production="10" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />
@@ -196,4 +137,110 @@
     <IndustryOil_1 ground="450" noise="375" />
     <IndustryOil_2 ground="300" noise="400" />
   </pollution>
+  <bonusHouseHold printResNames="false" mergeResNames="true">
+    <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
+    <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
+    <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
+    <meshName bonus="-20">413694648.Tranquil Turquoise_Data</meshName>
+    <meshName bonus="-129">415635897.Highcliff from hongkong_Data</meshName>
+    <meshName bonus="-22">417797417.ZED68-PHOENIXTOWER-4x4HRL5_Data</meshName>
+    <meshName bonus="-18">421547247.Gula's Adam Highrise_Data</meshName>
+    <meshName bonus="6">425922383.Pearl Tower 1.4_Data</meshName>
+    <meshName bonus="-12">453820359.Sprawl_Data</meshName>
+    <meshName bonus="-22">460321524.Truancy_Data</meshName>
+    <meshName bonus="-31">472267886.ZED68-PACHATOWER-4x4HRL5_Data</meshName>
+    <meshName bonus="-17">501398369.ZED68-HOPPER TOWER-4x4HRL5_Data</meshName>
+    <meshName bonus="-4">643034042.ZED68-OzOne Building (Ozo)_Data</meshName>
+    <meshName bonus="-577">665177868.PURGIO S_CITY 101_Data</meshName>
+    <meshName bonus="-19">666347361.Nurture_Data</meshName>
+    <meshName bonus="-451">673778168.PURGIO S_CITY 103_Data</meshName>
+    <meshName bonus="-787">681918587.Marina Torch_Data</meshName>
+    <meshName bonus="-578">690181725.Aura Tower_Data</meshName>
+    <meshName bonus="-738">691942109.Sulafa tower_Data</meshName>
+    <meshName bonus="-1138">700349615.The Pentominium_Data</meshName>
+    <meshName bonus="-2090">719510655.Launch_Data</meshName>
+    <meshName bonus="5">727276417.City Commons Condos_Data</meshName>
+    <meshName bonus="-48">749570687.Chelsea Tower_Data</meshName>
+    <meshName bonus="-66">754279432.Ahmed Abdul Rahim Al Attar Tower_Data</meshName>
+    <meshName bonus="-1118">768450784.Damac residenze_Data</meshName>
+    <meshName bonus="-11">H4 4x3 Tenement10</meshName>
+    <meshName bonus="-4">H4 4x4 Tenement12</meshName>
+    <meshName bonus="-8">H5 4x4 Highrise02</meshName>
+    <meshName bonus="-20">H5 4x4 Highrise07</meshName>
+    <meshName bonus="11">H5 4x4 Highrise08</meshName>
+    <meshName bonus="1">L1 2x3 Detached05</meshName>
+    <meshName bonus="1">L1 3x3 Detached02</meshName>
+    <meshName bonus="1">L1 4x4 Detached02</meshName>
+    <meshName bonus="1">L1 4x4 Detached06a</meshName>
+    <meshName bonus="1">L1 4x4 Detached11</meshName>
+    <meshName bonus="1">L2 2x2 Detached05</meshName>
+    <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
+    <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
+    <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
+    <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
+  </bonusHouseHold>
+  <bonusWorker printWorkNames="false" mergeWorkNames="true">
+    <meshName bonus="122">419078725.Barry Plaza_Data</meshName>
+    <meshName bonus="21">422472215.Lever Tower_Data</meshName>
+    <meshName bonus="-19264">426607732.Ares Tower_Data</meshName>
+    <meshName bonus="-8053">428001234.Trump Tower Chicago_Data</meshName>
+    <meshName bonus="-962">428925673.Leviathan_Data</meshName>
+    <meshName bonus="-3543">432230772.Antares Tower_Data</meshName>
+    <meshName bonus="-1033">434097849.Monolith_Data</meshName>
+    <meshName bonus="-2768">435267158.Twin Monoliths_Data</meshName>
+    <meshName bonus="-23">439107462.Gula's Rivergate Lykes_Data</meshName>
+    <meshName bonus="-21238">453154792.Gula's Kingdom Tower_Data</meshName>
+    <meshName bonus="-1067">476346019.Bluerise Plaza_Data</meshName>
+    <meshName bonus="-470">480111098.Messeturm (1:1)_Data</meshName>
+    <meshName bonus="-213">494346780.Drosovilas USBank tower_Data</meshName>
+    <meshName bonus="-155">509112645.Crystallization_Data</meshName>
+    <meshName bonus="-3304">517277801.Central Plaza_Data</meshName>
+    <meshName bonus="-5568">527535273.snowjaoONEONE_Data</meshName>
+    <meshName bonus="-18603">531215484.Shanghai Tower, Shanghai (1:1)_Data</meshName>
+    <meshName bonus="-554">534117358.Two Prudential Plaza_Data</meshName>
+    <meshName bonus="258">534142273.TorreTrump_World_Tower_Data</meshName>
+    <meshName bonus="-1060">536393392.383 Madison Avenue 1:1_Data</meshName>
+    <meshName bonus="390">537804449.Bank of America - 1:1_Data</meshName>
+    <meshName bonus="-181">568336474.Javelin_Data</meshName>
+    <meshName bonus="-352">572463914.Plaza Centenario_Data</meshName>
+    <meshName bonus="-1306">579129058.Figueroa at Wilshire 1:1_Data</meshName>
+    <meshName bonus="-661">591074989.The Tower_Data</meshName>
+    <meshName bonus="-2933">604009267.One World Trade Center 1:1_Data</meshName>
+    <meshName bonus="-1535">605000091.60 Wall Street_Data</meshName>
+    <meshName bonus="-800">610913759.Kkorea Jongno Tower [????]_Data</meshName>
+    <meshName bonus="-6054">615095287.GITS Huge Office Building(ID#04)_Data</meshName>
+    <meshName bonus="-2717">621431766.Glory_Data</meshName>
+    <meshName bonus="-148">622221778.Stalwart_Data</meshName>
+    <meshName bonus="-2369">628101617.Pan Pacific Insurance_Data</meshName>
+    <meshName bonus="325">635997321.1330 Post Oak Boulevard_Data</meshName>
+    <meshName bonus="-38">640403421.GITS Office Tower (ID#02c)_Data</meshName>
+    <meshName bonus="-19150">647059381.GiTS Mega Office Bldg (ID#05)_Data</meshName>
+    <meshName bonus="-311">651651763.Alliance_Data</meshName>
+    <meshName bonus="58">652765729.Zed68-Mint 3x4L3Off_Data</meshName>
+    <meshName bonus="-2736">660411166.Elstree Building_Data</meshName>
+    <meshName bonus="42">660864619.Policy_Data</meshName>
+    <meshName bonus="-661">661075324.Santander Tower_Data</meshName>
+    <meshName bonus="-2450">661823191.Whirligig XL_Data</meshName>
+    <meshName bonus="-259">663727769.Plant Administration 01_Data</meshName>
+    <meshName bonus="-123">663729149.Plant Administration 02_Data</meshName>
+    <meshName bonus="-356">664835898.US Bank Plaza_Data</meshName>
+    <meshName bonus="-2403">670944160.Big Office Building_Data</meshName>
+    <meshName bonus="-640">672448363.Foster Tower Madrid (Red)_Data</meshName>
+    <meshName bonus="-640">672525995.Foster Tower Madrid (White)_Data</meshName>
+    <meshName bonus="-640">676602837.PWC Tower Madrid_Data</meshName>
+    <meshName bonus="-993">678159892.Crystal Tower Madrid_Data</meshName>
+    <meshName bonus="-704">680500415.Space Tower Madrid_Data</meshName>
+    <meshName bonus="-2207">687777086.Mirage_Data</meshName>
+    <meshName bonus="-2673">700549442.8 Canada Square_Data</meshName>
+    <meshName bonus="-3142">700553372.One Canada Square_Data</meshName>
+    <meshName bonus="-92">708476856.Al habtoor business tower_Data</meshName>
+    <meshName bonus="-2067">708992454.Eclipse_Data</meshName>
+    <meshName bonus="82">730926381.The Bay Gate large_Data</meshName>
+    <meshName bonus="0">748418268.Reaver_Data</meshName>
+    <meshName bonus="-10700">749227212.Abeno Harukas_Data</meshName>
+    <meshName bonus="-32">751581536.Research Facility_Data</meshName>
+    <meshName bonus="-4429">762728624.Goldin Finance 117_Data</meshName>
+    <meshName bonus="-3133">766038657.Sant'Elia Tower_Data</meshName>
+    <meshName bonus="16">H2 4x3 BigFactory08</meshName>
+  </bonusWorker>
 </WG_CityMod>

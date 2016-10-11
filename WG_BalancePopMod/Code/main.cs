@@ -37,9 +37,11 @@ namespace WG_BalancedPopMod
             {
                 isModEnabled = true;
                 sw = Stopwatch.StartNew();
-
                 Redirect(true);
+                DataStore.clearCache();
+
                 readFromXML();
+                mergeDefaultBonus();
 
                 DataStore.seedToId.Clear();
                 for (int i = 0; i <= ushort.MaxValue; ++i)  // Up to 1M buildings apparently is ok
@@ -61,6 +63,38 @@ namespace WG_BalancedPopMod
             }
         }
 
+        private void mergeDefaultBonus()
+        {
+            if (DataStore.mergeResidentialNames)
+            {
+                foreach(KeyValuePair<string, int> entry in DataStore.defaultBonusHousehold)
+                {
+                    try
+                    {
+                        DataStore.bonusHouseholdCache.Add(entry.Key, entry.Value);
+                    }
+                    catch (Exception)
+                    {
+                        // Don't care
+                    }
+                }
+            }
+
+            if (DataStore.mergeEmploymentNames)
+            {
+                foreach (KeyValuePair<string, int> entry in DataStore.defaultBonusWorker)
+                {
+                    try
+                    {
+                        DataStore.bonusWorkerCache.Add(entry.Key, entry.Value);
+                    }
+                    catch (Exception)
+                    {
+                        // Don't care
+                    }
+                }
+            }
+        }
 
         public override void OnReleased()
         {
@@ -77,7 +111,6 @@ namespace WG_BalancedPopMod
                 {
                     Debugging.panelMessage(e.Message);
                 }
-                DataStore.clearCache();
 
                 RevertRedirect(true);
             }
