@@ -725,6 +725,15 @@ namespace WG_BalancedPopMod
                 // Do nothing
             }
 
+            try
+            {
+                DataStore.mergeEmploymentNames = Convert.ToBoolean(parent.Attributes["mergeWorkNames"].InnerText);
+            }
+            catch (Exception)
+            {
+                // Do nothing
+            }
+
             foreach (XmlNode node in parent.ChildNodes)
             {
                 if (node.Name.Equals(meshName))
