@@ -101,6 +101,7 @@ namespace WG_BalancedPopMod
                 {
                     // This is done to have the count in numbers of citizen units and only if the building is of a privateBuilding (Res, Com, Ind, Office)
                     // There also appears to be an issue that without allowRemovalOfCitizens flag, the population will dip, then shoot up.
+                    //if (data.Info.GetAI() is PrivateBuildingAI)
                     if (DataStore.allowRemovalOfCitizens && (data.Info.GetAI() is PrivateBuildingAI))
                     {
                         // Stop incoming offers to get HandleWorkers() to start fresh
