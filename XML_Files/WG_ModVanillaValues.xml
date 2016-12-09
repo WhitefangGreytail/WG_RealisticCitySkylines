@@ -39,38 +39,38 @@
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
-    <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="140" />
-    <ResidentialLow_2 power="11" water="26" sewage="20" garbage="13" wealth="150" />
-    <ResidentialLow_3 power="12" water="28" sewage="22" garbage="12" wealth="160" />
-    <ResidentialLow_4 power="13" water="31" sewage="25" garbage="11" wealth="170" />
-    <ResidentialLow_5 power="14" water="34" sewage="28" garbage="10" wealth="180" />
-    <ResidentialHigh_1 power="9" water="18" sewage="14" garbage="11" wealth="105" />
-    <ResidentialHigh_2 power="10" water="20" sewage="16" garbage="10" wealth="112" />
-    <ResidentialHigh_3 power="11" water="22" sewage="18" garbage="9" wealth="120" />
-    <ResidentialHigh_4 power="12" water="25" sewage="21" garbage="8" wealth="127" />
-    <ResidentialHigh_5 power="13" water="28" sewage="24" garbage="7" wealth="135" />
-    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="750" />
-    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="800" />
-    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="850" />
-    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="750" />
-    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="800" />
-    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="850" />
-    <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="700" />
-    <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="900" />
-    <Office_1 power="10" water="4" sewage="4" garbage="4" wealth="1000" />
-    <Office_2 power="12" water="5" sewage="4" garbage="4" wealth="1125" />
-    <Office_3 power="14" water="5" sewage="5" garbage="4" wealth="1250" />
-    <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="200" />
-    <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="230" />
-    <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="260" />
-    <IndustryFarm_1 power="30" water="200" sewage="225" garbage="30" wealth="180" />
-    <IndustryFarm_2 power="70" water="400" sewage="500" garbage="50" wealth="220" />
-    <IndustryForest_1 power="30" water="30" sewage="40" garbage="40" wealth="180" />
-    <IndustryForest_2 power="80" water="75" sewage="80" garbage="50" wealth="240" />
-    <IndustryOre_1 power="100" water="200" sewage="200" garbage="80" wealth="240" />
-    <IndustryOre_2 power="200" water="210" sewage="280" garbage="60" wealth="300" />
-    <IndustryOil_1 power="120" water="200" sewage="250" garbage="60" wealth="300" />
-    <IndustryOil_2 power="240" water="220" sewage="300" garbage="75" wealth="400" />
+    <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="150" />
+    <ResidentialLow_2 power="11" water="26" sewage="20" garbage="13" wealth="160" />
+    <ResidentialLow_3 power="12" water="28" sewage="22" garbage="12" wealth="170" />
+    <ResidentialLow_4 power="13" water="31" sewage="25" garbage="11" wealth="180" />
+    <ResidentialLow_5 power="14" water="34" sewage="28" garbage="10" wealth="190" />
+    <ResidentialHigh_1 power="9" water="18" sewage="14" garbage="11" wealth="112" />
+    <ResidentialHigh_2 power="10" water="20" sewage="16" garbage="10" wealth="120" />
+    <ResidentialHigh_3 power="11" water="22" sewage="18" garbage="9" wealth="127" />
+    <ResidentialHigh_4 power="12" water="25" sewage="21" garbage="8" wealth="135" />
+    <ResidentialHigh_5 power="13" water="28" sewage="24" garbage="7" wealth="143" />
+    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="800" />
+    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="850" />
+    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="900" />
+    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="800" />
+    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="850" />
+    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="900" />
+    <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="800" />
+    <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="1000" />
+    <Office_1 power="10" water="4" sewage="4" garbage="4" wealth="1100" />
+    <Office_2 power="12" water="5" sewage="4" garbage="4" wealth="1200" />
+    <Office_3 power="14" water="5" sewage="5" garbage="4" wealth="1300" />
+    <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="220" />
+    <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="250" />
+    <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="270" />
+    <IndustryFarm_1 power="30" water="200" sewage="225" garbage="30" wealth="190" />
+    <IndustryFarm_2 power="70" water="400" sewage="500" garbage="50" wealth="230" />
+    <IndustryForest_1 power="30" water="30" sewage="40" garbage="40" wealth="190" />
+    <IndustryForest_2 power="80" water="75" sewage="80" garbage="50" wealth="250" />
+    <IndustryOre_1 power="100" water="200" sewage="200" garbage="80" wealth="250" />
+    <IndustryOre_2 power="200" water="210" sewage="280" garbage="60" wealth="320" />
+    <IndustryOil_1 power="120" water="200" sewage="250" garbage="60" wealth="310" />
+    <IndustryOil_2 power="240" water="220" sewage="300" garbage="75" wealth="420" />
   </consumption>
   <!--Visitor Values are multiplies of 100th of a person per cell.-->
   <visitor>
@@ -144,9 +144,10 @@
     <meshName bonus="-20">413694648.Tranquil Turquoise_Data</meshName>
     <meshName bonus="-129">415635897.Highcliff from hongkong_Data</meshName>
     <meshName bonus="-22">417797417.ZED68-PHOENIXTOWER-4x4HRL5_Data</meshName>
+    <meshName bonus="0">417805731.ZED68-RIVERRESIDENCE-4x4HRL4_Data</meshName>
     <meshName bonus="-18">421547247.Gula's Adam Highrise_Data</meshName>
     <meshName bonus="6">425922383.Pearl Tower 1.4_Data</meshName>
-    <meshName bonus="-12">453820359.Sprawl_Data</meshName>
+    <meshName bonus="-24">453820359.Sprawl_Data</meshName>
     <meshName bonus="-22">460321524.Truancy_Data</meshName>
     <meshName bonus="-31">472267886.ZED68-PACHATOWER-4x4HRL5_Data</meshName>
     <meshName bonus="-17">501398369.ZED68-HOPPER TOWER-4x4HRL5_Data</meshName>
@@ -154,15 +155,23 @@
     <meshName bonus="-577">665177868.PURGIO S_CITY 101_Data</meshName>
     <meshName bonus="-19">666347361.Nurture_Data</meshName>
     <meshName bonus="-451">673778168.PURGIO S_CITY 103_Data</meshName>
-    <meshName bonus="-787">681918587.Marina Torch_Data</meshName>
+    <meshName bonus="-937">681918587.Marina Torch_Data</meshName>
     <meshName bonus="-578">690181725.Aura Tower_Data</meshName>
-    <meshName bonus="-738">691942109.Sulafa tower_Data</meshName>
-    <meshName bonus="-1138">700349615.The Pentominium_Data</meshName>
+    <meshName bonus="-798">691942109.Sulafa tower_Data</meshName>
+    <meshName bonus="-1168">700349615.The Pentominium_Data</meshName>
     <meshName bonus="-2090">719510655.Launch_Data</meshName>
     <meshName bonus="5">727276417.City Commons Condos_Data</meshName>
     <meshName bonus="-48">749570687.Chelsea Tower_Data</meshName>
     <meshName bonus="-66">754279432.Ahmed Abdul Rahim Al Attar Tower_Data</meshName>
     <meshName bonus="-1118">768450784.Damac residenze_Data</meshName>
+    <meshName bonus="-8">780452440.Haven_Data</meshName>
+    <meshName bonus="-5">781950755.Vozrojdenie_Data</meshName>
+    <meshName bonus="-12">789974462.Moskovskiy 14 floor 2 sec_Data</meshName>
+    <meshName bonus="-7">792304093.Legenda_Data</meshName>
+    <meshName bonus="-9">793247873.Regatta_Data</meshName>
+    <meshName bonus="-284">798976213.Evropeyskiy_Data</meshName>
+    <meshName bonus="-2344">801913109.Arcadia_Data</meshName>
+    <meshName bonus="-23">803307441.Moskovskiy16fl2s_Data</meshName>
     <meshName bonus="-11">H4 4x3 Tenement10</meshName>
     <meshName bonus="-4">H4 4x4 Tenement12</meshName>
     <meshName bonus="-8">H5 4x4 Highrise02</meshName>
@@ -207,10 +216,12 @@
     <meshName bonus="-661">591074989.The Tower_Data</meshName>
     <meshName bonus="-2933">604009267.One World Trade Center 1:1_Data</meshName>
     <meshName bonus="-1535">605000091.60 Wall Street_Data</meshName>
+    <meshName bonus="-1788">607981950.Chirpigroup Center_Data</meshName>
     <meshName bonus="-800">610913759.Kkorea Jongno Tower [????]_Data</meshName>
     <meshName bonus="-6054">615095287.GITS Huge Office Building(ID#04)_Data</meshName>
     <meshName bonus="-2717">621431766.Glory_Data</meshName>
     <meshName bonus="-148">622221778.Stalwart_Data</meshName>
+    <meshName bonus="-12215">626845833.The Empire State Building_Data</meshName>
     <meshName bonus="-2369">628101617.Pan Pacific Insurance_Data</meshName>
     <meshName bonus="325">635997321.1330 Post Oak Boulevard_Data</meshName>
     <meshName bonus="-38">640403421.GITS Office Tower (ID#02c)_Data</meshName>
@@ -235,12 +246,32 @@
     <meshName bonus="-3142">700553372.One Canada Square_Data</meshName>
     <meshName bonus="-92">708476856.Al habtoor business tower_Data</meshName>
     <meshName bonus="-2067">708992454.Eclipse_Data</meshName>
+    <meshName bonus="-156">717997754.Miyagi Motors front_Data</meshName>
+    <meshName bonus="9308">725222700.Willis Tower_Data</meshName>
     <meshName bonus="82">730926381.The Bay Gate large_Data</meshName>
-    <meshName bonus="0">748418268.Reaver_Data</meshName>
     <meshName bonus="-10700">749227212.Abeno Harukas_Data</meshName>
     <meshName bonus="-32">751581536.Research Facility_Data</meshName>
     <meshName bonus="-4429">762728624.Goldin Finance 117_Data</meshName>
     <meshName bonus="-3133">766038657.Sant'Elia Tower_Data</meshName>
+    <meshName bonus="-3133">766038657.San'tElia Tower_Data</meshName>
+    <meshName bonus="-7058">777048160.Sunshine 60 RICO_Data</meshName>
+    <meshName bonus="-256">777050916.Mustard Inc_Data</meshName>
+    <meshName bonus="-3351">778876495.The Aon Center_Data</meshName>
+    <meshName bonus="-1623">779406148.McGinnis Tower_Data</meshName>
+    <meshName bonus="-75">782848688.Distribution Center Long_Data</meshName>
+    <meshName bonus="-2512">785268004.FIB Los Sanots HQ _Data</meshName>
+    <meshName bonus="-156">786448278.Cancer Research Center_Data</meshName>
+    <meshName bonus="-15920">792727102.Quadrillion_Data</meshName>
+    <meshName bonus="-312">794601473.Woodlog Architects_Data</meshName>
+    <meshName bonus="-251">796614604.Perth Council Building_Data</meshName>
+    <meshName bonus="-256">798838680.Commerce Court Complex_Data</meshName>
+    <meshName bonus="-12">799186937.Perth CitiBank House_Data</meshName>
+    <meshName bonus="-962">799801877.100 St Georges Terrace_Data</meshName>
+    <meshName bonus="-2769">800259881.700 De La Gauchetiere_Data</meshName>
+    <meshName bonus="-1005">800259881.National Bank Tower_Data</meshName>
+    <meshName bonus="-5427">800260798.Place Ville Marie_Data</meshName>
+    <meshName bonus="-69">804749788.Event Hall_Data</meshName>
+    <meshName bonus="-255">810925693.Cosine Building_Data</meshName>
     <meshName bonus="16">H2 4x3 BigFactory08</meshName>
   </bonusWorker>
 </WG_CityMod>
