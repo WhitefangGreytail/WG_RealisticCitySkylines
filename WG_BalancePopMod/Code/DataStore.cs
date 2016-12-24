@@ -122,27 +122,35 @@ namespace WG_BalancedPopMod
             { "472267886.ZED68-PACHATOWER-4x4HRL5_Data", -31 },
             { "501398369.ZED68-HOPPER TOWER-4x4HRL5_Data", -17 },
             { "643034042.ZED68-OzOne Building (Ozo)_Data", -4 },
-            { "665177868.PURGIO S_CITY 101_Data", -577 },
+            { "665177868.PURGIO S_CITY 101_Data", -582 },
             { "666347361.Nurture_Data", -19 },
-            { "673778168.PURGIO S_CITY 103_Data", -451 },
-            { "681918587.Marina Torch_Data", -937 },
-            { "690181725.Aura Tower_Data", -578 },
-            { "691942109.Sulafa tower_Data", -798 },
-            { "700349615.The Pentominium_Data", -1168 },
+            { "677288436.The Rotterdam_Data", -155 },
+            { "673778168.PURGIO S_CITY 103_Data", -456 },
+            { "681918587.Marina Torch_Data", -967 },
+            { "690181725.Aura Tower_Data", -678 },
+            { "691942109.Sulafa tower_Data", -918 },
+            { "700349615.The Pentominium_Data", -1238 },
             //{ "700381657.Terrace_Data", 0 },
-            { "719510655.Launch_Data", -2090 },
+            { "719510655.Launch_Data", -2040 },
             { "727276417.City Commons Condos_Data", 5 },
             { "749570687.Chelsea Tower_Data", -48 },
-            { "754279432.Ahmed Abdul Rahim Al Attar Tower_Data", -66 },
-            { "768450784.Damac residenze_Data", -1118 },
+            { "754279432.Ahmed Abdul Rahim Al Attar Tower_Data", -86 },
+            { "768450784.Damac residenze_Data", -1158 },
             { "780452440.Haven_Data", -8 },
             { "781950755.Vozrojdenie_Data", -5 },
             { "789974462.Moskovskiy 14 floor 2 sec_Data", -12 },
             { "792304093.Legenda_Data", -7 },
             { "793247873.Regatta_Data", -9 },
             { "798976213.Evropeyskiy_Data", -284 },
-            { "801913109.Arcadia_Data", -2344 },
-            { "803307441.Moskovskiy16fl2s_Data", -23 } // This should have been a straight cut item
+            { "801913109.Arcadia_Data", -2444 },
+            { "803307441.Moskovskiy16fl2s_Data", -23 }, // This should have been a straight cut item
+            { "815656717.Forte Tower 1_Data", -1446 },
+            { "815657350.Forte Tower 2_Data", -645 },
+            { "817127292.Il Primo_Data", -1250 },
+            { "817127683.Il Primo 2_Data", -2075 },
+            { "819135593.Hive Cluster_Data", -2989 },
+            { "819890305.Burj Vista2_Data", -112 },
+            { "819891420.Burj Vista_Data", -252 }
         }; // end bonus households
 
         public static bool printEmploymentNames = false;
@@ -237,7 +245,9 @@ namespace WG_BalancedPopMod
             { "800259881.National Bank Tower_Data", -1005 },
             { "800260798.Place Ville Marie_Data", -5427 },
             { "804749788.Event Hall_Data", -69 },
-            { "810925693.Cosine Building_Data", -255 }
+            { "810925693.Cosine Building_Data", -255 },
+            { "815068649.Triangle of Siam_Data", -474 },
+            { "818407172.Community Center_Data", -369 }
         }; // end bonus workers
 
         // Prefab stores
