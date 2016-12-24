@@ -86,9 +86,9 @@
   <!--Production for offices is number of employees per production unit.-->
   <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
-    <Office_1 production="20" />
-    <Office_2 production="20" />
-    <Office_3 production="20" />
+    <Office_1 production="10" />
+    <Office_2 production="10" />
+    <Office_3 production="10" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />
