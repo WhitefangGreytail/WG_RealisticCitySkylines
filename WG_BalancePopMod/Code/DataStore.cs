@@ -137,20 +137,27 @@ namespace WG_BalancedPopMod
             { "754279432.Ahmed Abdul Rahim Al Attar Tower_Data", -86 },
             { "768450784.Damac residenze_Data", -1158 },
             { "780452440.Haven_Data", -8 },
-            { "781950755.Vozrojdenie_Data", -5 },
+            { "781950755.Vozrojdenie_Data", -29 },
             { "789974462.Moskovskiy 14 floor 2 sec_Data", -12 },
-            { "792304093.Legenda_Data", -7 },
-            { "793247873.Regatta_Data", -9 },
+            { "792304093.Legenda_Data", -17 },
+            { "793247873.Regatta_Data", -29 },
             { "798976213.Evropeyskiy_Data", -284 },
             { "801913109.Arcadia_Data", -2444 },
-            { "803307441.Moskovskiy16fl2s_Data", -23 }, // This should have been a straight cut item
+            { "803307441.Moskovskiy16fl2s_Data", -33 }, // This should have been a straight cut item
             { "815656717.Forte Tower 1_Data", -1446 },
             { "815657350.Forte Tower 2_Data", -645 },
             { "817127292.Il Primo_Data", -1250 },
             { "817127683.Il Primo 2_Data", -2075 },
             { "819135593.Hive Cluster_Data", -2989 },
             { "819890305.Burj Vista2_Data", -112 },
-            { "819891420.Burj Vista_Data", -252 }
+            { "819891420.Burj Vista_Data", -252 },
+            { "827270234.Emerald Park Condominium_Data", -505 },
+            { "830090634.Millennium tower_Data", -202 },
+            { "834378690.Juma Al Majid Tower_Data", -31 },
+            { "840766570.Address Residence tower 1_Data", -622 },
+            { "840814284.Address Residence tower 2_Data", -778 },
+            { "841337944.Residential Building 011_Data", -34 },
+            { "843120009.Modern Low-Rise Living #1_Data", 1 }
         }; // end bonus households
 
         public static bool printEmploymentNames = false;
@@ -246,8 +253,9 @@ namespace WG_BalancedPopMod
             { "800260798.Place Ville Marie_Data", -5427 },
             { "804749788.Event Hall_Data", -69 },
             { "810925693.Cosine Building_Data", -255 },
-            { "815068649.Triangle of Siam_Data", -474 },
-            { "818407172.Community Center_Data", -369 }
+            { "815068649.Triangle of Siam_Data", -374 },
+            { "818407172.Community Center_Data", -369 },
+            { "844946740.Amethyst_Data", -74 }
         }; // end bonus workers
 
         // Prefab stores

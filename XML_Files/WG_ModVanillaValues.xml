@@ -166,13 +166,13 @@
     <meshName bonus="-86">754279432.Ahmed Abdul Rahim Al Attar Tower_Data</meshName>
     <meshName bonus="-1158">768450784.Damac residenze_Data</meshName>
     <meshName bonus="-8">780452440.Haven_Data</meshName>
-    <meshName bonus="-5">781950755.Vozrojdenie_Data</meshName>
+    <meshName bonus="-29">781950755.Vozrojdenie_Data</meshName>
     <meshName bonus="-12">789974462.Moskovskiy 14 floor 2 sec_Data</meshName>
-    <meshName bonus="-7">792304093.Legenda_Data</meshName>
-    <meshName bonus="-9">793247873.Regatta_Data</meshName>
+    <meshName bonus="-17">792304093.Legenda_Data</meshName>
+    <meshName bonus="-29">793247873.Regatta_Data</meshName>
     <meshName bonus="-284">798976213.Evropeyskiy_Data</meshName>
     <meshName bonus="-2444">801913109.Arcadia_Data</meshName>
-    <meshName bonus="-23">803307441.Moskovskiy16fl2s_Data</meshName>
+    <meshName bonus="-33">803307441.Moskovskiy16fl2s_Data</meshName>
     <meshName bonus="-1446">815656717.Forte Tower 1_Data</meshName>
     <meshName bonus="-645">815657350.Forte Tower 2_Data</meshName>
     <meshName bonus="-1250">817127292.Il Primo_Data</meshName>
@@ -180,6 +180,13 @@
     <meshName bonus="-2989">819135593.Hive Cluster_Data</meshName>
     <meshName bonus="-112">819890305.Burj Vista2_Data</meshName>
     <meshName bonus="-252">819891420.Burj Vista_Data</meshName>
+    <meshName bonus="-505">827270234.Emerald Park Condominium_Data</meshName>
+    <meshName bonus="-202">830090634.Millennium tower_Data</meshName>
+    <meshName bonus="-31">834378690.Juma Al Majid Tower_Data</meshName>
+    <meshName bonus="-622">840766570.Address Residence tower 1_Data</meshName>
+    <meshName bonus="-778">840814284.Address Residence tower 2_Data</meshName>
+    <meshName bonus="-34">841337944.Residential Building 011_Data</meshName>
+    <meshName bonus="1">843120009.Modern Low-Rise Living #1_Data</meshName>
     <meshName bonus="-11">H4 4x3 Tenement10</meshName>
     <meshName bonus="-4">H4 4x4 Tenement12</meshName>
     <meshName bonus="-8">H5 4x4 Highrise02</meshName>
@@ -280,8 +287,9 @@
     <meshName bonus="-5427">800260798.Place Ville Marie_Data</meshName>
     <meshName bonus="-69">804749788.Event Hall_Data</meshName>
     <meshName bonus="-255">810925693.Cosine Building_Data</meshName>
-    <meshName bonus="-474">815068649.Triangle of Siam_Data</meshName>
+    <meshName bonus="-374">815068649.Triangle of Siam_Data</meshName>
     <meshName bonus="-369">818407172.Community Center_Data</meshName>
+    <meshName bonus="-74">844946740.Amethyst_Data</meshName>
     <meshName bonus="16">H2 4x3 BigFactory08</meshName>
   </bonusWorker>
 </WG_CityMod>

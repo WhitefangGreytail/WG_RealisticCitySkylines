@@ -36,7 +36,7 @@ namespace WG_BalancedPopMod
                 }
                 else if (ic.m_service == ItemClass.Service.Office)
                 {
-                    crimeAccumulation /= 5;
+                    crimeAccumulation /= 5; // Not enough?
                 }
                 else if (ic.m_subService == ItemClass.SubService.CommercialHigh)
                 {
