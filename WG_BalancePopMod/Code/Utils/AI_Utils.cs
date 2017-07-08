@@ -18,11 +18,11 @@ namespace WG_BalancedPopMod
         /// <param name="minWorkers"></param>
         /// <param name="array"></param>
         /// <param name="output"></param>
-        public static void calculateprefabWorkerVisit(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out prefabEmployStruct output)
+        public static void CalculateprefabWorkerVisit(int width, int length, ref BuildingInfo item, int minWorkers, ref int[] array, out PrefabEmployStruct output)
         {
             // Prefabs are tied to a level
 
-	        int value = 0;
+            int value = 0;
             int num = array[DataStore.PEOPLE];
             int level0 = array[DataStore.WORK_LVL0];
             int level1 = array[DataStore.WORK_LVL1];
@@ -33,22 +33,39 @@ namespace WG_BalancedPopMod
             if (num > 0 && num2 > 0)
             {
                 Vector3 v = item.m_size;
-                int floorSpace = calcBase(width, length, ref array, v);
+                int floorSpace = CalcBase(width, length, ref array, v);
                 int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT])) + array[DataStore.DENSIFICATION];
                 value = (floorSpace * floorCount) / array[DataStore.PEOPLE];
-                int bonus = 0;
+                int outValue = 0;
 
-                if ((array[DataStore.CALC_METHOD] == 0))  // Plot only will ignore the bonus required
+                if ((array[DataStore.CALC_METHOD] == 0)) // Plot only will ignore any over ride or bonus
                 {
-                    bool gotValue = DataStore.bonusWorkerCache.TryGetValue(item.gameObject.name, out bonus);
-                    if (DataStore.printEmploymentNames && !gotValue)
+                    // Check over ride
+                    string name = item.gameObject.name;
+                    if (DataStore.workerCache.TryGetValue(name, out outValue))
                     {
-                        // No need try/catch, no ArgumentException
-                        DataStore.bonusWorkerCache.Add(item.gameObject.name, bonus);
+                        value = outValue;
+                    }
+                    else if (DataStore.bonusWorkerCache.TryGetValue(name, out outValue))
+                    {
+                        value = value + outValue;
+                        DataStore.workerCache.Add(name, value);
+                        DataStore.bonusWorkerCache.Remove(name);
+                    }
+                    else if (DataStore.printEmploymentNames)
+                    {
+                        try
+                        {
+                            DataStore.workerPrintOutCache.Add(item.gameObject.name, value);
+                        }
+                        catch (ArgumentException)
+                        {
+                            // Don't care
+                        }
                     }
                 }
 
-                num = Mathf.Max(minWorkers, (value + bonus));
+                num = Mathf.Max(minWorkers, value);
 
                 output.level3 = (num * level3) / num2;
                 output.level2 = (num * level2) / num2;
@@ -61,10 +78,10 @@ namespace WG_BalancedPopMod
             }
 
             // Set the visitors here since we're calculating
-	        if (num != 0)
-	        {
+            if (num != 0)
+            {
                 value = Mathf.Max(200, width * length * array[DataStore.VISIT]) / 100;
-	        }
+            }
             output.visitors = value;
         } // end calculateprefabWorkerVisit
 
@@ -76,11 +93,8 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <param name="item"></param>
         /// <param name="returnValue"></param>
-        public static int calculatePrefabHousehold(int width, int length, ref BuildingInfo item)
+        public static int CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array, int level)
         {
-            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
-
-            int[] array = DataStore.residentialLow[level];
             if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
             {
                 array = DataStore.residentialHigh[level];
@@ -88,7 +102,7 @@ namespace WG_BalancedPopMod
 
             Vector3 v = item.m_size;
             int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
-            int returnValue = (calcBase(width, length, ref array, v) * floorCount) / array[DataStore.PEOPLE];
+            int returnValue = (CalcBase(width, length, ref array, v) * floorCount) / array[DataStore.PEOPLE];
 
             if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
             {
@@ -100,18 +114,35 @@ namespace WG_BalancedPopMod
                 returnValue = Mathf.Max(1, returnValue);
             }
 
-            int bonus = 0;
-            if ((array[DataStore.CALC_METHOD] == 0))  // Plot only will ignore the bonus required
+            int outValue = 0;
+            if ((array[DataStore.CALC_METHOD] == 0)) // Plot only will ignore any over ride or bonus
             {
-                bool gotValue = DataStore.bonusHouseholdCache.TryGetValue(item.gameObject.name, out bonus);
-                if (DataStore.printResidentialNames && !gotValue)
+                // Check over ride
+                string name = item.gameObject.name;
+                if (DataStore.householdCache.TryGetValue(name, out outValue))
                 {
-                    // No need try/catch, no ArgumentException
-                    DataStore.bonusHouseholdCache.Add(item.gameObject.name, bonus);
+                    returnValue = outValue;
+                }
+                else if (DataStore.bonusHouseholdCache.TryGetValue(name, out outValue))
+                {
+                    returnValue = returnValue + outValue;
+                    DataStore.householdCache.Add(name, returnValue);
+                    DataStore.bonusHouseholdCache.Remove(name);
+                }
+                else if (DataStore.printResidentialNames)
+                {
+                    try
+                    {
+                        DataStore.housePrintOutCache.Add(item.gameObject.name, returnValue);
+                    }
+                    catch (ArgumentException)
+                    {
+                        // Don't care
+                    }
                 }
             }
 
-            return (returnValue + bonus);
+            return returnValue;
         }  // end calculatePrefabHousehold
 
 
@@ -120,12 +151,11 @@ namespace WG_BalancedPopMod
         /// </summary>
         /// <param name="seed"></param>
         /// <returns></returns>
-        public static int getLandValueIncomeComponent(ulong seed)
+        public static int GetLandValueIncomeComponent(ulong seed)
         {
-            ushort buildingID = 0;
             int landValue = 0;
 
-            if (DataStore.seedToId.TryGetValue(seed, out buildingID))
+            if (DataStore.seedToId.TryGetValue(seed, out ushort buildingID))
             {
                 Building buildingData = ColossalFramework.Singleton<BuildingManager>.instance.m_buildings.m_buffer[buildingID];
                 ColossalFramework.Singleton<ImmaterialResourceManager>.instance.CheckLocalResource(ImmaterialResourceManager.Resource.LandValue, buildingData.m_position, out landValue);
@@ -142,7 +172,7 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <param name="array"></param>
         /// <param name="v"></param>
-        private static int calcBase(int width, int length, ref int[] array, Vector3 v)
+        private static int CalcBase(int width, int length, ref int[] array, Vector3 v)
         {
             if (array[DataStore.CALC_METHOD] == 0)
             {

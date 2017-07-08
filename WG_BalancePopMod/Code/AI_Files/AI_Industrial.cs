@@ -24,12 +24,12 @@ namespace WG_BalancedPopMod
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            prefabEmployStruct output;
+            PrefabEmployStruct output;
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = getArray(item, level);
-                AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
+                int[] array = GetArray(item, level);
+                AI_Utils.CalculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
             
@@ -55,14 +55,14 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
 
-            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
@@ -87,7 +87,7 @@ namespace WG_BalancedPopMod
             groundPollution = 0;
             noisePollution = 0;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, level);
 
             groundPollution = (productionRate * array[DataStore.GROUND_POLLUTION]) / 100;
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -106,7 +106,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, level);
             return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
         }
 
@@ -117,7 +117,7 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(BuildingInfo item, int level)
+        private int[] GetArray(BuildingInfo item, int level)
         {
             int tempLevel = 0;
             int[][] array = DataStore.industry;
