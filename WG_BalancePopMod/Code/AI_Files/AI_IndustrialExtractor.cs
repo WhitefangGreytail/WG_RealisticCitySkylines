@@ -1,6 +1,7 @@
 ﻿using ColossalFramework.Math;
 using UnityEngine;
 using Boformer.Redirection;
+using ColossalFramework;
 
 namespace WG_BalancedPopMod
 {
@@ -25,12 +26,12 @@ namespace WG_BalancedPopMod
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            prefabEmployStruct output;
+            PrefabEmployStruct output;
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
                 int[] array = getArray(item, EXTRACT_LEVEL);
-                AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 2, ref array, out output);
+                AI_Utils.CalculateprefabWorkerVisit(width, length, ref item, 3, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
             
@@ -63,7 +64,7 @@ namespace WG_BalancedPopMod
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
 
-            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
@@ -152,6 +153,6 @@ namespace WG_BalancedPopMod
                 Debugging.writeDebugToFile(error);
                 return array[0];
             }
-        }
+        } // end getArray
     }
 }

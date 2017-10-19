@@ -24,12 +24,12 @@ namespace WG_BalancedPopMod
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
-            prefabEmployStruct output;
+            PrefabEmployStruct output;
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = getArray(this.m_info, level);
-                AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
+                int[] array = GetArray(this.m_info, level);
+                AI_Utils.CalculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
 
@@ -56,14 +56,14 @@ namespace WG_BalancedPopMod
             ItemClass item = this.m_info.m_class;
 
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
 
-            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
@@ -86,7 +86,7 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = getArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, level);
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -103,7 +103,7 @@ namespace WG_BalancedPopMod
         public override int CalculateVisitplaceCount(Randomizer r, int width, int length)
         {
             int returnVal = 0;
-            prefabEmployStruct visitors;
+            PrefabEmployStruct visitors;
             if (DataStore.prefabWorkerVisit.TryGetValue(this.m_info.gameObject.GetHashCode(), out visitors))
             {
                 returnVal = visitors.visitors;
@@ -112,6 +112,21 @@ namespace WG_BalancedPopMod
             return returnVal;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="r"></param>
+        /// <param name="width"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        [RedirectMethod(true)]
+        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        {
+            ItemClass @class = this.m_info.m_class;
+            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = GetArray(this.m_info, level);
+            return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
+        }
 
         /// <summary>
         /// 
@@ -119,7 +134,7 @@ namespace WG_BalancedPopMod
         /// <param name="item"></param>
         /// <param name="level"></param>
         /// <returns></returns>
-        private int[] getArray(BuildingInfo item, int level)
+        private int[] GetArray(BuildingInfo item, int level)
         {
             int[][] array = DataStore.commercialLow;
 
@@ -134,7 +149,11 @@ namespace WG_BalancedPopMod
                     case ItemClass.SubService.CommercialTourist:
                         array = DataStore.commercialTourist;
                         break;
-                
+
+                    case ItemClass.SubService.CommercialEco:
+                        array = DataStore.comEcoLow;
+                        break;
+
                     case ItemClass.SubService.CommercialHigh:
                         array = DataStore.commercialHigh;
                         break;

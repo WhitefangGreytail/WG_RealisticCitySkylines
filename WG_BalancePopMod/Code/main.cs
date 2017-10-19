@@ -38,10 +38,21 @@ namespace WG_BalancedPopMod
                 isModEnabled = true;
                 sw = Stopwatch.StartNew();
                 Redirect(true);
-                DataStore.clearCache();
+                DataStore.ClearCache();
 
-                readFromXML();
-                mergeDefaultBonus();
+                ReadFromXML();
+                MergeDefaultBonus();
+
+                // Remove bonus names from over rides
+                foreach (string name in DataStore.bonusHouseholdCache.Keys)
+                {
+                    DataStore.householdCache.Remove(name);
+                }
+
+                foreach (string name in DataStore.bonusWorkerCache.Keys)
+                {
+                    DataStore.workerCache.Remove(name);
+                }
 
                 DataStore.seedToId.Clear();
                 for (int i = 0; i <= ushort.MaxValue; ++i)  // Up to 1M buildings apparently is ok
@@ -63,15 +74,15 @@ namespace WG_BalancedPopMod
             }
         }
 
-        private void mergeDefaultBonus()
+        private void MergeDefaultBonus()
         {
             if (DataStore.mergeResidentialNames)
             {
-                foreach(KeyValuePair<string, int> entry in DataStore.defaultBonusHousehold)
+                foreach(KeyValuePair<string, int> entry in DataStore.defaultHousehold)
                 {
                     try
                     {
-                        DataStore.bonusHouseholdCache.Add(entry.Key, entry.Value);
+                        DataStore.householdCache.Add(entry.Key, entry.Value);
                     }
                     catch (Exception)
                     {
@@ -82,11 +93,11 @@ namespace WG_BalancedPopMod
 
             if (DataStore.mergeEmploymentNames)
             {
-                foreach (KeyValuePair<string, int> entry in DataStore.defaultBonusWorker)
+                foreach (KeyValuePair<string, int> entry in DataStore.defaultWorker)
                 {
                     try
                     {
-                        DataStore.bonusWorkerCache.Add(entry.Key, entry.Value);
+                        DataStore.workerCache.Add(entry.Key, entry.Value);
                     }
                     catch (Exception)
                     {
@@ -104,7 +115,7 @@ namespace WG_BalancedPopMod
 
                 try
                 {
-                    WG_XMLBaseVersion xml = new XML_VersionFive();
+                    WG_XMLBaseVersion xml = new XML_VersionSix();
                     xml.writeXML(currentFileLocation);
                 }
                 catch (Exception e)
@@ -190,7 +201,7 @@ namespace WG_BalancedPopMod
         /// <summary>
         ///
         /// </summary>
-        private void readFromXML()
+        private void ReadFromXML()
         {
             // Check the exe directory first
             currentFileLocation = ColossalFramework.IO.DataLocation.executableDirectory + Path.DirectorySeparatorChar + XML_FILE;
@@ -206,29 +217,30 @@ namespace WG_BalancedPopMod
             if (fileAvailable)
             {
                 // Load in from XML - Designed to be flat file for ease
-                WG_XMLBaseVersion reader = new XML_VersionFive();
+                WG_XMLBaseVersion reader = new XML_VersionSix();
                 XmlDocument doc = new XmlDocument();
                 try
                 {
                     doc.Load(currentFileLocation);
 
                     int version = Convert.ToInt32(doc.DocumentElement.Attributes["version"].InnerText);
-                    if (version == 4)
+                    if (version > 3 && version <= 5)
                     {
-                        reader = new XML_VersionFour();
+                        // Use version 5
+                        reader = new XML_VersionFive();
 
                         // Make a back up copy of the old system to be safe
-                        File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
-                        string error = "Detected an old version of the XML (v4). " + currentFileLocation + ".ver4 has been created for future reference and will be upgraded to the new version.";
+                        File.Copy(currentFileLocation, currentFileLocation + ".ver5", true);
+                        string error = "Detected an old version of the XML (v5). " + currentFileLocation + ".ver5 has been created for future reference and will be upgraded to the new version.";
                         Debugging.bufferWarning(error);
                         UnityEngine.Debug.Log(error);
                     }
-                    else if (version <= 3) // Uh oh... version 3 was a while back..
+                    else if (version <= 3) // Uh oh... version 4 was a while back..
                     {
-                        string error = "Detected an unsupported version of the XML (v3 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver3";
+                        string error = "Detected an unsupported version of the XML (v4 or less). Backing up for a new configuration as :" + currentFileLocation + ".ver4";
                         Debugging.bufferWarning(error);
                         UnityEngine.Debug.Log(error);
-                        File.Copy(currentFileLocation, currentFileLocation + ".ver3", true);
+                        File.Copy(currentFileLocation, currentFileLocation + ".ver4", true);
                         return;
                     }
                     reader.readXML(doc);

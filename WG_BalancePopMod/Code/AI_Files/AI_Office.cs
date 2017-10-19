@@ -23,12 +23,13 @@ namespace WG_BalancedPopMod
             ulong seed = r.seed;
             BuildingInfo item = this.m_info;
             int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(this.m_info, level);
 
-            prefabEmployStruct output;
+            PrefabEmployStruct output;
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                AI_Utils.calculateprefabWorkerVisit(width, length, ref item, 10, ref DataStore.office[level], out output);
+                AI_Utils.CalculateprefabWorkerVisit(width, length, ref item, 10, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
 
@@ -54,14 +55,15 @@ namespace WG_BalancedPopMod
         {
             ItemClass item = this.m_info.m_class;
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(this.m_info, level);
 
-            electricityConsumption = DataStore.office[level][DataStore.POWER];
-            waterConsumption = DataStore.office[level][DataStore.WATER];
-            sewageAccumulation = DataStore.office[level][DataStore.SEWAGE];
-            garbageAccumulation = DataStore.office[level][DataStore.GARBAGE];
+            electricityConsumption = array[DataStore.POWER];
+            waterConsumption = array[DataStore.WATER];
+            sewageAccumulation = array[DataStore.SEWAGE];
+            garbageAccumulation = array[DataStore.GARBAGE];
 
-            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
-            incomeAccumulation = DataStore.office[level][DataStore.INCOME] + landVal;
+            int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
+            incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
             waterConsumption = Mathf.Max(100, productionRate * waterConsumption) / 100;
@@ -83,9 +85,10 @@ namespace WG_BalancedPopMod
         {
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
+            int[] array = getArray(this.m_info, level);
 
-            groundPollution = DataStore.office[level][DataStore.GROUND_POLLUTION];
-            noisePollution = DataStore.office[level][DataStore.NOISE_POLLUTION];
+            groundPollution = array[DataStore.GROUND_POLLUTION];
+            noisePollution = array[DataStore.NOISE_POLLUTION];
         }
 
 
@@ -101,19 +104,55 @@ namespace WG_BalancedPopMod
         {
             ulong seed = r.seed;
             BuildingInfo item = this.m_info;
-            prefabEmployStruct worker;
+            PrefabEmployStruct worker;
 
             if (DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out worker))
             {
                 // Employment is available
                 int workers = worker.level0 + worker.level1 + worker.level2 + worker.level3;
                 int level = (int)(this.m_info.m_class.m_level >= 0 ? this.m_info.m_class.m_level : 0); // Force it to 0 if the level was set to None
-                return Mathf.Max(1, workers / DataStore.office[level][DataStore.PRODUCTION]);
+                int[] array = getArray(this.m_info, level);
+
+                return Mathf.Max(1, workers / array[DataStore.PRODUCTION]);
             }
             else
             {
                 // Return minimum to be safe
                 return 1;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        private int[] getArray(BuildingInfo item, int level)
+        {
+            int[][] array = DataStore.office;
+
+            try
+            {
+                switch (item.m_class.m_subService)
+                {
+                    case ItemClass.SubService.OfficeHightech:
+                        array = DataStore.officeHighTech;
+                        break;
+
+                    case ItemClass.SubService.OfficeGeneric:
+                    default:
+                        break;
+                }
+
+                return array[level];
+            }
+            catch (System.Exception)
+            {
+                string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
+                Debugging.writeDebugToFile(error);
+                return array[0];
             }
         }
     }

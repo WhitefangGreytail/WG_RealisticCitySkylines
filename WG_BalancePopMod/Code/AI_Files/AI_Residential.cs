@@ -19,7 +19,9 @@ namespace WG_BalancedPopMod
 
             if (!DataStore.prefabHouseHolds.TryGetValue(item.gameObject.GetHashCode(), out returnValue))
             {
-                returnValue = AI_Utils.calculatePrefabHousehold(width, length, ref item);
+                int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
+                int[] array = GetArray(this.m_info, level);
+                returnValue = AI_Utils.CalculatePrefabHousehold(width, length, ref item, ref array, level);
                 DataStore.prefabHouseHolds.Add(item.gameObject.GetHashCode(), returnValue);
             }
             return returnValue;
@@ -39,13 +41,13 @@ namespace WG_BalancedPopMod
             ItemClass item = this.m_info.m_class;
             
             int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = (item.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
+            int[] array = GetArray(this.m_info, level);
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
 
-            int landVal = AI_Utils.getLandValueIncomeComponent(r.seed);
+            int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
 
             electricityConsumption = Mathf.Max(100, productionRate * electricityConsumption) / 100;
@@ -65,10 +67,52 @@ namespace WG_BalancedPopMod
         {
             ItemClass @class = this.m_info.m_class;
             int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = (@class.m_subService == ItemClass.SubService.ResidentialHigh) ? DataStore.residentialHigh[level] : DataStore.residentialLow[level];
+            int[] array = GetArray(this.m_info, level);
 
             groundPollution = array[DataStore.GROUND_POLLUTION];
             noisePollution = array[DataStore.NOISE_POLLUTION];
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="item"></param>
+        /// <param name="level"></param>
+        /// <returns></returns>
+        private int[] GetArray(BuildingInfo item, int level)
+        {
+            int[][] array = DataStore.residentialLow;
+
+            try
+            {
+                switch (item.m_class.m_subService)
+                {
+                    case ItemClass.SubService.ResidentialHighEco:
+                        array = DataStore.resEcoHigh;
+                        break;
+
+                    case ItemClass.SubService.ResidentialLowEco:
+                        array = DataStore.resEcoLow;
+                        break;
+
+                    case ItemClass.SubService.ResidentialHigh:
+                        array = DataStore.residentialHigh;
+                        break;
+
+                    case ItemClass.SubService.ResidentialLow:
+                    default:
+                        break;
+                }
+
+                return array[level];
+            }
+            catch (System.Exception)
+            {
+                string error = item.gameObject.name + " attempted to be use " + item.m_class.m_subService.ToString() + " with level " + level + ". Returning as level 0.";
+                Debugging.writeDebugToFile(error);
+                return array[0];
+            }
         }
     }
 }
