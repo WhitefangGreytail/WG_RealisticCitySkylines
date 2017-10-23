@@ -15,7 +15,7 @@ namespace WG_BalancedPopMod
         public override int CalculateHomeCount(Randomizer r, int width, int length)
         {
             BuildingInfo item = this.m_info;
-            int returnValue = 1;
+            int returnValue = 0;
 
             if (!DataStore.prefabHouseHolds.TryGetValue(item.gameObject.GetHashCode(), out returnValue))
             {
