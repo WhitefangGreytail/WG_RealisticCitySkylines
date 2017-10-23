@@ -1,4 +1,4 @@
-<WG_CityMod version="5">
+<WG_CityMod version="6">
   <!--space_pp = Square metres per person-->
   <!--level_height = Height of a floor. The height of chimneys have been taken into account-->
   <!--calc = model or plot. To calculate the base using either the building model, or by the land size-->
@@ -14,9 +14,20 @@
     <ResidentialHigh_3 space_pp="10" level_height="1000" calc="plot" />
     <ResidentialHigh_4 space_pp="9" level_height="1000" calc="plot" />
     <ResidentialHigh_5 space_pp="8" level_height="1000" calc="plot" />
+    <ResEcoLow_1 space_pp="64" level_height="1000" calc="plot" />
+    <ResEcoLow_2 space_pp="51" level_height="1000" calc="plot" />
+    <ResEcoLow_3 space_pp="42" level_height="1000" calc="plot" />
+    <ResEcoLow_4 space_pp="36" level_height="1000" calc="plot" />
+    <ResEcoLow_5 space_pp="32" level_height="1000" calc="plot" />
+    <ResEcoHigh_1 space_pp="21" level_height="1000" calc="plot" />
+    <ResEcoHigh_2 space_pp="13" level_height="1000" calc="plot" />
+    <ResEcoHigh_3 space_pp="10" level_height="1000" calc="plot" />
+    <ResEcoHigh_4 space_pp="9" level_height="1000" calc="plot" />
+    <ResEcoHigh_5 space_pp="8" level_height="1000" calc="plot" />
     <CommercialLow_1 space_pp="128" level_height="1000" calc="plot" ground_mult="0" lvl_0="100" lvl_1="0" lvl_2="0" lvl_3="0" />
     <CommercialLow_2 space_pp="85" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <CommercialLow_3 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="5" lvl_1="15" lvl_2="30" lvl_3="50" />
+    <CommercialEco_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="50" lvl_1="50" lvl_2="0" lvl_3="0" />
     <CommercialHigh_1 space_pp="85" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
     <CommercialHigh_2 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
     <CommercialHigh_3 space_pp="51" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
@@ -25,6 +36,7 @@
     <Office_1 space_pp="128" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="40" lvl_2="50" lvl_3="10" />
     <Office_2 space_pp="58" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="20" lvl_2="50" lvl_3="30" />
     <Office_3 space_pp="38" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="0" lvl_2="40" lvl_3="60" />
+    <OfficeHighTech_1 space_pp="116" level_height="1000" calc="plot" ground_mult="0" lvl_0="0" lvl_1="10" lvl_2="40" lvl_3="50" />
     <Industry_1 space_pp="64" level_height="1000" calc="plot" ground_mult="0" lvl_0="100" lvl_1="0" lvl_2="0" lvl_3="0" />
     <Industry_2 space_pp="43" level_height="1000" calc="plot" ground_mult="0" lvl_0="20" lvl_1="60" lvl_2="20" lvl_3="0" />
     <Industry_3 space_pp="32" level_height="1000" calc="plot" ground_mult="0" lvl_0="5" lvl_1="15" lvl_2="30" lvl_3="50" />
@@ -49,17 +61,29 @@
     <ResidentialHigh_3 power="26" water="50" sewage="50" garbage="40" wealth="130" />
     <ResidentialHigh_4 power="24" water="45" sewage="45" garbage="30" wealth="160" />
     <ResidentialHigh_5 power="22" water="40" sewage="40" garbage="20" wealth="200" />
+    <ResEcoLow_1 power="42" water="120" sewage="120" garbage="70" wealth="84" />
+    <ResEcoLow_2 power="42" water="110" sewage="110" garbage="70" wealth="112" />
+    <ResEcoLow_3 power="42" water="100" sewage="100" garbage="42" wealth="168" />
+    <ResEcoLow_4 power="42" water="90" sewage="90" garbage="28" wealth="252" />
+    <ResEcoLow_5 power="42" water="80" sewage="80" garbage="21" wealth="315" />
+    <ResEcoHigh_1 power="21" water="60" sewage="60" garbage="49" wealth="49" />
+    <ResEcoHigh_2 power="20" water="55" sewage="55" garbage="49" wealth="70" />
+    <ResEcoHigh_3 power="18" water="50" sewage="50" garbage="28" wealth="91" />
+    <ResEcoHigh_4 power="17" water="45" sewage="45" garbage="21" wealth="112" />
+    <ResEcoHigh_5 power="15" water="40" sewage="40" garbage="14" wealth="140" />
     <CommercialLow_1 power="50" water="60" sewage="60" garbage="100" wealth="520" />
     <CommercialLow_2 power="60" water="80" sewage="80" garbage="50" wealth="800" />
     <CommercialLow_3 power="70" water="100" sewage="100" garbage="25" wealth="1120" />
     <CommercialHigh_1 power="30" water="70" sewage="70" garbage="50" wealth="280" />
     <CommercialHigh_2 power="30" water="60" sewage="60" garbage="50" wealth="560" />
     <CommercialHigh_3 power="30" water="50" sewage="50" garbage="25" wealth="800" />
-    <CommercialLeisure_1 power="50" water="60" sewage="60" garbage="50" wealth="1000" />
+    <CommercialEco_1 power="72" water="70" sewage="70" garbage="40" wealth="700" />
     <CommercialTourist_1 power="30" water="80" sewage="80" garbage="60" wealth="600" />
+    <CommercialLeisure_1 power="50" water="60" sewage="60" garbage="50" wealth="1000" />
     <Office_1 power="80" water="90" sewage="90" garbage="100" wealth="140" />
     <Office_2 power="100" water="100" sewage="100" garbage="50" wealth="200" />
     <Office_3 power="120" water="110" sewage="110" garbage="25" wealth="300" />
+    <OfficeHighTech_1 power="130" water="100" sewage="100" garbage="50" wealth="260" />
     <Industry_1 power="150" water="100" sewage="100" garbage="200" wealth="160" />
     <Industry_2 power="200" water="130" sewage="130" garbage="150" wealth="200" />
     <Industry_3 power="250" water="160" sewage="160" garbage="100" wealth="240" />
@@ -80,15 +104,18 @@
     <CommercialHigh_1 visit="200" />
     <CommercialHigh_2 visit="300" />
     <CommercialHigh_3 visit="400" />
-    <CommercialLeisure_1 visit="250" />
+    <CommercialEco_1 visit="100" />
     <CommercialTourist_1 visit="250" />
+    <CommercialLeisure_1 visit="250" />
   </visitor>
   <!--Production for offices is number of employees per production unit.-->
   <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
+    <CommercialEco_1 production="50" />
     <Office_1 production="20" />
     <Office_2 production="20" />
     <Office_3 production="20" />
+    <OfficeHighTech_1 production="10" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />
@@ -114,17 +141,29 @@
     <ResidentialHigh_3 ground="0" noise="0" />
     <ResidentialHigh_4 ground="0" noise="0" />
     <ResidentialHigh_5 ground="0" noise="0" />
+    <ResEcoLow_1 ground="0" noise="0" />
+    <ResEcoLow_2 ground="0" noise="0" />
+    <ResEcoLow_3 ground="0" noise="0" />
+    <ResEcoLow_4 ground="0" noise="0" />
+    <ResEcoLow_5 ground="0" noise="0" />
+    <ResEcoHigh_1 ground="0" noise="0" />
+    <ResEcoHigh_2 ground="0" noise="0" />
+    <ResEcoHigh_3 ground="0" noise="0" />
+    <ResEcoHigh_4 ground="0" noise="0" />
+    <ResEcoHigh_5 ground="0" noise="0" />
     <CommercialLow_1 ground="0" noise="140" />
     <CommercialLow_2 ground="0" noise="120" />
     <CommercialLow_3 ground="0" noise="100" />
     <CommercialHigh_1 ground="0" noise="200" />
     <CommercialHigh_2 ground="0" noise="175" />
     <CommercialHigh_3 ground="0" noise="150" />
-    <CommercialLeisure_1 ground="0" noise="300" />
+    <CommercialEco_1 ground="0" noise="0" />
     <CommercialTourist_1 ground="0" noise="150" />
+    <CommercialLeisure_1 ground="0" noise="300" />
     <Office_1 ground="0" noise="0" />
     <Office_2 ground="0" noise="0" />
     <Office_3 ground="0" noise="0" />
+    <OfficeHighTech_1 ground="0" noise="0" />
     <Industry_1 ground="300" noise="300" />
     <Industry_2 ground="200" noise="200" />
     <Industry_3 ground="150" noise="150" />
@@ -137,8 +176,8 @@
     <IndustryOil_1 ground="500" noise="400" />
     <IndustryOil_2 ground="500" noise="400" />
   </pollution>
-  <bonusHouseHold printResNames="false" mergeResNames="false">
-  </bonusHouseHold>
-  <bonusWorker printWorkNames="false" mergeWorkNames="false">
-  </bonusWorker>
+  <overrideHouseHold printResNames="false" mergeResNames="false">
+  </overrideHouseHold>
+  <overrideWorker printWorkNames="false" mergeWorkNames="false">
+  </overrideWorker>
 </WG_CityMod>

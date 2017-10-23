@@ -1,4 +1,4 @@
-<WG_CityMod version="5">
+<WG_CityMod version="6">
   <!--space_pp = Square metres per person-->
   <!--level_height = Height of a floor. The height of chimneys have been taken into account-->
   <!--calc = model or plot. To calculate the base using either the building model, or by the land size-->
@@ -14,17 +14,29 @@
     <ResidentialHigh_3 space_pp="30" level_height="10" calc="model" />
     <ResidentialHigh_4 space_pp="32" level_height="10" calc="model" />
     <ResidentialHigh_5 space_pp="34" level_height="10" calc="model" />
+    <ResEcoLow_1 space_pp="400" level_height="50" calc="model" />
+    <ResEcoLow_2 space_pp="400" level_height="50" calc="model" />
+    <ResEcoLow_3 space_pp="400" level_height="50" calc="model" />
+    <ResEcoLow_4 space_pp="400" level_height="50" calc="model" />
+    <ResEcoLow_5 space_pp="400" level_height="50" calc="model" />
+    <ResEcoHigh_1 space_pp="28" level_height="10" calc="model" />
+    <ResEcoHigh_2 space_pp="29" level_height="10" calc="model" />
+    <ResEcoHigh_3 space_pp="30" level_height="10" calc="model" />
+    <ResEcoHigh_4 space_pp="32" level_height="10" calc="model" />
+    <ResEcoHigh_5 space_pp="34" level_height="10" calc="model" />
     <CommercialLow_1 space_pp="100" level_height="10" calc="model" ground_mult="1" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
     <CommercialLow_2 space_pp="105" level_height="10" calc="model" ground_mult="1" lvl_0="30" lvl_1="45" lvl_2="20" lvl_3="5" />
     <CommercialLow_3 space_pp="110" level_height="10" calc="model" ground_mult="1" lvl_0="5" lvl_1="30" lvl_2="55" lvl_3="10" />
     <CommercialHigh_1 space_pp="115" level_height="10" calc="model" ground_mult="1" lvl_0="10" lvl_1="45" lvl_2="40" lvl_3="5" />
     <CommercialHigh_2 space_pp="120" level_height="10" calc="model" ground_mult="1" lvl_0="7" lvl_1="32" lvl_2="43" lvl_3="18" />
     <CommercialHigh_3 space_pp="125" level_height="10" calc="model" ground_mult="1" lvl_0="5" lvl_1="25" lvl_2="45" lvl_3="25" />
+    <CommercialEco_1 space_pp="120" level_height="10" calc="model" ground_mult="1" lvl_0="50" lvl_1="40" lvl_2="10" lvl_3="0" />
     <CommercialLeisure_1 space_pp="60" level_height="20" calc="model" ground_mult="0" lvl_0="15" lvl_1="40" lvl_2="35" lvl_3="10" />
     <CommercialTourist_1 space_pp="1000" level_height="20" calc="model" ground_mult="50" lvl_0="15" lvl_1="35" lvl_2="35" lvl_3="15" />
     <Office_1 space_pp="34" level_height="10" calc="model" ground_mult="0" lvl_0="2" lvl_1="8" lvl_2="20" lvl_3="70" />
     <Office_2 space_pp="36" level_height="10" calc="model" ground_mult="0" lvl_0="1" lvl_1="5" lvl_2="14" lvl_3="80" />
     <Office_3 space_pp="38" level_height="10" calc="model" ground_mult="0" lvl_0="1" lvl_1="3" lvl_2="6" lvl_3="90" />
+    <OfficeHighTech_1 space_pp="74" level_height="10" calc="model" ground_mult="0" lvl_0="1" lvl_1="2" lvl_2="3" lvl_3="94" />
     <Industry_1 space_pp="38" level_height="50" calc="model" ground_mult="0" lvl_0="70" lvl_1="20" lvl_2="10" lvl_3="0" />
     <Industry_2 space_pp="35" level_height="50" calc="model" ground_mult="0" lvl_0="20" lvl_1="45" lvl_2="25" lvl_3="10" />
     <Industry_3 space_pp="32" level_height="50" calc="model" ground_mult="0" lvl_0="5" lvl_1="20" lvl_2="45" lvl_3="30" />
@@ -39,38 +51,50 @@
   </population>
   <!--Consumption values are per household, or per production unit-->
   <consumption>
-    <ResidentialLow_1 power="10" water="24" sewage="18" garbage="14" wealth="150" />
-    <ResidentialLow_2 power="11" water="26" sewage="20" garbage="13" wealth="160" />
-    <ResidentialLow_3 power="12" water="28" sewage="22" garbage="12" wealth="170" />
-    <ResidentialLow_4 power="13" water="31" sewage="25" garbage="11" wealth="180" />
-    <ResidentialLow_5 power="14" water="34" sewage="28" garbage="10" wealth="190" />
-    <ResidentialHigh_1 power="9" water="18" sewage="14" garbage="11" wealth="112" />
-    <ResidentialHigh_2 power="10" water="20" sewage="16" garbage="10" wealth="120" />
-    <ResidentialHigh_3 power="11" water="22" sewage="18" garbage="9" wealth="127" />
-    <ResidentialHigh_4 power="12" water="25" sewage="21" garbage="8" wealth="135" />
-    <ResidentialHigh_5 power="13" water="28" sewage="24" garbage="7" wealth="143" />
-    <CommercialLow_1 power="14" water="40" sewage="40" garbage="11" wealth="800" />
-    <CommercialLow_2 power="16" water="45" sewage="45" garbage="10" wealth="850" />
-    <CommercialLow_3 power="18" water="50" sewage="50" garbage="9" wealth="900" />
-    <CommercialHigh_1 power="16" water="45" sewage="45" garbage="11" wealth="800" />
-    <CommercialHigh_2 power="18" water="50" sewage="50" garbage="10" wealth="850" />
-    <CommercialHigh_3 power="20" water="55" sewage="55" garbage="9" wealth="900" />
-    <CommercialLeisure_1 power="35" water="40" sewage="44" garbage="35" wealth="800" />
-    <CommercialTourist_1 power="35" water="60" sewage="65" garbage="40" wealth="1000" />
-    <Office_1 power="10" water="4" sewage="4" garbage="4" wealth="1100" />
-    <Office_2 power="12" water="5" sewage="4" garbage="4" wealth="1200" />
-    <Office_3 power="14" water="5" sewage="5" garbage="4" wealth="1300" />
-    <Industry_1 power="50" water="100" sewage="120" garbage="50" wealth="220" />
-    <Industry_2 power="75" water="130" sewage="150" garbage="48" wealth="250" />
-    <Industry_3 power="100" water="160" sewage="180" garbage="46" wealth="270" />
-    <IndustryFarm_1 power="30" water="200" sewage="225" garbage="30" wealth="190" />
-    <IndustryFarm_2 power="70" water="400" sewage="500" garbage="50" wealth="230" />
-    <IndustryForest_1 power="30" water="30" sewage="40" garbage="40" wealth="190" />
-    <IndustryForest_2 power="80" water="75" sewage="80" garbage="50" wealth="250" />
-    <IndustryOre_1 power="100" water="200" sewage="200" garbage="80" wealth="250" />
-    <IndustryOre_2 power="200" water="210" sewage="280" garbage="60" wealth="320" />
-    <IndustryOil_1 power="120" water="200" sewage="250" garbage="60" wealth="310" />
-    <IndustryOil_2 power="240" water="220" sewage="300" garbage="75" wealth="420" />
+    <ResidentialLow_1 power="9" water="20" sewage="16" garbage="12" wealth="140" />
+    <ResidentialLow_2 power="9" water="22" sewage="18" garbage="11" wealth="150" />
+    <ResidentialLow_3 power="10" water="24" sewage="20" garbage="10" wealth="160" />
+    <ResidentialLow_4 power="11" water="27" sewage="23" garbage="9" wealth="170" />
+    <ResidentialLow_5 power="12" water="30" sewage="26" garbage="9" wealth="180" />
+    <ResidentialHigh_1 power="8" water="15" sewage="13" garbage="10" wealth="105" />
+    <ResidentialHigh_2 power="8" water="17" sewage="15" garbage="9" wealth="112" />
+    <ResidentialHigh_3 power="9" water="19" sewage="17" garbage="8" wealth="120" />
+    <ResidentialHigh_4 power="10" water="21" sewage="19" garbage="7" wealth="127" />
+    <ResidentialHigh_5 power="11" water="23" sewage="21" garbage="7" wealth="135" />
+    <ResEcoLow_1 power="6" water="19" sewage="15" garbage="8" wealth="98" />
+    <ResEcoLow_2 power="6" water="21" sewage="17" garbage="8" wealth="105" />
+    <ResEcoLow_3 power="7" water="23" sewage="19" garbage="7" wealth="112" />
+    <ResEcoLow_4 power="8" water="25" sewage="21" garbage="6" wealth="119" />
+    <ResEcoLow_5 power="8" water="28" sewage="24" garbage="6" wealth="126" />
+    <ResEcoHigh_1 power="6" water="14" sewage="12" garbage="7" wealth="74" />
+    <ResEcoHigh_2 power="6" water="16" sewage="14" garbage="6" wealth="78" />
+    <ResEcoHigh_3 power="6" water="18" sewage="16" garbage="6" wealth="84" />
+    <ResEcoHigh_4 power="7" water="20" sewage="18" garbage="5" wealth="89" />
+    <ResEcoHigh_5 power="8" water="22" sewage="20" garbage="5" wealth="95" />
+    <CommercialLow_1 power="9" water="30" sewage="30" garbage="9" wealth="800" />
+    <CommercialLow_2 power="10" water="35" sewage="35" garbage="8" wealth="850" />
+    <CommercialLow_3 power="11" water="40" sewage="40" garbage="7" wealth="900" />
+    <CommercialHigh_1 power="10" water="28" sewage="28" garbage="9" wealth="800" />
+    <CommercialHigh_2 power="11" water="32" sewage="32" garbage="8" wealth="850" />
+    <CommercialHigh_3 power="13" water="36" sewage="36" garbage="7" wealth="900" />
+    <CommercialEco_1 power="11" water="30" sewage="30" garbage="7" wealth="800" />
+    <CommercialTourist_1 power="30" water="50" sewage="55" garbage="30" wealth="900" />
+    <CommercialLeisure_1 power="30" water="36" sewage="40" garbage="25" wealth="750" />
+    <Office_1 power="12" water="4" sewage="4" garbage="3" wealth="1100" />
+    <Office_2 power="13" water="5" sewage="5" garbage="3" wealth="1175" />
+    <Office_3 power="14" water="5" sewage="5" garbage="2" wealth="1250" />
+    <OfficeHighTech_1 power="22" water="5" sewage="5" garbage="3" wealth="4000" />
+    <Industry_1 power="28" water="90" sewage="100" garbage="20" wealth="220" />
+    <Industry_2 power="30" water="100" sewage="110" garbage="18" wealth="235" />
+    <Industry_3 power="32" water="110" sewage="120" garbage="16" wealth="250" />
+    <IndustryFarm_1 power="10" water="80" sewage="100" garbage="20" wealth="180" />
+    <IndustryFarm_2 power="40" water="100" sewage="150" garbage="25" wealth="220" />
+    <IndustryForest_1 power="20" water="25" sewage="35" garbage="20" wealth="180" />
+    <IndustryForest_2 power="60" water="70" sewage="80" garbage="30" wealth="240" />
+    <IndustryOre_1 power="50" water="100" sewage="100" garbage="50" wealth="250" />
+    <IndustryOre_2 power="120" water="160" sewage="170" garbage="40" wealth="320" />
+    <IndustryOil_1 power="90" water="180" sewage="220" garbage="40" wealth="300" />
+    <IndustryOil_2 power="180" water="200" sewage="240" garbage="50" wealth="400" />
   </consumption>
   <!--Visitor Values are multiplies of 100th of a person per cell.-->
   <visitor>
@@ -80,21 +104,24 @@
     <CommercialHigh_1 visit="220" />
     <CommercialHigh_2 visit="310" />
     <CommercialHigh_3 visit="400" />
-    <CommercialLeisure_1 visit="250" />
+    <CommercialEco_1 visit="100" />
     <CommercialTourist_1 visit="250" />
+    <CommercialLeisure_1 visit="250" />
   </visitor>
   <!--Production for offices is number of employees per production unit.-->
   <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
+    <CommercialEco_1 production="50" />
     <Office_1 production="10" />
     <Office_2 production="10" />
     <Office_3 production="10" />
+    <OfficeHighTech_1 production="10" />
     <Industry_1 production="100" />
     <Industry_2 production="140" />
     <Industry_3 production="160" />
-    <IndustryFarm_1 production="25" />
+    <IndustryFarm_1 production="50" />
     <IndustryFarm_2 production="100" />
-    <IndustryForest_1 production="25" />
+    <IndustryForest_1 production="50" />
     <IndustryForest_2 production="100" />
     <IndustryOre_1 production="75" />
     <IndustryOre_2 production="100" />
@@ -114,17 +141,29 @@
     <ResidentialHigh_3 ground="0" noise="5" />
     <ResidentialHigh_4 ground="0" noise="5" />
     <ResidentialHigh_5 ground="0" noise="5" />
+    <ResEcoLow_1 ground="0" noise="1" />
+    <ResEcoLow_2 ground="0" noise="1" />
+    <ResEcoLow_3 ground="0" noise="1" />
+    <ResEcoLow_4 ground="0" noise="1" />
+    <ResEcoLow_5 ground="0" noise="1" />
+    <ResEcoHigh_1 ground="0" noise="3" />
+    <ResEcoHigh_2 ground="0" noise="3" />
+    <ResEcoHigh_3 ground="0" noise="3" />
+    <ResEcoHigh_4 ground="0" noise="3" />
+    <ResEcoHigh_5 ground="0" noise="3" />
     <CommercialLow_1 ground="0" noise="100" />
     <CommercialLow_2 ground="0" noise="90" />
     <CommercialLow_3 ground="0" noise="75" />
     <CommercialHigh_1 ground="0" noise="80" />
     <CommercialHigh_2 ground="0" noise="70" />
     <CommercialHigh_3 ground="0" noise="60" />
-    <CommercialLeisure_1 ground="0" noise="300" />
+    <CommercialEco_1 ground="0" noise="2" />
     <CommercialTourist_1 ground="0" noise="150" />
+    <CommercialLeisure_1 ground="0" noise="300" />
     <Office_1 ground="0" noise="1" />
     <Office_2 ground="0" noise="1" />
     <Office_3 ground="0" noise="1" />
+    <OfficeHighTech_1 ground="0" noise="1" />
     <Industry_1 ground="300" noise="300" />
     <Industry_2 ground="150" noise="150" />
     <Industry_3 ground="25" noise="50" />
@@ -137,26 +176,172 @@
     <IndustryOil_1 ground="450" noise="375" />
     <IndustryOil_2 ground="300" noise="400" />
   </pollution>
-  <bonusHouseHold printResNames="false" mergeResNames="false">
-    <!--Defaults: L1 2x3 Detached05,L1 3x3 Detached02,L1 4x4 Detached02,L1 4x4 Detached06a,-->
-    <!--L1 4x4 Detached11,L2 2x2 Detached05,L2 2x3 Semi-detachedhouse01,L2 3x4 Semi-detachedhouse02a,-->
-    <!--L3 3x3 Semi-detachedhouse02,L3 4x4 Semi-detachedhouse03a-->
-    <meshName bonus="-11">H4 4x3 Tenement10</meshName>
-    <meshName bonus="-4">H4 4x4 Tenement12</meshName>
-    <meshName bonus="-8">H5 4x4 Highrise02</meshName>
-    <meshName bonus="-20">H5 4x4 Highrise07</meshName>
-    <meshName bonus="11">H5 4x4 Highrise08</meshName>
-    <meshName bonus="1">L1 2x3 Detached05</meshName>
-    <meshName bonus="1">L1 3x3 Detached02</meshName>
-    <meshName bonus="1">L1 4x4 Detached02</meshName>
-    <meshName bonus="1">L1 4x4 Detached06a</meshName>
-    <meshName bonus="1">L1 4x4 Detached11</meshName>
-    <meshName bonus="1">L2 2x2 Detached05</meshName>
-    <meshName bonus="1">L2 2x3 Semi-detachedhouse01</meshName>
-    <meshName bonus="1">L2 3x4 Semi-detachedhouse02a</meshName>
-    <meshName bonus="1">L3 3x3 Semi-detachedhouse02</meshName>
-    <meshName bonus="1">L3 4x4 Semi-detachedhouse03a</meshName>
-  </bonusHouseHold>
-  <bonusWorker printWorkNames="false" mergeWorkNames="false">
-  </bonusWorker>
+  <!-- ******* House hold data ******* -->
+  <overrideHouseHold printResNames="false" mergeResNames="true">
+    <meshName value="220">1099320836.Launch Prototype_Data</meshName>
+    <meshName value="160">1138814303.Karlatornet_Data</meshName>
+    <meshName value="36">413694648.Tranquil Turquoise_Data</meshName>
+    <meshName value="92">415635897.Highcliff from hongkong_Data</meshName>
+    <meshName value="60">417797417.ZED68-PHOENIXTOWER-4x4HRL5_Data</meshName>
+    <meshName value="55">421547247.Gula's Adam Highrise_Data</meshName>
+    <meshName value="42">425922383.Pearl Tower 1.4_Data</meshName>
+    <meshName value="74">453820359.Sprawl_Data</meshName>
+    <meshName value="66">460321524.Truancy_Data</meshName>
+    <meshName value="69">472267886.ZED68-PACHATOWER-4x4HRL5_Data</meshName>
+    <meshName value="80">476362433.Yoshi Towers_Data</meshName>
+    <meshName value="60">501398369.ZED68-HOPPER TOWER-4x4HRL5_Data</meshName>
+    <meshName value="60">643034042.ZED68-OzOne Building (Ozo)_Data</meshName>
+    <meshName value="150">665177868.PURGIO S_CITY 101_Data</meshName>
+    <meshName value="42">666347361.Nurture_Data</meshName>
+    <meshName value="104">672786901.jbr_rico_Data</meshName>
+    <meshName value="150">673778168.PURGIO S_CITY 103_Data</meshName>
+    <meshName value="400">677288436.The Rotterdam_Data</meshName>
+    <meshName value="400">681918587.Marina Torch_Data</meshName>
+    <meshName value="210">690181725.Aura Tower_Data</meshName>
+    <meshName value="480">691942109.Sulafa tower_Data</meshName>
+    <meshName value="500">700349615.The Pentominium_Data</meshName>
+    <meshName value="240">719510655.Launch_Data</meshName>
+    <meshName value="120">749570687.Chelsea Tower_Data</meshName>
+    <meshName value="272">754279432.Ahmed Abdul Rahim Al Attar Tower_Data</meshName>
+    <meshName value="300">768450784.Damac residenze_Data</meshName>
+    <meshName value="10">780452440.Haven_Data</meshName>
+    <meshName value="48">781950755.Vozrojdenie_Data</meshName>
+    <meshName value="28">789974462.Moskovskiy 14 floor 2 sec_Data</meshName>
+    <meshName value="40">792304093.Legenda_Data</meshName>
+    <meshName value="54">793247873.Regatta_Data</meshName>
+    <meshName value="75">798976213.Evropeyskiy_Data</meshName>
+    <meshName value="600">801913109.Arcadia_Data</meshName>
+    <meshName value="38">803307441.Moskovskiy16fl2s_Data</meshName>
+    <meshName value="300">815656717.Forte Tower 1_Data</meshName>
+    <meshName value="200">815657350.Forte Tower 2_Data</meshName>
+    <meshName value="340">817127292.Il Primo_Data</meshName>
+    <meshName value="300">817127683.Il Primo 2_Data</meshName>
+    <meshName value="400">819135593.Hive Cluster_Data</meshName>
+    <meshName value="120">819890305.Burj Vista2_Data</meshName>
+    <meshName value="200">819891420.Burj Vista_Data</meshName>
+    <meshName value="100">827270234.Emerald Park Condominium_Data</meshName>
+    <meshName value="200">830090634.Millennium tower_Data</meshName>
+    <meshName value="160">834378690.Juma Al Majid Tower_Data</meshName>
+    <meshName value="240">840766570.Address Residence tower 1_Data</meshName>
+    <meshName value="220">840814284.Address Residence tower 2_Data</meshName>
+    <meshName value="120">841337944.Residential Building 011_Data</meshName>
+    <meshName value="8">843120009.Modern Low-Rise Living #1_Data</meshName>
+    <meshName value="90">850573663.Harmony 2_Data</meshName>
+    <meshName value="93">850575631.Trident 4_Data</meshName>
+    <meshName value="280">908476663.Opera Grand_Data</meshName>
+    <meshName value="160">919075366.Forest_Data</meshName>
+    <meshName value="160">948799048.Phitsanulok XL_Data</meshName>
+    <meshName value="33">H4 4x3 Tenement10</meshName>
+    <meshName value="36">H4 4x4 Tenement12</meshName>
+    <meshName value="56">H5 4x4 Highrise02</meshName>
+    <meshName value="70">H5 4x4 Highrise07</meshName>
+    <meshName value="70">H5 4x4 Highrise08</meshName>
+    <meshName value="2">L1 2x3 Detached05</meshName>
+    <meshName value="2">L1 3x3 Detached02</meshName>
+    <meshName value="2">L1 4x4 Detached02</meshName>
+    <meshName value="2">L1 4x4 Detached06a</meshName>
+    <meshName value="2">L1 4x4 Detached11</meshName>
+    <meshName value="2">L2 2x2 Detached05</meshName>
+    <meshName value="2">L2 2x3 Semi-detachedhouse01</meshName>
+    <meshName value="2">L2 3x4 Semi-detachedhouse02a</meshName>
+    <meshName value="2">L3 3x3 Semi-detachedhouse02</meshName>
+    <meshName value="2">L3 4x4 Semi-detachedhouse03a</meshName>
+  </overrideHouseHold>
+  <!-- ******* Printed out house hold data. To activate the value, move the line into the override segment ******* -->
+  <printHouseHold />
+  <!-- ******* Worker data ******* -->
+  <overrideWorker printWorkNames="false" mergeWorkNames="true">
+    <meshName value="2200">1132988810.Proprietary_Data</meshName>
+    <meshName value="500">419078725.Barry Plaza_Data</meshName>
+    <meshName value="180">422472215.Lever Tower_Data</meshName>
+    <meshName value="5000">426607732.Ares Tower_Data</meshName>
+    <meshName value="2800">428001234.Trump Tower Chicago_Data</meshName>
+    <meshName value="1000">428925673.Leviathan_Data</meshName>
+    <meshName value="2800">432230772.Antares Tower_Data</meshName>
+    <meshName value="500">434097849.Monolith_Data</meshName>
+    <meshName value="1000">435267158.Twin Monoliths_Data</meshName>
+    <meshName value="360">439107462.Gula's Rivergate Lykes_Data</meshName>
+    <meshName value="6500">453154792.Gula's Kingdom Tower_Data</meshName>
+    <meshName value="1200">476346019.Bluerise Plaza_Data</meshName>
+    <meshName value="100">477861822.Sagan Tyson Center for Space_Data</meshName>
+    <meshName value="700">509112645.Crystallization_Data</meshName>
+    <meshName value="30">522207137.REWE supermarket_Data</meshName>
+    <meshName value="3200">527535273.snowjaoONEONE_Data</meshName>
+    <meshName value="40">529294835.REAL supermarket_Data</meshName>
+    <meshName value="10000">531215484.Shanghai Tower, Shanghai (1:1)_Data</meshName>
+    <meshName value="2600">534117358.Two Prudential Plaza_Data</meshName>
+    <meshName value="1200">534142273.TorreTrump_World_Tower_Data</meshName>
+    <meshName value="3050">557430842.Columbia Center_Data</meshName>
+    <meshName value="340">568336474.Javelin_Data</meshName>
+    <meshName value="2500">579129058.Figueroa at Wilshire 1:1_Data</meshName>
+    <meshName value="780">591074989.The Tower_Data</meshName>
+    <meshName value="8500">604009267.One World Trade Center 1:1_Data</meshName>
+    <meshName value="2700">605000091.60 Wall Street_Data</meshName>
+    <meshName value="1600">607981950.Chirpigroup Center_Data</meshName>
+    <meshName value="14000">615095287.GITS Huge Office Building(ID#04)_Data</meshName>
+    <meshName value="1600">621431766.Glory_Data</meshName>
+    <meshName value="430">622221778.Stalwart_Data</meshName>
+    <meshName value="5400">626845833.The Empire State Building_Data</meshName>
+    <meshName value="1600">628101617.Pan Pacific Insurance_Data</meshName>
+    <meshName value="1500">640403421.GITS Office Tower (ID#02c)_Data</meshName>
+    <meshName value="20000">647059381.GiTS Mega Office Bldg (ID#05)_Data</meshName>
+    <meshName value="220">651651763.Alliance_Data</meshName>
+    <meshName value="240">652765729.Zed68-Mint 3x4L3Off_Data</meshName>
+    <meshName value="1400">660411166.Elstree Building_Data</meshName>
+    <meshName value="245">660864619.Policy_Data</meshName>
+    <meshName value="1800">661075324.Santander Tower_Data</meshName>
+    <meshName value="1100">661823191.Whirligig XL_Data</meshName>
+    <meshName value="500">670944160.Big Office Building_Data</meshName>
+    <meshName value="1000">672448363.Foster Tower Madrid (Red)_Data</meshName>
+    <meshName value="1000">672525995.Foster Tower Madrid (White)_Data</meshName>
+    <meshName value="1800">676602837.PWC Tower Madrid_Data</meshName>
+    <meshName value="2000">678159892.Crystal Tower Madrid_Data</meshName>
+    <meshName value="1800">680500415.Space Tower Madrid_Data</meshName>
+    <meshName value="1400">687777086.Mirage_Data</meshName>
+    <meshName value="2400">700549442.8 Canada Square_Data</meshName>
+    <meshName value="2900">700553372.One Canada Square_Data</meshName>
+    <meshName value="470">708476856.Al habtoor business tower_Data</meshName>
+    <meshName value="2000">708992454.Eclipse_Data</meshName>
+    <meshName value="100">717997754.Miyagi Motors front_Data</meshName>
+    <meshName value="1800">730926381.The Bay Gate large_Data</meshName>
+    <meshName value="3600">749227212.Abeno Harukas_Data</meshName>
+    <meshName value="100">751581536.Research Facility_Data</meshName>
+    <meshName value="8000">762728624.Goldin Finance 117_Data</meshName>
+    <meshName value="2400">766038657.San'tElia Tower_Data</meshName>
+    <meshName value="2000">777048160.Sunshine 60 RICO_Data</meshName>
+    <meshName value="100">777050916.Mustard Inc_Data</meshName>
+    <meshName value="4000">778876495.The Aon Center_Data</meshName>
+    <meshName value="2000">779406148.McGinnis Tower_Data</meshName>
+    <meshName value="100">782848688.Distribution Center Long_Data</meshName>
+    <meshName value="1400">785268004.FIB Los Sanots HQ _Data</meshName>
+    <meshName value="100">786448278.Cancer Research Center_Data</meshName>
+    <meshName value="10000">792727102.Quadrillion_Data</meshName>
+    <meshName value="100">794601473.Woodlog Architects_Data</meshName>
+    <meshName value="100">796614604.Perth Council Building_Data</meshName>
+    <meshName value="6000">796870246.Ivory Dream_Data</meshName>
+    <meshName value="1200">798838680.Commerce Court Complex_Data</meshName>
+    <meshName value="210">799186937.Perth CitiBank House_Data</meshName>
+    <meshName value="500">799801877.100 St Georges Terrace_Data</meshName>
+    <meshName value="1700">800259881.700 De La Gauchetiere_Data</meshName>
+    <meshName value="800">800259881.National Bank Tower_Data</meshName>
+    <meshName value="2000">800260798.Place Ville Marie_Data</meshName>
+    <meshName value="50">804749788.Event Hall_Data</meshName>
+    <meshName value="100">810925693.Cosine Building_Data</meshName>
+    <meshName value="500">815068649.Triangle of Siam_Data</meshName>
+    <meshName value="100">818407172.Community Center_Data</meshName>
+    <meshName value="1500">834382288.Freedom of Expression_Data</meshName>
+    <meshName value="120">844946740.Amethyst_Data</meshName>
+    <meshName value="500">850569287.Address BLVD_Data</meshName>
+    <meshName value="3200">853783969.Gran Torre Santiago_Data</meshName>
+    <meshName value="2000">858234831.One Liberty Plaza 1:1_Data</meshName>
+    <meshName value="8500">865034481.One World Trade Center_Data</meshName>
+    <meshName value="690">873468408.World Port Center_Data</meshName>
+    <meshName value="100">928132734.Liberty Tower_Data</meshName>
+    <meshName value="340">941007962.Alliance XL_Data</meshName>
+    <meshName value="200">945453381.Virgo XL_Data</meshName>
+    <meshName value="100">969613932.Conundrum XL_Data</meshName>
+    <meshName value="20">H2 4x3 BigFactory08</meshName>
+  </overrideWorker>
+  <!-- ******* Printed out worker data. To activate the value, move the line into the override segment ******* -->
+  <printWorker />
 </WG_CityMod>

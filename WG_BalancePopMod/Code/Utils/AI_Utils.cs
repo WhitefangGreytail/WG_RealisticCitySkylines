@@ -95,16 +95,11 @@ namespace WG_BalancedPopMod
         /// <param name="returnValue"></param>
         public static int CalculatePrefabHousehold(int width, int length, ref BuildingInfo item, ref int[] array, int level)
         {
-            if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
-            {
-                array = DataStore.residentialHigh[level];
-            }
-
             Vector3 v = item.m_size;
             int floorCount = Mathf.Max(1, Mathf.FloorToInt(v.y / array[DataStore.LEVEL_HEIGHT]));
             int returnValue = (CalcBase(width, length, ref array, v) * floorCount) / array[DataStore.PEOPLE];
 
-            if (item.m_class.m_subService == ItemClass.SubService.ResidentialHigh)
+            if ((item.m_class.m_subService == ItemClass.SubService.ResidentialHigh) || (item.m_class.m_subService == ItemClass.SubService.ResidentialHighEco))
             {
                 // Minimum of 2, or ceiling of 90% number of floors, which ever is greater. This helps the 1x1 high density
                 returnValue = Mathf.Max(Mathf.Max(2, Mathf.CeilToInt(0.9f * floorCount)), returnValue);

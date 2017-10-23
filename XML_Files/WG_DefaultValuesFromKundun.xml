@@ -111,15 +111,7 @@
   <!--Production for offices is number of employees per production unit.-->
   <!--For industry, it used as hundredths of a unit per cell block.-->
   <production>
-    <CommercialLow_1 production="0" />
-    <CommercialLow_2 production="0" />
-    <CommercialLow_3 production="0" />
-    <CommercialHigh_1 production="0" />
-    <CommercialHigh_2 production="0" />
-    <CommercialHigh_3 production="0" />
     <CommercialEco_1 production="50" />
-    <CommercialTourist_1 production="0" />
-    <CommercialLeisure_1 production="0" />
     <Office_1 production="20" />
     <Office_2 production="20" />
     <Office_3 production="20" />
