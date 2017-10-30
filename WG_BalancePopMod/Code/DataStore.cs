@@ -31,6 +31,9 @@ namespace WG_BalancedPopMod
 
         public const int PRODUCTION = 16;
 
+        // This can be with the local application directory, or the directory where the exe file exists.
+        // Default location is the local application directory, however the exe directory is checked first
+        public static string currentFileLocation = "";
 
         // Flags in XML
         public static bool enableExperimental = false;
@@ -255,7 +258,7 @@ namespace WG_BalancedPopMod
             { "779406148.McGinnis Tower_Data", 2000 },
             { "782848688.Distribution Center Long_Data", 100 },
             { "785268004.FIB Los Sanots HQ _Data", 1400 },
-            { "786448278.Cancer Research Center_Data", 100 },
+            { "786448278.Cancer Research Center_Data", 140 },
             { "792727102.Quadrillion_Data", 10000 },
             { "794601473.Woodlog Architects_Data", 100 },
             { "796614604.Perth Council Building_Data", 100 },
@@ -267,16 +270,16 @@ namespace WG_BalancedPopMod
             { "800259881.National Bank Tower_Data", 800 },
             { "800260798.Place Ville Marie_Data", 2000 },
             { "804749788.Event Hall_Data", 50 },
-            { "810925693.Cosine Building_Data", 100 },
+            { "810925693.Cosine Building_Data", 220 },
             { "815068649.Triangle of Siam_Data", 500 },
-            { "818407172.Community Center_Data", 100 },
+            { "818407172.Community Center_Data", 140 },
             { "834382288.Freedom of Expression_Data", 1500 },
             { "844946740.Amethyst_Data", 120 },
             { "850569287.Address BLVD_Data", 500 },
             { "853783969.Gran Torre Santiago_Data", 3200 },
             { "858234831.One Liberty Plaza 1:1_Data", 2000 },
             { "865034481.One World Trade Center_Data", 8500 },  // 325279 sqm
-            { "873468408.World Port Center_Data", 690 },
+            { "873468408.World Port Center_Data", 460 },
             { "928132734.Liberty Tower_Data", 100 },
             { "941007962.Alliance XL_Data", 340 },
             { "945453381.Virgo XL_Data", 200 },
