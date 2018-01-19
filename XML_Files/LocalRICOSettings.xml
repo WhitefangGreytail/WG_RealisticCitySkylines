@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PloppableRICODefinition xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Buildings>
+    <Building name="605000091.60 Wall Street_Data" service="office" density="0" sub-service="none" construction-cost="500000" ui-category="office" homes="100" steam-id="" level="3" workplaces="0,0,40,60" />
+    <Building name="527535273.snowjaoONEONE_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="453154792.Gula's Kingdom Tower_Data" service="office" density="0" sub-service="none" construction-cost="1000000" ui-category="office" homes="100" steam-id="" level="3" workplaces="0,0,40,60" />
+    <Building name="621431766.Glory_Data" service="office" density="0" sub-service="none" construction-cost="100000" ui-category="office" homes="100" steam-id="" level="3" workplaces="0,0,40,60" />
+    <Building name="428925673.Leviathan_Data" service="office" density="0" sub-service="none" construction-cost="100000" ui-category="office" homes="100" steam-id="" level="3" workplaces="0,0,40,60" />
+    <Building name="422434231.Bank of America_Data" service="office" density="0" sub-service="none" construction-cost="50000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="557430842.Columbia Center_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="100" steam-id="" level="3" workplaces="0,0,40,60" />
+    <Building name="936627602.Rialto Melbourne Australia_Data" service="commercial" density="0" sub-service="tourist" construction-cost="300000" ui-category="tourist" homes="100" steam-id="" level="1" workplaces="20,20,30,30" />
+    <Building name="428001234.Trump Tower Chicago_Data" service="office" density="0" sub-service="none" construction-cost="300000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="534142273.TorreTrump_World_Tower_Data" service="office" density="0" sub-service="none" construction-cost="150000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="432230772.Antares Tower_Data" service="office" density="0" sub-service="none" construction-cost="250000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="426607732.Ares Tower_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="531215484.Shanghai Tower, Shanghai (1:1)_Data" service="office" density="0" sub-service="none" construction-cost="500000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="640403421.GITS Office Tower (ID#02c)_Data" service="office" density="0" sub-service="none" construction-cost="100000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="834378690.Juma Al Majid Tower_Data" service="residential" density="0" sub-service="high" construction-cost="75000" ui-category="reshigh" homes="10" steam-id="" level="5" />
+    <Building name="801913109.Arcadia_Data" service="residential" density="0" sub-service="high" construction-cost="250000" ui-category="reshigh" homes="10" steam-id="" level="5" />
+    <Building name="819135593.Hive Cluster_Data" service="residential" density="0" sub-service="high" construction-cost="400000" ui-category="reshigh" homes="10" steam-id="" level="5" />
+    <Building name="615095287.GITS Huge Office Building(ID#04)_Data" service="office" density="0" sub-service="none" construction-cost="500000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="647059381.GiTS Mega Office Bldg (ID#05)_Data" service="office" density="0" sub-service="none" construction-cost="1500000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="815068649.Triangle of Siam_Data" service="commercial" density="0" sub-service="tourist" construction-cost="300000" ui-category="tourist" homes="10" steam-id="" level="3" workplaces="2,2,3,3" />
+    <Building name="591074989.The Tower_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="708992454.Eclipse_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="792727102.Quadrillion_Data" service="office" density="0" sub-service="none" construction-cost="1000000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="749227212.Abeno Harukas_Data" service="office" density="0" sub-service="none" construction-cost="500000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="844946740.Amethyst_Data" service="commercial" density="0" sub-service="tourist" construction-cost="100000" ui-category="tourist" homes="10" steam-id="" level="1" workplaces="2,2,3,3" />
+    <Building name="779406148.McGinnis Tower_Data" service="office" density="0" sub-service="none" construction-cost="450000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="796870246.Ivory Dream_Data" service="office" density="0" sub-service="none" construction-cost="750000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="766038657.San'tElia Tower_Data" service="office" density="0" sub-service="none" construction-cost="500000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="858234831.One Liberty Plaza 1:1_Data" service="office" density="0" sub-service="none" construction-cost="200000" ui-category="office" homes="10" steam-id="" level="2" workplaces="0,2,5,3" />
+    <Building name="928132734.Liberty Tower_Data" service="office" density="0" sub-service="none" construction-cost="50000" ui-category="office" homes="10" steam-id="" level="2" workplaces="0,2,5,3" />
+    <Building name="1132988810.Proprietary_Data" service="office" density="0" sub-service="none" construction-cost="300000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="834382288.Freedom of Expression_Data" service="office" density="0" sub-service="none" construction-cost="100000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,0,4,6" />
+    <Building name="1138814303.Karlatornet_Data" service="residential" density="0" sub-service="high" construction-cost="200000" ui-category="reshigh" homes="10" steam-id="" level="5" />
+    <Building name="1124905405.Screwsky 002_Data" service="residential" density="0" sub-service="high" construction-cost="10" ui-category="reslow" homes="10" steam-id="" level="5" />
+    <Building name="1185669468.Darco_Data" service="residential" density="0" sub-service="high" construction-cost="100000" ui-category="reshigh" homes="1000" steam-id="" level="2" enable-popbalance="false" />
+    <Building name="1266399912.Coda_Data" service="office" density="0" sub-service="none" construction-cost="100000" ui-category="office" homes="10000" steam-id="" level="3" workplaces="0,4000,5000,1000" />
+    <Building name="1231052548.Luminasoft_Data" service="office" density="0" sub-service="none" construction-cost="150000" ui-category="office" homes="10" steam-id="" level="3" workplaces="0,4,5,1" />
+  </Buildings>
+</PloppableRICODefinition>

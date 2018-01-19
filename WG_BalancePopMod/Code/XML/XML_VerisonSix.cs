@@ -254,13 +254,16 @@ namespace WG_BalancedPopMod
             wList = new SortedList<string, int>(DataStore.workerPrintOutCache);
             foreach (string data in wList.Keys)
             {
-                XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
-                meshNameNode.InnerXml = data;
-                DataStore.workerPrintOutCache.TryGetValue(data, out int value);
-                attribute = xmlDoc.CreateAttribute("value");
-                attribute.Value = Convert.ToString(value);
-                meshNameNode.Attributes.Append(attribute);
-                printWorkNode.AppendChild(meshNameNode);
+                if (!DataStore.workerCache.ContainsKey(data))
+                {
+                    XmlNode meshNameNode = xmlDoc.CreateElement(meshName);
+                    meshNameNode.InnerXml = data;
+                    DataStore.workerPrintOutCache.TryGetValue(data, out int value);
+                    attribute = xmlDoc.CreateAttribute("value");
+                    attribute.Value = Convert.ToString(value);
+                    meshNameNode.Attributes.Append(attribute);
+                    printWorkNode.AppendChild(meshNameNode);
+                }
             }
             rootNode.AppendChild(printWorkNode); // Append the printWorkers to root
 

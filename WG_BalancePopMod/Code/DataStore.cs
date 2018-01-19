@@ -43,19 +43,19 @@ namespace WG_BalancedPopMod
         public static bool allowRemovalOfCitizens = false;
 
         // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning
-        public static int[][] residentialLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 20, 16, 12, 140,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 22, 18, 11, 150,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 24, 20, 10, 160,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   11, 27, 23,  9, 170,   0, 1,   -1},
-                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   12, 30, 26,  9, 180,   0, 1,   -1} };
+        public static int[][] residentialLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 20, 15, 11, 130,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 21, 16, 10, 140,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 22, 17, 10, 150,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 24, 19,  9, 160,   0, 1,   -1},
+                                                 new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 26, 21,  9, 170,   0, 1,   -1} };
 
-        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 15, 13, 10, 105,   0, 5,   -1},
-                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 15,  9, 112,   0, 5,   -1},
-                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 17,  8, 120,   0, 5,   -1},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,   10, 21, 19,  7, 127,   0, 5,   -1},
-                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,   11, 23, 21,  7, 135,   0, 5,   -1} };
+        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9,  98,   0, 5,   -1},
+                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 105,   0, 5,   -1},
+                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 113,   0, 5,   -1},
+                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 120,   0, 5,   -1},
+                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 127,   0, 5,   -1} };
 
-        // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning
+        // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning - TODO 
         public static int[][] resEcoLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  98,   0, 1,   -1},
                                             new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 21, 17, 8, 105,   0, 1,   -1},
                                             new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    7, 23, 19, 7, 112,   0, 1,   -1},
@@ -117,8 +117,6 @@ namespace WG_BalancedPopMod
         public static Dictionary<string, int> housePrintOutCache = new Dictionary<string, int>();
         public static Dictionary<string, int> defaultHousehold = new Dictionary<string, int>()
         {
-            { "1099320836.Launch Prototype_Data", 220 },
-            { "1138814303.Karlatornet_Data", 160 },
             { "413694648.Tranquil Turquoise_Data", 36 },
             { "415635897.Highcliff from hongkong_Data", 92 },
             { "417797417.ZED68-PHOENIXTOWER-4x4HRL5_Data", 60 },
@@ -170,6 +168,9 @@ namespace WG_BalancedPopMod
             { "908476663.Opera Grand_Data", 280 },
             { "919075366.Forest_Data", 160 },
             { "948799048.Phitsanulok XL_Data", 160 },
+            { "1099320836.Launch Prototype_Data", 220 },
+            { "1138814303.Karlatornet_Data", 160 },
+            { "1185669468.Darco_Data", 80 },
             { "H4 4x3 Tenement10", 33 },
             { "H4 4x4 Tenement12", 36 },
             { "H5 4x4 Highrise02", 56 },
@@ -195,7 +196,6 @@ namespace WG_BalancedPopMod
         public static Dictionary<string, int> workerPrintOutCache = new Dictionary<string, int>();
         public static Dictionary<string, int> defaultWorker = new Dictionary<string, int>()
         {
-            { "1132988810.Proprietary_Data", 2200 },
             { "419078725.Barry Plaza_Data", 500 },
             { "422472215.Lever Tower_Data", 180 },
             { "426607732.Ares Tower_Data", 5000 },
@@ -235,6 +235,7 @@ namespace WG_BalancedPopMod
             { "660864619.Policy_Data", 245 },
             { "661075324.Santander Tower_Data", 1800 },
             { "661823191.Whirligig XL_Data", 1100 },
+            { "670147764.Old brick warehouse_Data", 10 },
             { "670944160.Big Office Building_Data", 500 },
             { "672448363.Foster Tower Madrid (Red)_Data", 1000 },
             { "672525995.Foster Tower Madrid (White)_Data", 1000 },
@@ -242,20 +243,43 @@ namespace WG_BalancedPopMod
             { "678159892.Crystal Tower Madrid_Data", 2000 },
             { "680500415.Space Tower Madrid_Data", 1800 },
             { "687777086.Mirage_Data", 1400 },
+            { "694499934.Old factory 8x6_Data", 25 },
+            { "694598864.Old factory 8x6 - Concrete_Data", 25 },
             { "700549442.8 Canada Square_Data", 2400 },
             { "700553372.One Canada Square_Data", 2900 },
             { "708476856.Al habtoor business tower_Data", 470 },
             { "708992454.Eclipse_Data", 2000 },
             { "717997754.Miyagi Motors front_Data", 100 },
+            { "717956285.Miyagi Motors Main Office_Data", 200 },
+            { "717963179.Miyagi Motors front wide roof_Data", 100 },
+            { "717980167.Miyagi Motors back wide roof_Data", 100 },
+            { "718003124.Miyagi Motors back_Data", 100 },
+            { "718013084.Miyagi Motors front high roof_Data", 100 },
+            { "718016993.Miyagi Motors back high roof_Data", 100 },
+            { "718023336.Miyagi Motors back w smokestack_Data", 100 },
+            { "718025758.Miyagi Motors front gable roof_Data", 100 },
+            { "718029264.Miyagi Motors back gable roof_Data", 100 },
+            { "729503348.Factory Hall 1_Data", 120 },
             { "730926381.The Bay Gate large_Data", 1800 },
+            { "740080687.Factory Hall 2_Data", 120 },
+            { "740085564.Warehouse 1_Data", 10 },
+            { "743386704.Warehouse 2_Data", 5 },
+            { "743387884.Warehouse 2 - colors_Data", 10 },
+            { "744947488.Old warehouse 2 - red_Data", 5 },
+            { "744948035.Old warehouse 2 - yellow_Data", 5 },
             { "749227212.Abeno Harukas_Data", 3600 },
             { "751581536.Research Facility_Data", 100 },
+            { "751649166.Old warehouse 3 - Brick_Data", 15 },
+            { "751649722.Old warehouse 3 - Concrete_Data", 15 },
+            { "752845832.Warehouse 3_Data", 10 },
+            { "754236528.Warehouse 4_Data", 15 },
             { "766038657.San'tElia Tower_Data", 2400 },
             { "762728624.Goldin Finance 117_Data", 8000 },
             { "777048160.Sunshine 60 RICO_Data", 2000 },
             { "777050916.Mustard Inc_Data", 100 },
             { "778876495.The Aon Center_Data", 4000 },
             { "779406148.McGinnis Tower_Data", 2000 },
+            { "784540127.Distribution Center FedEx_Data", 20 },
             { "782848688.Distribution Center Long_Data", 100 },
             { "785268004.FIB Los Sanots HQ _Data", 1400 },
             { "786448278.Cancer Research Center_Data", 140 },
@@ -273,7 +297,7 @@ namespace WG_BalancedPopMod
             { "810925693.Cosine Building_Data", 220 },
             { "815068649.Triangle of Siam_Data", 500 },
             { "818407172.Community Center_Data", 140 },
-            { "834382288.Freedom of Expression_Data", 1500 },
+            { "834382288.Freedom of Expression_Data", 1800 },
             { "844946740.Amethyst_Data", 120 },
             { "850569287.Address BLVD_Data", 500 },
             { "853783969.Gran Torre Santiago_Data", 3200 },
@@ -284,6 +308,12 @@ namespace WG_BalancedPopMod
             { "941007962.Alliance XL_Data", 340 },
             { "945453381.Virgo XL_Data", 200 },
             { "969613932.Conundrum XL_Data", 100 },
+            { "1132988810.Proprietary_Data", 2200 },
+            { "1208800478.Small office 01_Data", 10 },
+            { "1206400730.JW Marriott Marquis_Data", 300 },
+            { "1241535932.United Building_Data", 1800 },
+            { "1266399912.Coda_Data", 3000 },
+            { "1231052548.Luminasoft_Data", 1900 },
             { "H2 4x3 BigFactory08", 20 }
         };
 
