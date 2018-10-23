@@ -49,11 +49,11 @@ namespace WG_BalancedPopMod
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 24, 19,  9, 160,   0, 1,   -1},
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 26, 21,  9, 170,   0, 1,   -1} };
 
-        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9,  91,   0, 5,   -1},
-                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8,  98,   0, 5,   -1},
-                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 105,   0, 5,   -1},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 112,   0, 5,   -1},
-                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 119,   0, 5,   -1} };
+        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9, 90,   0, 5,   -1},
+                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 90,   0, 5,   -1},
+                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 90,   0, 5,   -1},
+                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 90,   0, 5,   -1},
+                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1} };
 
         // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning - TODO 
         public static int[][] resEcoLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  91,   0, 1,   -1},
@@ -327,6 +327,8 @@ namespace WG_BalancedPopMod
             { "1241535932.United Building_Data", 1800 },
             { "1266399912.Coda_Data", 3400 },
             { "1231052548.Luminasoft_Data", 1900 },
+            { "1238393229.Haywire_Data", 3000 },
+            { "1288986198.Fractal_Data", 2500 },
             { "1466001439.Australia Square tower_Data", 1000 },
             { "1470018515.Rama IX Super Tower_Data", 11000 },
             { "1495622576.The Center Remastered_Data", 3600 },
