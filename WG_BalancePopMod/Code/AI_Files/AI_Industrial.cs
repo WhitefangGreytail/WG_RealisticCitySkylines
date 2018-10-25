@@ -18,17 +18,16 @@ namespace WG_BalancedPopMod
         /// <param name="level2"></param>
         /// <param name="level3"></param>
         [RedirectMethod(true)]
-        public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
+        public override void CalculateWorkplaceCount(ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
             ulong seed = r.seed;
             BuildingInfo item = this.m_info;
-            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             PrefabEmployStruct output;
             // If not seen prefab, calculate
             if (!DataStore.prefabWorkerVisit.TryGetValue(item.gameObject.GetHashCode(), out output))
             {
-                int[] array = GetArray(item, level);
+                int[] array = GetArray(item, (int) level);
                 AI_Utils.CalculateprefabWorkerVisit(width, length, ref item, 4, ref array, out output);
                 DataStore.prefabWorkerVisit.Add(item.gameObject.GetHashCode(), output);
             }
@@ -51,16 +50,16 @@ namespace WG_BalancedPopMod
         /// /// <param name="garbageAccumulation"></param>
         /// <param name="incomeAccumulation"></param>
         [RedirectMethod(true)]
-        public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
+        public override void GetConsumptionRates(ItemClass.Level level, Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation, out int mailAccumulation)
         {
             ItemClass item = this.m_info.m_class;
-            int level = (int)(item.m_level >= 0 ? item.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = GetArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, (int) level);
 
             electricityConsumption = array[DataStore.POWER];
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
+            mailAccumulation = array[DataStore.MAIL];
 
             int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
@@ -70,6 +69,7 @@ namespace WG_BalancedPopMod
             sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation) / 100;
             garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation) / 100;
             incomeAccumulation = productionRate * incomeAccumulation;
+            mailAccumulation = Mathf.Max(100, productionRate * mailAccumulation) / 100;
         }
 
 
@@ -81,13 +81,12 @@ namespace WG_BalancedPopMod
         /// <param name="groundPollution"></param>
         /// <param name="noisePollution"></param>
         [RedirectMethod(true)]
-        public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
+        public override void GetPollutionRates(ItemClass.Level level, int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
             ItemClass @class = this.m_info.m_class;
             groundPollution = 0;
             noisePollution = 0;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = GetArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, (int) level);
 
             groundPollution = (productionRate * array[DataStore.GROUND_POLLUTION]) / 100;
             noisePollution = (productionRate * array[DataStore.NOISE_POLLUTION]) / 100;
@@ -102,11 +101,10 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <returns></returns>
         [RedirectMethod(true)]
-        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
         {
             ItemClass @class = this.m_info.m_class;
-            int level = (int)(@class.m_level >= 0 ? @class.m_level : 0); // Force it to 0 if the level was set to None
-            int[] array = GetArray(this.m_info, level);
+            int[] array = GetArray(this.m_info, (int) level);
             return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
         }
 

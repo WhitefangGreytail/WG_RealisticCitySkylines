@@ -131,7 +131,7 @@ namespace WG_BalancedPopMod
 
                 MakeNodes(xmlDoc, "CommercialLow", DataStore.commercialLow, popNode, consumeNode, visitNode, pollutionNode, productionNode);
                 MakeNodes(xmlDoc, "CommercialHigh", DataStore.commercialHigh, popNode, consumeNode, visitNode, pollutionNode, productionNode);
-                MakeNodes(xmlDoc, "CommercialEco", DataStore.comEcoLow, popNode, consumeNode, visitNode, pollutionNode, productionNode);
+                MakeNodes(xmlDoc, "CommercialEco", DataStore.commercialEco, popNode, consumeNode, visitNode, pollutionNode, productionNode);
                 MakeNodes(xmlDoc, "CommercialTourist", DataStore.commercialTourist, popNode, consumeNode, visitNode, pollutionNode, productionNode);
                 MakeNodes(xmlDoc, "CommercialLeisure", DataStore.commercialLeisure, popNode, consumeNode, visitNode, pollutionNode, productionNode);
 
@@ -1038,7 +1038,7 @@ namespace WG_BalancedPopMod
                     break;
 
                 case "CommercialEco":
-                    array = DataStore.comEcoLow[level];
+                    array = DataStore.commercialEco[level];
                     break;
 
                 case "CommercialTourist":

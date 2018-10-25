@@ -116,7 +116,8 @@ namespace WG_BalancedPopMod
                         int worker1 = 0;
                         int worker2 = 0;
                         int worker3 = 0;
-                        ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(new Randomizer((int)buildingID), data.Width, data.Length,
+                        ItemClass.Level level = ((PrivateBuildingAI)data.Info.GetAI()).m_info.m_class.m_level;
+                        ((PrivateBuildingAI)data.Info.GetAI()).CalculateWorkplaceCount(level, new Randomizer((int)buildingID), data.Width, data.Length,
                                                                                        out worker0, out worker1, out worker2, out worker3);
 
                         // Update the workers required once figuring out how many are needed by the new building
