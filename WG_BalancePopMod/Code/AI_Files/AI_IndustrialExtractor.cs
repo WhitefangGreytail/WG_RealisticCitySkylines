@@ -21,10 +21,9 @@ namespace WG_BalancedPopMod
         /// <param name="level2"></param>
         /// <param name="level3"></param>
         [RedirectMethod(true)]
-        public override void CalculateWorkplaceCount(Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
+        public override void CalculateWorkplaceCount(ItemClass.Level level, Randomizer r, int width, int length, out int level0, out int level1, out int level2, out int level3)
         {
             BuildingInfo item = this.m_info;
-            int level = (int)(item.m_class.m_level >= 0 ? item.m_class.m_level : 0); // Force it to 0 if the level was set to None
 
             PrefabEmployStruct output;
             // If not seen prefab, calculate
@@ -53,7 +52,7 @@ namespace WG_BalancedPopMod
         /// <param name="garbageAccumulation"></param>
         /// <param name="incomeAccumulation"></param>
         [RedirectMethod(true)]
-        public override void GetConsumptionRates(Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation)
+        public override void GetConsumptionRates(ItemClass.Level level, Randomizer r, int productionRate, out int electricityConsumption, out int waterConsumption, out int sewageAccumulation, out int garbageAccumulation, out int incomeAccumulation, out int mailAccumulation)
         {
             ulong seed = r.seed;
             ItemClass item = this.m_info.m_class;
@@ -63,6 +62,7 @@ namespace WG_BalancedPopMod
             waterConsumption = array[DataStore.WATER];
             sewageAccumulation = array[DataStore.SEWAGE];
             garbageAccumulation = array[DataStore.GARBAGE];
+            mailAccumulation = array[DataStore.MAIL];
 
             int landVal = AI_Utils.GetLandValueIncomeComponent(r.seed);
             incomeAccumulation = array[DataStore.INCOME] + landVal;
@@ -72,6 +72,7 @@ namespace WG_BalancedPopMod
             sewageAccumulation = Mathf.Max(100, productionRate * sewageAccumulation) / 100;
             garbageAccumulation = Mathf.Max(100, productionRate * garbageAccumulation) / 100;
             incomeAccumulation = productionRate * incomeAccumulation;
+            mailAccumulation = Mathf.Max(100, productionRate * mailAccumulation) / 100;
         }
 
 
@@ -83,7 +84,7 @@ namespace WG_BalancedPopMod
         /// <param name="groundPollution"></param>
         /// <param name="noisePollution"></param>
         [RedirectMethod(true)]
-        public override void GetPollutionRates(int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
+        public override void GetPollutionRates(ItemClass.Level level, int productionRate, DistrictPolicies.CityPlanning cityPlanningPolicies, out int groundPollution, out int noisePollution)
         {
             groundPollution = 0;
             noisePollution = 0;
@@ -102,7 +103,7 @@ namespace WG_BalancedPopMod
         /// <param name="length"></param>
         /// <returns></returns>
         [RedirectMethod(true)]
-        public override int CalculateProductionCapacity(Randomizer r, int width, int length)
+        public override int CalculateProductionCapacity(ItemClass.Level level, Randomizer r, int width, int length)
         {
             int[] array = getArray(this.m_info, EXTRACT_LEVEL);
             return Mathf.Max(100, width * length * array[DataStore.PRODUCTION]) / 100;
