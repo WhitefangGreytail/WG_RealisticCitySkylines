@@ -49,33 +49,33 @@ namespace WG_BalancedPopMod
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    9, 24, 19,  9, 160,   0, 1,   -1},
                                                  new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,   10, 26, 21,  9, 170,   0, 1,   -1} };
 
-        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9,  98,   0, 5,   -1},
-                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 105,   0, 5,   -1},
-                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 113,   0, 5,   -1},
-                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 120,   0, 5,   -1},
-                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 127,   0, 5,   -1} };
+        public static int[][] residentialHigh = { new int [] {140, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 14, 11, 9, 90,   0, 5,   -1},
+                                                  new int [] {145, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 15, 12, 8, 90,   0, 5,   -1},
+                                                  new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 16, 13, 8, 90,   0, 5,   -1},
+                                                  new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 17, 14, 7, 90,   0, 5,   -1},
+                                                  new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    9, 19, 16, 7, 90,   0, 5,   -1} };
 
         // Water is consumed in the process of watering the lawns, drinking/cooking/cleaning - TODO 
-        public static int[][] resEcoLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  98,   0, 1,   -1},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 21, 17, 8, 105,   0, 1,   -1},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    7, 23, 19, 7, 112,   0, 1,   -1},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 25, 21, 6, 119,   0, 1,   -1},
-                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 28, 24, 6, 126,   0, 1,   -1} };
+        public static int[][] resEcoLow = { new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 19, 15, 8,  91,   0, 1,   -1},
+                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    6, 21, 17, 8,  98,   0, 1,   -1},
+                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    7, 23, 19, 7, 105,   0, 1,   -1},
+                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 25, 21, 6, 112,   0, 1,   -1},
+                                            new int [] {2000, 50, -1, 0, -1,   -1, -1, -1, -1,    8, 28, 24, 6, 119,   0, 1,   -1} };
 
-        public static int[][] resEcoHigh = { new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 14, 12, 7, 74,   0, 3,   -1},
-                                             new int [] {155, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 16, 14, 6, 78,   0, 3,   -1},
-                                             new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 18, 16, 6, 84,   0, 3,   -1},
-                                             new int [] {165, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 20, 18, 5, 89,   0, 3,   -1},
-                                             new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 22, 20, 5, 95,   0, 3,   -1} };
+        public static int[][] resEcoHigh = { new int [] {150, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 14, 12, 7, 64,   0, 3,   -1},
+                                             new int [] {155, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 16, 14, 6, 69,   0, 3,   -1},
+                                             new int [] {160, 5, -1, 0, -1,   -1, -1, -1, -1,    6, 18, 16, 6, 73,   0, 3,   -1},
+                                             new int [] {165, 5, -1, 0, -1,   -1, -1, -1, -1,    7, 20, 18, 5, 78,   0, 3,   -1},
+                                             new int [] {170, 5, -1, 0, -1,   -1, -1, -1, -1,    8, 22, 20, 5, 83,   0, 3,   -1} };
 
         // High floor levels to help with maintaining a single story 
-        public static int[][] commercialLow = { new int [] {100, 6, 1, 0,  90,   70, 20, 10,  0,    9, 30, 30, 9, 800,   0, 100,   -1},
-                                                new int [] {105, 6, 1, 0, 100,   30, 45, 20,  5,   10, 35, 35, 8, 850,   0,  90,   -1},
-                                                new int [] {110, 6, 1, 0, 110,    5, 30, 55, 10,   11, 40, 40, 7, 900,   0,  75,   -1} };
+        public static int[][] commercialLow = { new int [] {100, 6, 1, 0,  90,   70, 20, 10,  0,    9, 30, 30, 9, 700,   0, 100,   -1},
+                                                new int [] {105, 6, 1, 0, 100,   30, 45, 20,  5,   10, 35, 35, 8, 750,   0,  90,   -1},
+                                                new int [] {110, 6, 1, 0, 110,    5, 30, 55, 10,   11, 40, 40, 7, 800,   0,  75,   -1} };
 
-        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 220,   10, 45, 40,  5,   10, 28, 28, 9, 800,   0, 80,   -1},
-                                                 new int [] {120, 5, 1, 0, 310,    7, 32, 43, 18,   11, 32, 32, 8, 850,   0, 70,   -1},
-                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   13, 36, 36, 7, 900,   0, 60,   -1} };
+        public static int[][] commercialHigh = { new int [] {115, 5, 1, 0, 220,   10, 45, 40,  5,   10, 28, 28, 9, 750,   0, 80,   -1},
+                                                 new int [] {120, 5, 1, 0, 310,    7, 32, 43, 18,   11, 32, 32, 8, 800,   0, 70,   -1},
+                                                 new int [] {125, 5, 1, 0, 400,    5, 25, 45, 25,   13, 36, 36, 7, 850,   0, 60,   -1} };
 
         public static int[][] comEcoLow = { new int [] {120, 6, 1, 0, 100,   50, 40, 10,  0,   11, 30, 30, 7, 800,   0,  2,   50} };
 
@@ -85,8 +85,8 @@ namespace WG_BalancedPopMod
         // Seems to be short buildings all the time
         public static int[][] commercialLeisure = { new int[] { 60, 10, 0, 0, 250, 15, 40, 35, 10, 30, 36, 40, 25, 750, 0, 300, -1 } };
 
-        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   12, 4, 4, 3, 1100,   0, 1,   10},
-                                         new int [] {36, 5, 0, 0, -1,   1,  5, 14, 80,   13, 5, 5, 3, 1175,   0, 1,   10},
+        public static int[][] office = { new int [] {34, 5, 0, 0, -1,   2,  8, 20, 70,   12, 4, 4, 3, 1000,   0, 1,   10},
+                                         new int [] {36, 5, 0, 0, -1,   1,  5, 14, 80,   13, 5, 5, 3, 1125,   0, 1,   10},
                                          new int [] {38, 5, 0, 0, -1,   1,  3,  6, 90,   14, 5, 5, 2, 1250,   0, 1,   10} };
 
         public static int[][] officeHighTech = { new int [] {74, 5, 0, 0, -1,   1,  2,  3, 94,   22, 5, 5, 3, 4000,   0, 1,   10} };
@@ -126,8 +126,10 @@ namespace WG_BalancedPopMod
             { "460321524.Truancy_Data", 66 },
             { "472267886.ZED68-PACHATOWER-4x4HRL5_Data", 69 },
             { "476362433.Yoshi Towers_Data", 80 },
-            { "501398369.ZED68-HOPPER TOWER-4x4HRL5_Data", 60 },
-            { "643034042.ZED68-OzOne Building (Ozo)_Data", 60 },
+            { "501398369.ZED68-HOPPER TOWER-4x4HRL5_Data", 70 },
+            { "505937342.The Simian Tower_Data", 68 },
+            { "572483919.Phitsanulok_Data", 93 },
+            { "643034042.ZED68-OzOne Building (Ozo)_Data", 70 },
             { "665177868.PURGIO S_CITY 101_Data", 150 },
             { "666347361.Nurture_Data", 42 },
             { "672786901.jbr_rico_Data", 104 },
@@ -138,6 +140,7 @@ namespace WG_BalancedPopMod
             { "691942109.Sulafa tower_Data", 480 },
             { "700349615.The Pentominium_Data", 500 },
             { "719510655.Launch_Data", 240 },
+            { "747968092.zenith_Data", 300 },
             { "749570687.Chelsea Tower_Data", 120 },
             { "754279432.Ahmed Abdul Rahim Al Attar Tower_Data", 272 },
             { "768450784.Damac residenze_Data", 300 },
@@ -156,6 +159,7 @@ namespace WG_BalancedPopMod
             { "819135593.Hive Cluster_Data", 400 },
             { "819890305.Burj Vista2_Data", 120 },
             { "819891420.Burj Vista_Data", 200 },
+            { "823355275.H5 4x4 Platinum_Data", 100 },
             { "827270234.Emerald Park Condominium_Data", 100 },
             { "830090634.Millennium tower_Data", 200 },
             { "834378690.Juma Al Majid Tower_Data", 160 },
@@ -165,12 +169,15 @@ namespace WG_BalancedPopMod
             { "843120009.Modern Low-Rise Living #1_Data", 8 },
             { "850573663.Harmony 2_Data", 90 },
             { "850575631.Trident 4_Data", 93 },
+            { "883950130.Aspect_Data", 92 },
             { "908476663.Opera Grand_Data", 280 },
             { "919075366.Forest_Data", 160 },
             { "948799048.Phitsanulok XL_Data", 160 },
             { "1099320836.Launch Prototype_Data", 220 },
             { "1138814303.Karlatornet_Data", 160 },
             { "1185669468.Darco_Data", 80 },
+            { "1397694718.432 Park Avenue - New York_Data", 250 },
+            { "1405018848.Nordstrom - Central Park Tower_Data", 260 },
             { "H4 4x3 Tenement10", 33 },
             { "H4 4x4 Tenement12", 36 },
             { "H5 4x4 Highrise02", 56 },
@@ -197,6 +204,7 @@ namespace WG_BalancedPopMod
         public static Dictionary<string, int> defaultWorker = new Dictionary<string, int>()
         {
             { "419078725.Barry Plaza_Data", 500 },
+            { "422434231.Bank of America_Data", 520 },
             { "422472215.Lever Tower_Data", 180 },
             { "426607732.Ares Tower_Data", 5000 },
             { "428001234.Trump Tower Chicago_Data", 2800 },
@@ -208,17 +216,20 @@ namespace WG_BalancedPopMod
             { "453154792.Gula's Kingdom Tower_Data", 6500 },
             { "476346019.Bluerise Plaza_Data", 1200 },
             { "477861822.Sagan Tyson Center for Space_Data", 100 },
+            { "507302735.Banbury_Data", 380 },
             { "509112645.Crystallization_Data", 700 },
+            { "516614116.Taipei 101_Data", 3500 },
             { "522207137.REWE supermarket_Data", 30 },
-            { "527535273.snowjaoONEONE_Data", 3200 },
+            { "527535273.snowjaoONEONE_Data", 3400 },
             { "529294835.REAL supermarket_Data", 40 },
             { "531215484.Shanghai Tower, Shanghai (1:1)_Data", 10000 },
             { "534117358.Two Prudential Plaza_Data", 2600 },
             { "534142273.TorreTrump_World_Tower_Data", 1200 },
+            { "548854239.ZED68-HALFCHASE-4x4OFL3_Data", 300 },
             { "557430842.Columbia Center_Data", 3050 },
             { "568336474.Javelin_Data", 340 },
             { "579129058.Figueroa at Wilshire 1:1_Data", 2500 },
-            { "591074989.The Tower_Data", 780 },
+            { "591074989.The Tower_Data", 1200 },
             { "604009267.One World Trade Center 1:1_Data", 8500 },  // 325279 sqm
             { "605000091.60 Wall Street_Data", 2700 },
             { "607981950.Chirpigroup Center_Data", 1600 },
@@ -237,9 +248,9 @@ namespace WG_BalancedPopMod
             { "661823191.Whirligig XL_Data", 1100 },
             { "670147764.Old brick warehouse_Data", 10 },
             { "670944160.Big Office Building_Data", 500 },
-            { "672448363.Foster Tower Madrid (Red)_Data", 1000 },
-            { "672525995.Foster Tower Madrid (White)_Data", 1000 },
-            { "676602837.PWC Tower Madrid_Data", 1800 },
+            { "672448363.Foster Tower Madrid (Red)_Data", 1200 },
+            { "672525995.Foster Tower Madrid (White)_Data", 1200 },
+            { "676602837.PWC Tower Madrid_Data", 2000 },
             { "678159892.Crystal Tower Madrid_Data", 2000 },
             { "680500415.Space Tower Madrid_Data", 1800 },
             { "687777086.Mirage_Data", 1400 },
@@ -289,7 +300,7 @@ namespace WG_BalancedPopMod
             { "796870246.Ivory Dream_Data", 6000 },
             { "798838680.Commerce Court Complex_Data", 1200 },
             { "799186937.Perth CitiBank House_Data", 210 },
-            { "799801877.100 St Georges Terrace_Data", 500 },
+            { "799801877.100 St Georges Terrace_Data", 540 },
             { "800259881.700 De La Gauchetiere_Data", 1700 },
             { "800259881.National Bank Tower_Data", 800 },
             { "800260798.Place Ville Marie_Data", 2000 },
@@ -297,23 +308,30 @@ namespace WG_BalancedPopMod
             { "810925693.Cosine Building_Data", 220 },
             { "815068649.Triangle of Siam_Data", 500 },
             { "818407172.Community Center_Data", 140 },
-            { "834382288.Freedom of Expression_Data", 1800 },
+            { "834382288.Freedom of Expression_Data", 2000 },
             { "844946740.Amethyst_Data", 120 },
             { "850569287.Address BLVD_Data", 500 },
             { "853783969.Gran Torre Santiago_Data", 3200 },
             { "858234831.One Liberty Plaza 1:1_Data", 2000 },
             { "865034481.One World Trade Center_Data", 8500 },  // 325279 sqm
+            { "869593360.Concomitant_Data", 400 },
             { "873468408.World Port Center_Data", 460 },
-            { "928132734.Liberty Tower_Data", 100 },
+            { "928132734.Liberty Tower_Data", 160 },
+            { "935498035.State_Data", 375 },
             { "941007962.Alliance XL_Data", 340 },
             { "945453381.Virgo XL_Data", 200 },
             { "969613932.Conundrum XL_Data", 100 },
-            { "1132988810.Proprietary_Data", 2200 },
+            { "1132988810.Proprietary_Data", 2800 },
             { "1208800478.Small office 01_Data", 10 },
             { "1206400730.JW Marriott Marquis_Data", 300 },
             { "1241535932.United Building_Data", 1800 },
-            { "1266399912.Coda_Data", 3000 },
+            { "1266399912.Coda_Data", 3400 },
             { "1231052548.Luminasoft_Data", 1900 },
+            { "1238393229.Haywire_Data", 3000 },
+            { "1288986198.Fractal_Data", 2500 },
+            { "1466001439.Australia Square tower_Data", 1000 },
+            { "1470018515.Rama IX Super Tower_Data", 11000 },
+            { "1495622576.The Center Remastered_Data", 3600 },
             { "H2 4x3 BigFactory08", 20 }
         };
 
